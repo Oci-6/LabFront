@@ -1,0 +1,20 @@
+<div class="col d-flex justify-content-center mt-4">
+    <div class="card" style="width: 18rem;">
+        <div class="card-body">
+            <h5 class="card-title">Iniciar Sesión</h5>
+            <form [formGroup]="iniciarSesionForm" (ngSubmit)="onSubmit()">
+
+                <div class="mb-3">
+                    <label for="email" class="form-label">Correo electronico</label>
+                    <input type="email" class="form-control" formControlName="email" id="email">
+                </div>
+                <div class="mb-3">
+                    <label for="password" class="form-label">Contraseña</label>
+                    <input type="password" formControlName="password" class="form-control" id="password">
+                </div>
+
+                <button type="submit" class="btn btn-primary">Iniciar Sesión</button>
+            </form>
+        </div>
+    </div>
+</div>
