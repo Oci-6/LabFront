@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AdminsComponent } from './components/admins/admins.component';
+import { EdificiosComponent } from './components/edificios/edificios.component';
 import { HomeComponent } from './components/home/home.component';
 import { InstitucionesComponent } from './components/instituciones/instituciones.component';
 import { LoginComponent } from './components/login/login.component';
@@ -17,7 +18,9 @@ const routes: Routes = [
       {
         path: ":tenant",component: HomeTenantComponent, children: [
           { path: 'porteros', component: PorterosComponent
-        },
+          },
+          { path: 'edificios', component: EdificiosComponent
+          },
         ]
       }
 ];

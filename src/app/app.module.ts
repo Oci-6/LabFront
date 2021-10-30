@@ -17,6 +17,7 @@ import { InstitucionInterceptor } from './services/instituciones/institucion.int
 import { PorterosComponent } from './components/tenant/porteros/porteros.component';
 import { HomeComponent } from './components/home/home.component';
 import { ToastsComponent } from './partials/toasts/toasts.component';
+import { EdificiosComponent } from './components/edificios/edificios.component';
 
 @NgModule({
   declarations: [
@@ -29,6 +30,7 @@ import { ToastsComponent } from './partials/toasts/toasts.component';
     PorterosComponent,
     HomeComponent,
     ToastsComponent,
+    EdificiosComponent,
   ],
   imports: [
     BrowserModule,
