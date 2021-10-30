@@ -3,7 +3,10 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { NgbModalConfig, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Institucion } from 'src/app/models/Institucion';
 import { InstitucionesService } from 'src/app/services/instituciones/instituciones.service';
-import { faPlus, faEdit, faTrash } from '@fortawesome/free-solid-svg-icons';
+import { faPlus, faEdit, faTrash, faSearch } from '@fortawesome/free-solid-svg-icons';
+import { AuthService } from 'src/app/services/auth/auth.service';
+import { TenantService } from 'src/app/services/tenant/tenant.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-instituciones',
@@ -14,7 +17,13 @@ export class InstitucionesComponent implements OnInit {
 
   constructor(
     private institucionService: InstitucionesService,
-    config: NgbModalConfig, private modalService: NgbModal) {
+    private authService: AuthService,
+    private modalService: NgbModal,
+    private tenantService: TenantService,
+    private router: Router,
+    config: NgbModalConfig, 
+
+) {
     config.backdrop = 'static';
     config.keyboard = false;
   };
@@ -23,8 +32,10 @@ export class InstitucionesComponent implements OnInit {
   faPlus = faPlus;
   faEdit = faEdit;
   faTrash = faTrash;
+  faSearch = faSearch;
 
 
+  auth: any;
 
   instituciones: Institucion[] = [];
   selectedInstitucion: Institucion | undefined;
@@ -39,7 +50,11 @@ export class InstitucionesComponent implements OnInit {
     razonSocial: new FormControl('', Validators.required),
   });
 
-  ngOnInit(): void {
+  ngOnInit(): void {    
+    this.tenantService.deleteTenant();
+
+    this.auth = this.authService.getAuth();
+    
     this.institucionService.getAll().subscribe(
       response => {
         this.instituciones = response;
@@ -119,6 +134,13 @@ export class InstitucionesComponent implements OnInit {
         }
 
       )
+    }
+  }
+
+  irTenant(institucion: Institucion){
+    if(institucion.id){
+      this.tenantService.setTenant(institucion.id);
+      this.router.navigate(['home']);
     }
   }
 }

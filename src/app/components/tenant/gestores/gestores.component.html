@@ -1,6 +1,6 @@
 <div class="card mt-2">
     <div class="card-body">
-        <h5 class="card-title">Admins
+        <h5 class="card-title">Gestores
             <button class="btn btn-outline-primary" (click)="agregarModal(agregar)">
                 <fa-icon [icon]="faPlus"></fa-icon>
             </button>
@@ -11,21 +11,19 @@
                     <th scope="col">#</th>
                     <th scope="col">Email</th>
                     <th scope="col">Nombre</th>
-                    <th scope="col">Institución</th>
                     <th scope="col">Acciones</th>
                 </tr>
             </thead>
             <tbody>
-                <tr *ngFor="let admin of admins; index as i">
+                <tr *ngFor="let gestor of gestores; index as i">
                     <th scope="row">{{ i + 1 }}</th>
-                    <td>{{ admin.email }}</td>
-                    <td>{{ admin.nombre}} {{admin.apellido}}</td>
-                    <td>{{ institucion(admin)[0]?.razonSocial }}</td>
+                    <td>{{ gestor.email }}</td>
+                    <td>{{ gestor.nombre}} {{gestor.apellido}}</td>
                     <td>
-                        <button class="btn btn-outline-warning" (click)="editarModal(editar,admin)">
+                        <button class="btn btn-outline-warning" (click)="editarModal(editar,gestor)">
                             <fa-icon [icon]="faEdit"></fa-icon>
                         </button>
-                        <button class="btn btn-outline-danger" (click)="borrarModal(borrar,admin)">
+                        <button class="btn btn-outline-danger" (click)="borrarModal(borrar,gestor)">
                             <fa-icon [icon]="faTrash"></fa-icon>
                         </button>
                     </td>
@@ -36,10 +34,10 @@
 </div>
 
 <ng-template #agregar let-c="close" let-d="dismiss">
-    <form [formGroup]="agregarAdmin" (ngSubmit)="onSubmit()">
+    <form [formGroup]="agregarGestor" (ngSubmit)="onSubmit()">
 
         <div class="modal-header">
-            <h4 class="modal-title" id="modal-basic-title">Agregar Admin</h4>
+            <h4 class="modal-title" id="modal-basic-title">Agregar Gestor</h4>
             <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
                 <span aria-hidden="true">&times;</span>
             </button>
@@ -78,14 +76,6 @@
                 <label for="phoneNumber" class="form-label">Teléfono</label>
                 <input class="form-control" formControlName="phoneNumber" id="phoneNumber">
             </div>
-            <div class="mb-3">
-                <label for="institucion" class="form-label">Institución</label>
-                <select formControlName="tenantInstitucionId" class="form-control" id="institucion">
-                    <option *ngFor="let institucion of instituciones" [value]="institucion.id">
-                        {{institucion.razonSocial}}
-                    </option>
-                </select>
-            </div>
         </div>
         <div class="modal-footer">
             <button type="submit" class="btn btn-outline-dark" (click)="c('Save click')">Guardar</button>
@@ -94,10 +84,10 @@
 </ng-template>
 
 <ng-template #editar let-c="close" let-d="dismiss">
-    <form [formGroup]="editarAdmin" (ngSubmit)="onEdit()">
+    <form [formGroup]="editarGestor" (ngSubmit)="onEdit()">
 
         <div class="modal-header">
-            <h4 class="modal-title" id="modal-basic-title">Editar Admin</h4>
+            <h4 class="modal-title" id="modal-basic-title">Editar Gestor</h4>
             <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
                 <span aria-hidden="true">&times;</span>
             </button>
@@ -133,14 +123,7 @@
                 <label for="phoneNumber" class="form-label">Teléfono</label>
                 <input class="form-control" formControlName="phoneNumber" id="phoneNumber">
             </div>
-            <div class="mb-3">
-                <label for="institucion" class="form-label">Institución</label>
-                <select formControlName="tenantInstitucionId" class="form-control" id="institucion">
-                    <option *ngFor="let institucion of instituciones" [value]="institucion.id">
-                        {{institucion.razonSocial}}
-                    </option>
-                </select>
-            </div>
+            
         </div>
         <div class="modal-footer">
             <button type="submit" class="btn btn-outline-dark" (click)="c('Save click')">Guardar</button>
@@ -150,13 +133,13 @@
 
 <ng-template #borrar let-modal let-d="dismiss">
     <div class="modal-header">
-        <h4 class="modal-title" id="modal-title">Borrar Admin</h4>
+        <h4 class="modal-title" id="modal-title">Borrar Gestor</h4>
         <button type="button" class="close" aria-describedby="modal-title" (click)="d('Cross click')">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
       <div class="modal-body">
-        <p><strong>¿Esta seguro que quiere eliminar el admin <span class="text-primary">"{{selectedAdmin?.email}}"</span>?</strong></p>
+        <p><strong>¿Esta seguro que quiere eliminar el gestor <span class="text-primary">"{{selectedGestor?.email}}"</span>?</strong></p>
         <p>Toda la información asociada se eliminara permanentemente
             <br>
         <span class="text-danger">Esta operación no se puede deshacer.</span>

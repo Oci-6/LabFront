@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { AuthService } from './services/auth/auth.service';
 
 @Component({
   selector: 'app-root',
@@ -13,16 +14,13 @@ export class AppComponent {
   brand: string = "App";
 
   constructor(
-    private route : ActivatedRoute,
-    private router: Router 
+    private authService: AuthService
     ) {}
   
   ngOnInit(): void {
-    let auth = localStorage.getItem('auth');
-  
-    if (typeof auth === 'string') {
-      this.auth = JSON.parse(auth);
-    }
+    
+      this.auth = this.authService.getAuth();
+    
   }
 
 }
