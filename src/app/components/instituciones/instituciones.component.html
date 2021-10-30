@@ -1,7 +1,7 @@
 <div class="card mt-2">
     <div class="card-body">
         <h5 class="card-title">Instituciones
-            <button class="btn btn-outline-primary" (click)="agregarModal(agregar)">
+            <button *ngIf="auth&&auth.roles.includes('SuperAdmin')" class="btn btn-outline-primary" (click)="agregarModal(agregar)">
                 <fa-icon [icon]="faPlus"></fa-icon>
             </button>
         </h5>
@@ -20,11 +20,14 @@
                     <td>{{ institucion.rut }}</td>
                     <td>{{ institucion.razonSocial}}</td>
                     <td>
-                        <button class="btn btn-outline-warning" (click)="editarModal(editar,institucion)">
+                        <button *ngIf="auth&&auth.roles.includes('SuperAdmin')" class="btn btn-outline-warning" (click)="editarModal(editar,institucion)">
                             <fa-icon [icon]="faEdit"></fa-icon>
                         </button>
-                        <button class="btn btn-outline-danger" (click)="borrarModal(borrar,institucion)">
+                        <button *ngIf="auth&&auth.roles.includes('SuperAdmin')" class="btn btn-outline-danger" (click)="borrarModal(borrar,institucion)">
                             <fa-icon [icon]="faTrash"></fa-icon>
+                        </button>
+                        <button  class="btn btn-outline-info" [routerLink]="'/'+institucion.id">
+                            <fa-icon [icon]="faSearch"></fa-icon>
                         </button>
                     </td>
                 </tr>

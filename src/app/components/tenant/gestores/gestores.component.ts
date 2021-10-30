@@ -1,24 +1,24 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
 import { faPlus, faEdit, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { NgbModalConfig, NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { Institucion } from 'src/app/models/Institucion';
 import { Usuario } from 'src/app/models/Usuario';
+import { GestorService } from 'src/app/services/gestor/gestor.service';
 import { InstitucionesService } from 'src/app/services/instituciones/instituciones.service';
-import { PorteroService } from 'src/app/services/portero/portero.service';
 import { ToastService } from 'src/app/services/toast/toast.service';
 
 @Component({
-  selector: 'app-porteros',
-  templateUrl: './porteros.component.html',
-  styleUrls: ['./porteros.component.css']
+  selector: 'app-gestores',
+  templateUrl: './gestores.component.html',
+  styleUrls: ['./gestores.component.css']
 })
-export class PorterosComponent implements OnInit {
+export class GestoresComponent implements OnInit {
 
   
   constructor(
     //Inyecciones
-    private porteroService: PorteroService,
+    private gestorService: GestorService,
     private institucionesService: InstitucionesService,
     private toastService: ToastService,
 
@@ -35,11 +35,11 @@ export class PorterosComponent implements OnInit {
   faTrash = faTrash;
 
   //Variables
-  porteros: Usuario[] = [];
-  selectedPortero: Usuario | undefined;
+  gestores: Usuario[] = [];
+  selectedGestor: Usuario | undefined;
 
   //Forms
-  agregarPortero: FormGroup = new FormGroup({
+  agregarGestor: FormGroup = new FormGroup({
     email: new FormControl('', Validators.required),
     password: new FormControl('', Validators.required),
     tipoDocumento: new FormControl('', Validators.required),
@@ -50,7 +50,7 @@ export class PorterosComponent implements OnInit {
 
   });
 
-  editarPortero: FormGroup = new FormGroup({
+  editarGestor: FormGroup = new FormGroup({
     email: new FormControl('', Validators.required),
     tipoDocumento: new FormControl('', Validators.required),
     documento: new FormControl('', Validators.required),
@@ -61,14 +61,14 @@ export class PorterosComponent implements OnInit {
   });
 
   ngOnInit(): void {
-    this.getPorteros();
+    this.getGestores();
     
   }
 
-  getPorteros() {
-    this.porteroService.getAll().subscribe(
+  getGestores() {
+    this.gestorService.getAll().subscribe(
       response => {
-        this.porteros = response;
+        this.gestores = response;
       },
       error => {
         this.toastService.showError((error.message) ? error.message : 'Error del servidor');
@@ -81,27 +81,27 @@ export class PorterosComponent implements OnInit {
     this.modalService.open(content);
   }
 
-  editarModal(content: any, Portero: Usuario) {
-    this.editarPortero.patchValue(Portero);
-    this.selectedPortero = Portero;
+  editarModal(content: any, gestor: Usuario) {
+    this.editarGestor.patchValue(gestor);
+    this.selectedGestor = gestor;
     this.modalService.open(content);
   }
 
-  borrarModal(content: any, Portero: Usuario) {
+  borrarModal(content: any, gestor: Usuario) {
     this.modalService.open(content);
-    this.selectedPortero = Portero;
+    this.selectedGestor = gestor;
   }
 
   onSubmit() {
-    if (this.agregarPortero.valid) {
+    if (this.agregarGestor.valid) {
 
-      let Portero = new Usuario(this.agregarPortero.value)
+      let gestor = new Usuario(this.agregarGestor.value)
 
 
-      this.porteroService.post(Portero).subscribe(
+      this.gestorService.post(gestor).subscribe(
         response => {
-          this.getPorteros();
-          this.toastService.showSuccess("Portero agregado")
+          this.getGestores();
+          this.toastService.showSuccess("Gestor agregado")
 
         },
         error => {
@@ -114,16 +114,16 @@ export class PorterosComponent implements OnInit {
   }
 
   onEdit() {
-    if (this.editarPortero.valid && this.editarPortero.touched && this.selectedPortero && this.selectedPortero.id) {
+    if (this.editarGestor.valid && this.editarGestor.touched && this.selectedGestor && this.selectedGestor.id) {
 
-      let portero = new Usuario(this.editarPortero.value)
+      let gestor = new Usuario(this.editarGestor.value)
 
 
-      this.porteroService.put(portero, this.selectedPortero?.id).subscribe(
+      this.gestorService.put(gestor, this.selectedGestor?.id).subscribe(
         response => {
 
-          this.porteros[this.porteros.findIndex((obj => obj.id == this.selectedPortero?.id))] = portero;
-          this.toastService.showSuccess("Portero modificado")
+          this.gestores[this.gestores.findIndex((obj => obj.id == this.selectedGestor?.id))] = gestor;
+          this.toastService.showSuccess("Gestor modificado")
 
         },
         error => {
@@ -135,12 +135,12 @@ export class PorterosComponent implements OnInit {
   }
 
   onDelete(modal: any) {
-    if (this.selectedPortero && this.selectedPortero.id) {
-      this.porteroService.delete(this.selectedPortero.id).subscribe(
+    if (this.selectedGestor && this.selectedGestor.id) {
+      this.gestorService.delete(this.selectedGestor.id).subscribe(
         response => {
-          this.porteros = this.porteros.filter(e => e.id !== this.selectedPortero?.id);
+          this.gestores = this.gestores.filter(e => e.id !== this.selectedGestor?.id);
           modal.close();
-          this.toastService.showSuccess("Portero borrado")
+          this.toastService.showSuccess("Gestor borrado")
         },
         error => {
           this.toastService.showError((error.message) ? error.message : 'Error del servidor');
