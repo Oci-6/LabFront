@@ -1,6 +1,6 @@
 <div class="card mt-2">
     <div class="card-body">
-        <h5 class="card-title">Edificios
+        <h5 class="card-title">Puertas del edificio "{{edificio.nombre}}"
             <button class="btn btn-outline-primary" (click)="agregarModal(agregar)">
                 <fa-icon [icon]="faPlus"></fa-icon>
             </button>
@@ -10,29 +10,19 @@
                 <tr>
                     <th scope="col">#</th>
                     <th scope="col">Nombre</th>
-                    <th scope="col">Latitud</th>
-                    <th scope="col">Longitud</th>
                     <th scope="col">Acciones</th>
                 </tr>
             </thead>
             <tbody>
-                <tr *ngFor="let edificio of edificios; index as i">
+                <tr *ngFor="let puerta of puertas; index as i">
                     <th scope="row">{{ i + 1 }}</th>
-                    <td>{{ edificio.nombre }}</td>
-                    <td>{{ edificio.latitud }}</td>
-                    <td>{{ edificio.longitud }}</td>
+                    <td>{{ puerta.nombre }}</td>
                     <td>
-                        <button class="btn btn-outline-warning mr-1" (click)="editarModal(editar,edificio)">
+                        <button class="btn btn-outline-warning mr-1" (click)="editarModal(editar,puerta)">
                             <fa-icon [icon]="faEdit"></fa-icon>
                         </button>
-                        <button class="btn btn-outline-danger mr-1" (click)="borrarModal(borrar,edificio)">
+                        <button class="btn btn-outline-danger" (click)="borrarModal(borrar,puerta)">
                             <fa-icon [icon]="faTrash"></fa-icon>
-                        </button>
-                        <button class="btn btn-outline-info mr-1" *ngIf="edificio.id" [routerLink]="'salones/'+edificio.id" label="Salones">
-                            <fa-icon [icon]="faBoard"></fa-icon>
-                        </button>
-                        <button class="btn btn-outline-secondary mr-1" label="Puertas" *ngIf="edificio.id" [routerLink]="'puertas/'+edificio.id">
-                            <fa-icon [icon]="faDoor"></fa-icon>
                         </button>
                     </td>
                 </tr>
@@ -42,10 +32,10 @@
 </div>
 
 <ng-template #agregar let-c="close" let-d="dismiss">
-    <form [formGroup]="agregarEdificio" (ngSubmit)="onSubmit()">
+    <form [formGroup]="agregarPuerta" (ngSubmit)="onSubmit()">
 
         <div class="modal-header">
-            <h4 class="modal-title" id="modal-basic-title">Agregar Edificio</h4>
+            <h4 class="modal-title" id="modal-basic-title">Agregar Puerta</h4>
             <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
                 <span aria-hidden="true">&times;</span>
             </button>
@@ -53,13 +43,8 @@
         <div class="modal-body">
 
             <div class="mb-3">
-                <label for="latitud" class="form-label">Latitud</label>
-                <input type="latitud" class="form-control" formControlName="latitud" id="latitud">
-            </div>
-
-            <div class="mb-3">
-                <label for="longitud" class="form-label">Longitud</label>
-                <input type="longitud" formControlName="longitud" class="form-control" id="longitud">
+                <label for="nombre" class="form-label">Nombre</label>
+                <input type="nombre" class="form-control" formControlName="nombre" id="nombre">
             </div>
 
         </div>
@@ -70,10 +55,10 @@
 </ng-template>
 
 <ng-template #editar let-c="close" let-d="dismiss">
-    <form [formGroup]="editarEdificio" (ngSubmit)="onEdit()">
+    <form [formGroup]="editarPuerta" (ngSubmit)="onEdit()">
 
         <div class="modal-header">
-            <h4 class="modal-title" id="modal-basic-title">Editar Edificio</h4>
+            <h4 class="modal-title" id="modal-basic-title">Editar Puerta</h4>
             <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
                 <span aria-hidden="true">&times;</span>
             </button>
@@ -81,13 +66,8 @@
         <div class="modal-body">
 
             <div class="mb-3">
-                <label for="latitud" class="form-label">Latitud</label>
-                <input type="latitud" class="form-control" formControlName="latitud" id="latitud">
-            </div>
-
-            <div class="mb-3">
-                <label for="longitud" class="form-label">Longitud</label>
-                <input type="longitud" formControlName="longitud" class="form-control" id="longitud">
+                <label for="nombre" class="form-label">Nombre</label>
+                <input type="nombre" class="form-control" formControlName="nombre" id="nombre">
             </div>
 
         </div>
@@ -99,13 +79,13 @@
 
 <ng-template #borrar let-modal let-d="dismiss">
     <div class="modal-header">
-        <h4 class="modal-title" id="modal-title">Borrar Edificio</h4>
+        <h4 class="modal-title" id="modal-title">Borrar Puerta</h4>
         <button type="button" class="close" aria-describedby="modal-title" (click)="d('Cross click')">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
       <div class="modal-body">
-        <p><strong>¿Esta seguro que quiere eliminar el edificio <span class="text-primary">"{{selectedEdificio?.id}}"</span>?</strong></p>
+        <p><strong>¿Esta seguro que quiere eliminar la puerta <span class="text-primary">"{{selectedPuerta?.id}}"</span>?</strong></p>
         <p>Toda la información asociada se eliminara permanentemente
             <br>
         <span class="text-danger">Esta operación no se puede deshacer.</span>

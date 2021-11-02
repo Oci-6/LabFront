@@ -4,6 +4,8 @@ import { AdminsComponent } from './components/admins/admins.component';
 import { EdificiosComponent } from './components/edificios/edificios.component';
 import { InstitucionesComponent } from './components/instituciones/instituciones.component';
 import { LoginComponent } from './components/login/login.component';
+import { PuertasComponent } from './components/puertas/puertas.component';
+import { SalonesComponent } from './components/salones/salones.component';
 import { GestoresComponent } from './components/tenant/gestores/gestores.component';
 import { HomeTenantComponent } from './components/tenant/home-tenant/home-tenant.component';
 import { PorterosComponent } from './components/tenant/porteros/porteros.component';
@@ -23,6 +25,12 @@ const routes: Routes = [
       },
       {
         path: 'edificios', component: EdificiosComponent
+      },
+      {
+        path: 'edificios/salones/:id', component: SalonesComponent
+      },
+      {
+        path: 'edificios/puertas/:id', component: PuertasComponent
       },
     ]
   }

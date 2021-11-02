@@ -1,9 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { NgbModalConfig, NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { faPlus, faEdit, faTrash } from '@fortawesome/free-solid-svg-icons';
+import { faPlus, faEdit, faTrash, faDoorOpen, faChalkboardTeacher } from '@fortawesome/free-solid-svg-icons';
 import { Edificio } from 'src/app/models/Edificio';
 import { EdificioService } from 'src/app/services/EdificioService/edificio.service';
+import { ToastService } from 'src/app/services/toast/toast.service';
+import { FaDuotoneIconComponent } from '@fortawesome/angular-fontawesome';
 
 @Component({
   selector: 'app-edificios',
@@ -14,7 +16,8 @@ export class EdificiosComponent implements OnInit {
 
   constructor(
     private edificioService: EdificioService,
-    config: NgbModalConfig, private modalService: NgbModal
+    config: NgbModalConfig, private modalService: NgbModal,
+    private toastService: ToastService,
   ) 
   { 
   config.backdrop = 'static';
@@ -25,6 +28,8 @@ export class EdificiosComponent implements OnInit {
   faPlus = faPlus;
   faEdit = faEdit;
   faTrash = faTrash;
+  faDoor= faDoorOpen;
+  faBoard= faChalkboardTeacher;
 
   edificios: Edificio[] = [];
   selectedEdificio: Edificio | undefined;

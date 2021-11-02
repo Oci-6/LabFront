@@ -3,6 +3,7 @@ import { Institucion } from "./Institucion";
 export class Edificio {
 
     id?: string | undefined;
+    nombre?: string | undefined;
     latitud?: string | undefined;
     longitud?: string | undefined;
 

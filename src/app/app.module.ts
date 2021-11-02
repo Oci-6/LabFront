@@ -20,6 +20,8 @@ import { EdificiosComponent } from './components/edificios/edificios.component';
 import { GlobalEventsManager } from './helpers/GlobalEventsManager';
 import { GestoresComponent } from './components/tenant/gestores/gestores.component';
 import { SidebarComponent } from './partials/sidebar/sidebar.component';
+import { SalonesComponent } from './components/salones/salones.component';
+import { PuertasComponent } from './components/puertas/puertas.component';
 
 @NgModule({
   declarations: [
@@ -34,6 +36,8 @@ import { SidebarComponent } from './partials/sidebar/sidebar.component';
     EdificiosComponent,
     GestoresComponent,
     SidebarComponent,
+    SalonesComponent,
+    PuertasComponent,
   ],
   imports: [
     BrowserModule,
