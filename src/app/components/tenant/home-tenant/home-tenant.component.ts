@@ -53,7 +53,9 @@ export class HomeTenantComponent implements OnInit , OnDestroy {
           this.items.push({label:"Porteros", routerLink: "porteros"});
           this.items.push({label:"Gestores", routerLink: "gestores"});
         }
-
+        if(auth&&auth.roles.find((element: string) => element =='Portero'||element == 'Gestor')&&auth.usuario.tenantInstitucionId == tenant){
+          this.items.push({label:"Personas", routerLink: "personas"});
+        }
     }
 
   }

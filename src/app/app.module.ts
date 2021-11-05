@@ -16,9 +16,9 @@ import { HomeTenantComponent } from './components/tenant/home-tenant/home-tenant
 import { InstitucionInterceptor } from './services/instituciones/institucion.interceptor';
 import { PorterosComponent } from './components/tenant/porteros/porteros.component';
 import { ToastsComponent } from './partials/toasts/toasts.component';
-import { GlobalEventsManager } from './helpers/GlobalEventsManager';
 import { GestoresComponent } from './components/tenant/gestores/gestores.component';
 import { SidebarComponent } from './partials/sidebar/sidebar.component';
+import { PersonasComponent } from './components/tenant/personas/personas.component';
 
 @NgModule({
   declarations: [
@@ -32,6 +32,7 @@ import { SidebarComponent } from './partials/sidebar/sidebar.component';
     ToastsComponent,
     GestoresComponent,
     SidebarComponent,
+    PersonasComponent,
   ],
   imports: [
     BrowserModule,
@@ -44,7 +45,6 @@ import { SidebarComponent } from './partials/sidebar/sidebar.component';
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: InstitucionInterceptor, multi: true },
-    GlobalEventsManager
   ],
   bootstrap: [AppComponent]
 })

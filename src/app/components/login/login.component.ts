@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { GlobalEventsManager } from 'src/app/helpers/GlobalEventsManager';
 import { Usuario } from 'src/app/models/Usuario';
 import { AuthService } from 'src/app/services/auth/auth.service';
 import { TenantService } from 'src/app/services/tenant/tenant.service';
@@ -17,7 +16,6 @@ export class LoginComponent implements OnInit {
     private authService: AuthService,
     private router: Router,
     private tenantService: TenantService,
-    private globalEventsManager: GlobalEventsManager
   ) { }
   
   iniciarSesionForm = new FormGroup({
@@ -36,9 +34,7 @@ export class LoginComponent implements OnInit {
 
       this.authService.logIn(user).subscribe(
         response => {
-          
           localStorage.setItem("auth", JSON.stringify(response));
-          this.globalEventsManager.updateNavbar.emit(true);
 
           if(response.roles.includes("SuperAdmin")){
             this.router.navigateByUrl('/');

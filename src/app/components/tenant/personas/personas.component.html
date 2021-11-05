@@ -1,0 +1,148 @@
+<div class="card mt-2">
+    <div class="card-body">
+        <h5 class="card-title">Personas
+            <button class="btn btn-outline-primary" (click)="agregarModal(agregar)">
+                <fa-icon [icon]="faPlus"></fa-icon>
+            </button>
+        </h5>
+        <table class="table table-striped p-col">
+            <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Email</th>
+                    <th scope="col">Nombre</th>
+                    <th scope="col">Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let persona of personas; index as i">
+                    <th scope="row">{{ i + 1 }}</th>
+                    <td>{{ persona.email }}</td>
+                    <td>{{ persona.nombre}} {{persona.apellido}}</td>
+                    <td>
+                        <button class="btn btn-outline-warning" (click)="editarModal(editar,persona)">
+                            <fa-icon [icon]="faEdit"></fa-icon>
+                        </button>
+                        <button class="btn btn-outline-danger" (click)="borrarModal(borrar,persona)">
+                            <fa-icon [icon]="faTrash"></fa-icon>
+                        </button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<ng-template #agregar let-c="close" let-d="dismiss">
+    <form [formGroup]="agregarPersona" (ngSubmit)="onSubmit()">
+
+        <div class="modal-header">
+            <h4 class="modal-title" id="modal-basic-title">Agregar Persona</h4>
+            <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body">
+
+            <div class="mb-3">
+                <label for="email" class="form-label">Correo electronico</label>
+                <input type="email" class="form-control" formControlName="email" id="email">
+            </div>
+            <div class="mb-3">
+                <label for="tipoDocumento" class="form-label">Tipo de Documento</label>
+                <select class="form-control" formControlName="tipoDocumento" id="tipoDocumento">
+                    <option label="Cédula" value="Cédula"></option>
+                    <option label="Pasaporte" value="Pasaporte"></option>
+                    <option label="Otro" value="Otro"></option>
+                </select>
+            </div>
+            <div class="mb-3">
+                <label for="documento" class="form-label">Documento</label>
+                <input class="form-control" formControlName="documento" id="documento">
+            </div>
+            <div class="mb-3">
+                <label for="nombre" class="form-label">Nombre</label>
+                <input class="form-control" formControlName="nombre" id="nombre">
+            </div>
+            <div class="mb-3">
+                <label for="apellido" class="form-label">Apellido</label>
+                <input class="form-control" formControlName="apellido" id="apellido">
+            </div>
+            <div class="mb-3">
+                <label for="phoneNumber" class="form-label">Teléfono</label>
+                <input class="form-control" formControlName="phoneNumber" id="phoneNumber">
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="submit" class="btn btn-outline-dark" (click)="c('Save click')">Guardar</button>
+        </div>
+    </form>
+</ng-template>
+
+<ng-template #editar let-c="close" let-d="dismiss">
+    <form [formGroup]="editarPersona" (ngSubmit)="onEdit()">
+
+        <div class="modal-header">
+            <h4 class="modal-title" id="modal-basic-title">Editar Persona</h4>
+            <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body">
+
+           
+            <div class="mb-3">
+                <label for="email" class="form-label">Correo electronico</label>
+                <input type="email" class="form-control" formControlName="email" id="email">
+            </div>
+            <div class="mb-3">
+                <label for="tipoDocumento" class="form-label">Tipo de Documento</label>
+                <select class="form-control" formControlName="tipoDocumento" id="tipoDocumento">
+                    <option label="Cédula" value="Cédula"></option>
+                    <option label="Pasaporte" value="Pasaporte"></option>
+                    <option label="Otro" value="Otro"></option>
+                </select>
+            </div>
+            <div class="mb-3">
+                <label for="documento" class="form-label">Documento</label>
+                <input class="form-control" formControlName="documento" id="documento">
+            </div>
+            <div class="mb-3">
+                <label for="nombre" class="form-label">Nombre</label>
+                <input class="form-control" formControlName="nombre" id="nombre">
+            </div>
+            <div class="mb-3">
+                <label for="apellido" class="form-label">Apellido</label>
+                <input class="form-control" formControlName="apellido" id="apellido">
+            </div>
+            <div class="mb-3">
+                <label for="phoneNumber" class="form-label">Teléfono</label>
+                <input class="form-control" formControlName="phoneNumber" id="phoneNumber">
+            </div>
+            
+        </div>
+        <div class="modal-footer">
+            <button type="submit" class="btn btn-outline-dark" (click)="c('Save click')">Guardar</button>
+        </div>
+    </form>
+</ng-template>
+
+<ng-template #borrar let-modal let-d="dismiss">
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-title">Borrar Persona</h4>
+        <button type="button" class="close" aria-describedby="modal-title" (click)="d('Cross click')">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p><strong>¿Esta seguro que quiere eliminar la persona <span class="text-primary">"{{selectedPersona?.email}}"</span>?</strong></p>
+        <p>Toda la información asociada se eliminara permanentemente
+            <br>
+        <span class="text-danger">Esta operación no se puede deshacer.</span>
+        </p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-outline-secondary"  (click)="d()">Cancelar</button>
+        <button type="button" class="btn btn-danger" (click)="onDelete(modal)">Confirmar</button>
+      </div>
+</ng-template>

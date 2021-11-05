@@ -5,6 +5,7 @@ import { InstitucionesComponent } from './components/instituciones/instituciones
 import { LoginComponent } from './components/login/login.component';
 import { GestoresComponent } from './components/tenant/gestores/gestores.component';
 import { HomeTenantComponent } from './components/tenant/home-tenant/home-tenant.component';
+import { PersonasComponent } from './components/tenant/personas/personas.component';
 import { PorterosComponent } from './components/tenant/porteros/porteros.component';
 
 const routes: Routes = [
@@ -19,6 +20,9 @@ const routes: Routes = [
       },
       {
         path: 'porteros', component: PorterosComponent
+      },
+      {
+        path: 'personas', component: PersonasComponent
       },
     ]
   }

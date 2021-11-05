@@ -1,7 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { GlobalEventsManager } from 'src/app/helpers/GlobalEventsManager';
 import { Usuario } from 'src/app/models/Usuario';
 import { environment } from 'src/environments/environment';
 
@@ -10,7 +9,7 @@ import { environment } from 'src/environments/environment';
 })
 export class AuthService {
 
-  constructor(private http: HttpClient,private router: Router, private globalEventsManager: GlobalEventsManager) { }
+  constructor(private http: HttpClient,private router: Router) { }
 
   private URL = environment.apiURL+'Login';
 
@@ -20,8 +19,7 @@ export class AuthService {
 
   logOut() {
     localStorage.clear();
-    this.globalEventsManager.updateNavbar.emit(true);
-    this.router.navigate(['/'])
+    this.router.navigate(['/login']);
   }
   
   getAuth(){
