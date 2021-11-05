@@ -1,0 +1,98 @@
+<div class="card mt-2">
+    <div class="card-body">
+        <h5 class="card-title">Salones del edificio "{{edificio.nombre}}"
+            <button class="btn btn-outline-primary" (click)="agregarModal(agregar)">
+                <fa-icon [icon]="faPlus"></fa-icon>
+            </button>
+        </h5>
+        <table class="table table-striped p-col">
+            <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Nombre</th>
+                    <th scope="col">Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let salon of salones; index as i">
+                    <th scope="row">{{ i + 1 }}</th>
+                    <td>{{ salon.nombre }}</td>
+                    <td>
+                        <button class="btn btn-outline-warning mr-1" (click)="editarModal(editar,salon)">
+                            <fa-icon [icon]="faEdit"></fa-icon>
+                        </button>
+                        <button class="btn btn-outline-danger" (click)="borrarModal(borrar,salon)">
+                            <fa-icon [icon]="faTrash"></fa-icon>
+                        </button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<ng-template #agregar let-c="close" let-d="dismiss">
+    <form [formGroup]="agregarSalon" (ngSubmit)="onSubmit()">
+
+        <div class="modal-header">
+            <h4 class="modal-title" id="modal-basic-title">Agregar Salon</h4>
+            <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body">
+
+            <div class="mb-3">
+                <label for="nombre" class="form-label">Nombre</label>
+                <input type="nombre" class="form-control" formControlName="nombre" id="nombre">
+            </div>
+
+        </div>
+        <div class="modal-footer">
+            <button type="submit" class="btn btn-outline-dark" (click)="c('Save click')">Guardar</button>
+        </div>
+    </form>
+</ng-template>
+
+<ng-template #editar let-c="close" let-d="dismiss">
+    <form [formGroup]="editarSalon" (ngSubmit)="onEdit()">
+
+        <div class="modal-header">
+            <h4 class="modal-title" id="modal-basic-title">Editar Salon</h4>
+            <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body">
+
+            <div class="mb-3">
+                <label for="nombre" class="form-label">Nombre</label>
+                <input type="nombre" class="form-control" formControlName="nombre" id="nombre">
+            </div>
+
+        </div>
+        <div class="modal-footer">
+            <button type="submit" class="btn btn-outline-dark" (click)="c('Save click')">Guardar</button>
+        </div>
+    </form>
+</ng-template>
+
+<ng-template #borrar let-modal let-d="dismiss">
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-title">Borrar Salon</h4>
+        <button type="button" class="close" aria-describedby="modal-title" (click)="d('Cross click')">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p><strong>¿Esta seguro que quiere eliminar el salon <span class="text-primary">"{{selectedSalon?.nombre}}"</span>?</strong></p>
+        <p>Toda la información asociada se eliminara permanentemente
+            <br>
+        <span class="text-danger">Esta operación no se puede deshacer.</span>
+        </p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-outline-secondary"  (click)="d()">Cancelar</button>
+        <button type="button" class="btn btn-danger" (click)="onDelete(modal)">Confirmar</button>
+      </div>
+</ng-template>

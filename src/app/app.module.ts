@@ -17,8 +17,11 @@ import { InstitucionInterceptor } from './services/instituciones/institucion.int
 import { PorterosComponent } from './components/tenant/porteros/porteros.component';
 import { ToastsComponent } from './partials/toasts/toasts.component';
 import { GestoresComponent } from './components/tenant/gestores/gestores.component';
-import { SidebarComponent } from './partials/sidebar/sidebar.component';
 import { PersonasComponent } from './components/tenant/personas/personas.component';
+import { EdificiosComponent } from './components/edificios/edificios.component';
+import { SidebarComponent } from './partials/sidebar/sidebar.component';
+import { SalonesComponent } from './components/salones/salones.component';
+import { PuertasComponent } from './components/puertas/puertas.component';
 
 @NgModule({
   declarations: [
@@ -30,9 +33,12 @@ import { PersonasComponent } from './components/tenant/personas/personas.compone
     HomeTenantComponent,
     PorterosComponent,
     ToastsComponent,
+    EdificiosComponent,
     GestoresComponent,
     SidebarComponent,
     PersonasComponent,
+    SalonesComponent,
+    PuertasComponent,
   ],
   imports: [
     BrowserModule,
