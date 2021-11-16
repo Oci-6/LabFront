@@ -1,0 +1,130 @@
+<div class="card mt-2">
+    <div class="card-body">
+        <h5 class="card-title">Productos
+            <button class="btn btn-outline-primary" (click)="agregarModal(agregar)">
+                <fa-icon [icon]="faPlus"></fa-icon>
+            </button>
+        </h5>
+        <table class="table table-striped p-col">
+            <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Nombre</th>
+                    <th scope="col">Cant. Max. Edificios</th>
+                    <th scope="col">Cant. Max. Salones</th>
+                    <th scope="col">Precio</th>
+                    <th scope="col">Validez</th>
+                    <th scope="col">Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let producto of productos; index as i">
+                    <th scope="row">{{ i + 1 }}</th>
+                    <td>{{ producto.nombre }}</td>
+                    <td>{{ producto.cantMaxEdificios }}</td>
+                    <td>{{ producto.cantMaxSalones }}</td>
+                    <td>{{ producto.precios&&producto.precios[0] ? producto.precios[0].monto : 'No hay precio' }}</td>
+                    <td>{{ producto.precios&&producto.precios[0] ? convertirFecha(producto.precios[0].fecha_Validez) : 'No hay precio' }}</td>
+                    <td>
+                        <button class="btn btn-outline-warning mr-1" (click)="editarModal(editar,producto)">
+                            <fa-icon [icon]="faEdit"></fa-icon>
+                        </button>
+                        <button class="btn btn-outline-danger mr-1" (click)="borrarModal(borrar,producto)">
+                            <fa-icon [icon]="faTrash"></fa-icon>
+                        </button>
+                        <button class="btn btn-outline-info mr-1" *ngIf="producto.id" [routerLink]="'precios/'+producto.id" label="Historial de precios">
+                            <fa-icon [icon]="faHistory"></fa-icon>
+                        </button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<ng-template #agregar let-c="close" let-d="dismiss">
+    <form [formGroup]="agregarProducto" (ngSubmit)="onSubmit()">
+
+        <div class="modal-header">
+            <h4 class="modal-title" id="modal-basic-title">Agregar Producto</h4>
+            <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body">
+
+            <div class="mb-3">
+                <label for="nombre" class="form-label">Nombre</label>
+                <input type="nombre" class="form-control" formControlName="nombre" id="nombre">
+            </div>
+
+            <div class="mb-3">
+                <label for="cantMaxEdificios" class="form-label">Cantidad Máxima de Edificios</label>
+                <input type="cantMaxEdificios" formControlName="cantMaxEdificios" class="form-control" id="cantMaxEdificios">
+            </div>
+
+            <div class="mb-3">
+                <label for="cantMaxSalones" class="form-label">Cantidad Máxima de Salones</label>
+                <input type="cantMaxSalones" formControlName="cantMaxSalones" class="form-control" id="cantMaxSalones">
+            </div>
+
+        </div>
+        <div class="modal-footer">
+            <button type="submit" class="btn btn-outline-dark" (click)="c('Save click')">Guardar</button>
+        </div>
+    </form>
+</ng-template>
+
+<ng-template #editar let-c="close" let-d="dismiss">
+    <form [formGroup]="editarProducto" (ngSubmit)="onEdit()">
+
+        <div class="modal-header">
+            <h4 class="modal-title" id="modal-basic-title">Editar Producto</h4>
+            <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+
+        <div class="modal-body">
+
+            <div class="mb-3">
+                <label for="nombre" class="form-label">Nombre</label>
+                <input type="nombre" class="form-control" formControlName="nombre" id="nombre">
+            </div>
+
+            <div class="mb-3">
+                <label for="cantMaxEdificios" class="form-label">Cantidad Máxima de Edificios</label>
+                <input type="cantMaxEdificios" formControlName="cantMaxEdificios" class="form-control" id="cantMaxEdificios">
+            </div>
+
+            <div class="mb-3">
+                <label for="cantMaxSalones" class="form-label">Cantidad Máxima de Salones</label>
+                <input type="cantMaxSalones" formControlName="cantMaxSalones" class="form-control" id="cantMaxSalones">
+            </div>
+
+        </div>
+        <div class="modal-footer">
+            <button type="submit" class="btn btn-outline-dark" (click)="c('Save click')">Guardar</button>
+        </div>
+    </form>
+</ng-template>
+
+<ng-template #borrar let-modal let-d="dismiss">
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-title">Borrar Producto</h4>
+        <button type="button" class="close" aria-describedby="modal-title" (click)="d('Cross click')">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p><strong>¿Esta seguro que quiere eliminar el producto <span class="text-primary">"{{selectedProducto?.nombre}}"</span>?</strong></p>
+        <p>Toda la información asociada se eliminara permanentemente
+            <br>
+        <span class="text-danger">Esta operación no se puede deshacer.</span>
+        </p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-outline-secondary"  (click)="d()">Cancelar</button>
+        <button type="button" class="btn btn-danger" (click)="onDelete(modal)">Confirmar</button>
+      </div>
+</ng-template>

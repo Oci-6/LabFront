@@ -1,0 +1,45 @@
+<div class="card mt-2">
+    <form [formGroup]="editarNovedad" (ngSubmit)="onSubmit()">
+        <div class="card-body">
+
+            <div class="row row-cols-lg-auto g-3 align-items-end">
+
+                <div class="col-4 md-6" *ngIf="selectedNovedad.imagen">
+                    <img [src]="url+selectedNovedad.imagen" class="img-fluid" alt="...">
+                </div>
+
+                <div class="col-8 md-6">
+                    <label for="titulo" class="form-label">Titulo Novedad</label>
+                    <input type="text" class="form-control" placeholder="First name" aria-label="First name"
+                        formControlName="titulo" id="titulo">
+                    <div *ngIf="f.titulo.errors&&submitted" class="invalid-feedback">
+                        <small class="p-error" *ngIf="f.titulo.errors.required">Ingrese un titulo para la
+                            novedad</small>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="row">
+
+                <div class="col-12 mt-4">
+                    <label for="contenido" class="form-label">Contenido Novedad</label>
+                    <textarea class="form-control" id="contenido" rows="5" formControlName="contenido"></textarea>
+                    <div *ngIf="f.contenido.errors&&submitted" class="invalid-feedback">
+                        <small class="p-error" *ngIf="f.contenido.errors.required">Ingrese contenido para la
+                            novedad</small>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="row align-items-end mt-3">
+                <div class="col">
+                    <button type="submit" class="btn btn-primary">Confirmar</button>
+                </div>
+            </div>
+
+        </div>
+    </form>
+
+</div>

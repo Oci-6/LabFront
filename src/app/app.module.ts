@@ -16,14 +16,20 @@ import { HomeTenantComponent } from './components/tenant/home-tenant/home-tenant
 import { InstitucionInterceptor } from './services/instituciones/institucion.interceptor';
 import { PorterosComponent } from './components/tenant/porteros/porteros.component';
 import { ToastsComponent } from './partials/toasts/toasts.component';
+import { EdificiosComponent } from './components/tenant/edificio/edificios/edificios.component';
 import { GestoresComponent } from './components/tenant/gestores/gestores.component';
 import { PersonasComponent } from './components/tenant/personas/personas.component';
-import { EdificiosComponent } from './components/edificios/edificios.component';
 import { SidebarComponent } from './partials/sidebar/sidebar.component';
-import { SalonesComponent } from './components/salones/salones.component';
-import { PuertasComponent } from './components/puertas/puertas.component';
 import { AccesoComponent } from './components/tenant/acceso/acceso.component';
 import { WebcamModule } from 'ngx-webcam';
+import { SalonesComponent } from './components/tenant/edificio/salones/salones.component';
+import { PuertasComponent } from './components/tenant/edificio/puertas/puertas.component';
+import { ListaNovedadesComponent } from './components/tenant/edificio/novedades/lista-novedades/lista-novedades.component';
+import { AgregarNovedadComponent } from './components/tenant/edificio/novedades/agregar-novedad/agregar-novedad.component';
+import { ModificarNovedadComponent } from './components/tenant/edificio/novedades/modificar-novedad/modificar-novedad.component';
+import { DetalleNovedadComponent } from './components/tenant/edificio/novedades/detalle-novedad/detalle-novedad.component';
+import { ProductosComponent } from './components/tenant/productos/productos.component';
+import { PreciosComponent } from './components/tenant/precios/precios.component';
 
 @NgModule({
   declarations: [
@@ -42,6 +48,12 @@ import { WebcamModule } from 'ngx-webcam';
     SalonesComponent,
     PuertasComponent,
     AccesoComponent,
+    ListaNovedadesComponent,
+    AgregarNovedadComponent,
+    ModificarNovedadComponent,
+    DetalleNovedadComponent,
+    ProductosComponent,
+    PreciosComponent,
   ],
   imports: [
     WebcamModule,
