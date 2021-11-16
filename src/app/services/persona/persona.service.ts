@@ -14,10 +14,18 @@ export class PersonaService {
     private http: HttpClient
   ) {}
 
-    post(data: Usuario) {
+    post(data: FormData) {
       return this.http.post<Usuario>(this.URL + `/`, data);
     }
+    
+    reconocer(data: FormData){
+      return this.http.post<Usuario>(this.URL + `/Reconocer`, data);
+    }
   
+    importar(data: FormData){
+      return this.http.post<Usuario>(this.URL + `/Importar`, data);
+    }
+
     get(id: string) {
       return this.http.get<Usuario>(this.URL + `/${id}`);
     }

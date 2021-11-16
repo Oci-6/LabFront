@@ -34,6 +34,9 @@
                         <button class="btn btn-outline-secondary mr-1" label="Puertas" *ngIf="edificio.id" [routerLink]="'puertas/'+edificio.id">
                             <fa-icon [icon]="faDoor"></fa-icon>
                         </button>
+                        <button class="btn btn-outline-primary mr-1" label="Acceso" *ngIf="edificio.id" [routerLink]="edificio.id+'/acceso'">
+                            <fa-icon [icon]="faPersonBooth"></fa-icon>
+                        </button>
                     </td>
                 </tr>
             </tbody>

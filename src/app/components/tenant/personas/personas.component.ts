@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { faPlus, faEdit, faTrash } from '@fortawesome/free-solid-svg-icons';
+import { faPlus, faEdit, faTrash, faFileImport, faCheck } from '@fortawesome/free-solid-svg-icons';
 import { NgbModalConfig, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Usuario } from 'src/app/models/Usuario';
 import { InstitucionesService } from 'src/app/services/instituciones/instituciones.service';
@@ -13,7 +13,7 @@ import { ToastService } from 'src/app/services/toast/toast.service';
   styleUrls: ['./personas.component.css']
 })
 export class PersonasComponent implements OnInit {
- 
+
   constructor(
     //Inyecciones
     private personaService: PersonaService,
@@ -31,10 +31,14 @@ export class PersonasComponent implements OnInit {
   faPlus = faPlus;
   faEdit = faEdit;
   faTrash = faTrash;
+  faFileImport = faFileImport;
+  faCheck = faCheck;
 
   //Variables
   personas: Usuario[] = [];
   selectedPersona: Usuario | undefined;
+  excel: File | undefined;
+  foto: File | undefined;
 
   //Forms
   agregarPersona: FormGroup = new FormGroup({
@@ -44,7 +48,6 @@ export class PersonasComponent implements OnInit {
     nombre: new FormControl('', Validators.required),
     apellido: new FormControl('', Validators.required),
     phoneNumber: new FormControl('', Validators.pattern('[- +()0-9]+')),
-
   });
 
   editarPersona: FormGroup = new FormGroup({
@@ -59,7 +62,7 @@ export class PersonasComponent implements OnInit {
 
   ngOnInit(): void {
     this.getPersonas();
-    
+
   }
 
   getPersonas() {
@@ -90,12 +93,21 @@ export class PersonasComponent implements OnInit {
   }
 
   onSubmit() {
-    if (this.agregarPersona.valid) {
+    if (this.agregarPersona.valid&&this.foto) {
 
-      let Persona = new Usuario(this.agregarPersona.value)
+      let persona = new Usuario(this.agregarPersona.value)
+      let formData = new FormData();
+      
+      Object.entries(persona).forEach((entry)=> {
+        formData.append(entry[0],entry[1]);        
+      })
 
+      formData.append('foto',this.foto)
 
-      this.personaService.post(Persona).subscribe(
+      
+       
+
+      this.personaService.post(formData).subscribe(
         response => {
           this.getPersonas();
           this.toastService.showSuccess("Persona agregada")
@@ -107,6 +119,11 @@ export class PersonasComponent implements OnInit {
         }
 
       )
+    }else{
+      console.log(this.agregarPersona);
+      
+      console.log(this.foto);
+      this.toastService.showError('Datos incorrectos');
     }
   }
 
@@ -147,4 +164,47 @@ export class PersonasComponent implements OnInit {
     }
   }
 
+  onExcelSelected(event: any) {
+
+    const file: File = event.target.files[0];
+
+    if (file) {
+
+      this.excel = file;
+
+
+    }
+  }
+  
+  onFotoSelected(event: any) {
+
+    const file: File = event.target.files[0];
+
+    if (file) {
+
+      this.foto = file;
+
+
+    }
+  }
+
+  importar() {
+    if (this.excel) {
+
+      let formData: FormData = new FormData();
+      formData.append("excel", this.excel);
+
+      this.personaService.importar(formData).subscribe(
+        (response) => {
+          this.getPersonas();
+          this.toastService.showSuccess("Personas importadas")
+
+        },
+        (error) => {
+          this.toastService.showError((error.message) ? error.message : 'Error del servidor')
+        }
+
+      )
+    }
+  }
 }

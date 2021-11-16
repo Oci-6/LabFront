@@ -1,0 +1,28 @@
+<div class="col d-flex justify-content-center mt-2">
+    <div class="card">
+        <div class="card-body">
+            <webcam (imageCapture)="handleImage($event)" (initError)="handleInitError($event)"
+                [trigger]="triggerObservable" [allowCameraSwitch]="false"></webcam>
+
+        </div>
+        <div class="card-footer">
+            <button class="btn btn-primary" (click)="triggerSnapshot();">Enviar captura</button>
+
+        </div>
+        <div class="card-footer">
+            <button class="btn btn-primary" (click)="send();">Enviar captura</button>
+
+        </div>
+    </div>
+
+    <!-- <div class="snapshot" *ngIf="webcamImage">
+        <img [src]="webcamImage.imageAsDataUrl" />
+    </div> -->
+</div>
+
+
+<!-- 
+<h4 *ngIf="errors.length > 0">Messages:</h4>
+<ul *ngFor="let error of errors">
+    <li>{{error | json}}</li>
+</ul> -->

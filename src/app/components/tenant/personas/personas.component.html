@@ -1,9 +1,18 @@
 <div class="card mt-2">
     <div class="card-body">
         <h5 class="card-title">Personas
-            <button class="btn btn-outline-primary" (click)="agregarModal(agregar)">
+            <button class="btn btn-outline-primary mr-2" (click)="agregarModal(agregar)">
                 <fa-icon [icon]="faPlus"></fa-icon>
             </button>
+            <button class="btn btn-outline-success mr-2" (click)="file.click()">
+                {{excel ? excel.name : 'Importar'}}
+                <fa-icon [icon]="faFileImport"></fa-icon>
+            </button>
+            <button *ngIf="excel" class="btn btn-outline-success" (click)="importar()">
+                Confirmar
+                <fa-icon [icon]="faCheck"></fa-icon>
+            </button>
+            <input style="display: none;" type="file" accept=".xlsx" #file (change)="onExcelSelected($event)">
         </h5>
         <table class="table table-striped p-col">
             <thead>
@@ -71,6 +80,10 @@
             <div class="mb-3">
                 <label for="phoneNumber" class="form-label">Teléfono</label>
                 <input class="form-control" formControlName="phoneNumber" id="phoneNumber">
+            </div>
+            <div class="mb-3">
+                <label for="foto" class="form-label">Foto</label>
+                <input class="form-control" type="file" id="foto" (change)="onFotoSelected($event)">
             </div>
         </div>
         <div class="modal-footer">

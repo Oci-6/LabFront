@@ -16,7 +16,7 @@ export class PorteroService {
     post(data: Usuario) {
       return this.http.post<Usuario>(this.URL + `/`, data);
     }
-  
+
     get(id: string) {
       return this.http.get<Usuario>(this.URL + `/${id}`);
     }

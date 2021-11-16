@@ -22,6 +22,8 @@ import { EdificiosComponent } from './components/edificios/edificios.component';
 import { SidebarComponent } from './partials/sidebar/sidebar.component';
 import { SalonesComponent } from './components/salones/salones.component';
 import { PuertasComponent } from './components/puertas/puertas.component';
+import { AccesoComponent } from './components/tenant/acceso/acceso.component';
+import { WebcamModule } from 'ngx-webcam';
 
 @NgModule({
   declarations: [
@@ -39,8 +41,10 @@ import { PuertasComponent } from './components/puertas/puertas.component';
     PersonasComponent,
     SalonesComponent,
     PuertasComponent,
+    AccesoComponent,
   ],
   imports: [
+    WebcamModule,
     BrowserModule,
     AppRoutingModule,
     NgbModule, 

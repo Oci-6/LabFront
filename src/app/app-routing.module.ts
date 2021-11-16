@@ -6,6 +6,7 @@ import { InstitucionesComponent } from './components/instituciones/instituciones
 import { LoginComponent } from './components/login/login.component';
 import { PuertasComponent } from './components/puertas/puertas.component';
 import { SalonesComponent } from './components/salones/salones.component';
+import { AccesoComponent } from './components/tenant/acceso/acceso.component';
 import { GestoresComponent } from './components/tenant/gestores/gestores.component';
 import { HomeTenantComponent } from './components/tenant/home-tenant/home-tenant.component';
 import { PersonasComponent } from './components/tenant/personas/personas.component';
@@ -25,9 +26,13 @@ const routes: Routes = [
         path: 'porteros', component: PorterosComponent
       },
       {
-        path: 'personas', component: PersonasComponent},
-        {
+        path: 'personas', component: PersonasComponent
+      },
+      {
         path: 'edificios', component: EdificiosComponent
+      },
+      {
+        path: 'edificios/:idEdificio/acceso', component: AccesoComponent
       },
       {
         path: 'edificios/salones/:id', component: SalonesComponent
