@@ -1,0 +1,28 @@
+<div class="container mt-2">
+    <div class="col-md-12">
+        <section class="">
+
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="" *ngIf="novedad.imagen">
+                        <img [src]="url+novedad.imagen" class="img-fluid" alt="...">
+                    </div>
+                </div>
+                <div class="col-md-8">
+                    <h4 class="pro-d-title">
+                        <a class="">
+                            {{novedad.titulo}}
+                        </a>
+                    </h4>
+                    <p>
+                        {{novedad.contenido}}
+                    </p>
+                </div>
+            </div>
+            <div class="col-12 mt-5">
+                Fecha de publicación: {{convertirFecha(novedad.creadoEn)}}
+            </div>
+
+        </section>
+    </div>
+</div>

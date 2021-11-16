@@ -1,0 +1,46 @@
+<div class="card mt-2">
+    <form [formGroup]="agregarNovedad" (ngSubmit)="onSubmit()" enctype="multipart/form-data">
+        <div class="card-body">
+
+            <div class="row row-cols-lg-auto g-3 align-items-end">
+
+                <div class="col-6">
+                    <label for="titulo" class="form-label">Titulo Novedad</label>
+                    <input type="text" class="form-control" aria-label="First name" formControlName="titulo"
+                        id="titulo">
+                    <div *ngIf="f.titulo.errors" class="invalid-feedback">
+                        <small class="p-error" *ngIf="f.titulo.errors.required">Ingrese un titulo para la
+                            novedad</small>
+                    </div>
+                </div>
+
+                <div class="col-6">
+                    <input type="file" accept="image/*" class="form-control " (change)="onFileSelected($event)">
+                </div>
+
+            </div>
+
+            <div class="row mt-3">
+
+                <div class="col-12">
+                    <label for="contenido" class="form-label">Contenido Novedad</label>
+                    <textarea class="form-control" id="contenido" rows="5" formControlName="contenido"></textarea>
+                    <div *ngIf="f.contenido.errors" class="invalid-feedback">
+                        <small class="p-error" *ngIf="f.contenido.errors.required">Ingrese contenido para la
+                            novedad</small>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="row justify-content-end mt-4">
+                <div class="col">
+                    <button type="submit" class="btn btn-primary">Confirmar</button>
+                </div>
+            </div>
+
+        </div>
+
+
+    </form>
+</div>
