@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { NgbModalConfig, NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { faPlus, faEdit, faTrash, faDoorOpen, faChalkboardTeacher, faPersonBooth } from '@fortawesome/free-solid-svg-icons';
+import { faPlus, faEdit, faTrash, faDoorOpen, faChalkboardTeacher, faPersonBooth, faMapMarkedAlt } from '@fortawesome/free-solid-svg-icons';
 import { Edificio } from 'src/app/models/Edificio';
 import { EdificioService } from 'src/app/services/EdificioService/edificio.service';
 import { ToastService } from 'src/app/services/toast/toast.service';
@@ -31,21 +31,31 @@ export class EdificiosComponent implements OnInit {
   faDoor= faDoorOpen;
   faBoard= faChalkboardTeacher;
   faPersonBooth= faPersonBooth;
+  faMapMarkedAlt = faMapMarkedAlt;
 
   edificios: Edificio[] = [];
   selectedEdificio: Edificio | undefined;
 
   agregarEdificio: FormGroup = new FormGroup({
+    nombre: new FormControl('', Validators.required),
     latitud: new FormControl('', Validators.required),
     longitud: new FormControl('', Validators.required),
   });
 
   editarEdificio: FormGroup = new FormGroup({
+    nombre: new FormControl('', Validators.required),
     latitud: new FormControl('', Validators.required),
     longitud: new FormControl('', Validators.required),
   });
 
+  lat = 51.678418;
+  lng = 7.809007;
+
   ngOnInit(): void {
+    this.getEdificios();
+  }
+
+  getEdificios(){
     this.edificioService.getAll().subscribe(
       response => {
         this.edificios = response;
@@ -56,7 +66,6 @@ export class EdificiosComponent implements OnInit {
 
     )
   }
-
   agregarModal(content: any) {
     this.modalService.open(content);
   }
@@ -65,12 +74,23 @@ export class EdificiosComponent implements OnInit {
     this.editarEdificio.patchValue(edificio);
     this.selectedEdificio = edificio;
     this.modalService.open(content);
+    console.log(edificio.latitud, edificio.longitud);
+    
+    if(edificio.latitud) this.lat = edificio.latitud;
+    if(edificio.longitud) this.lng = edificio.longitud;
   }
 
   borrarModal(content: any, edificio: Edificio) {
     this.modalService.open(content);
     this.selectedEdificio = edificio;
   }
+
+  mapModal(content: any, edificio: Edificio) {
+    this.modalService.open(content);
+    if(edificio.latitud) this.lat = edificio.latitud;
+    if(edificio.longitud) this.lng = edificio.longitud;
+  }
+
 
   onSubmit() {
     if (this.agregarEdificio.valid) {
@@ -91,18 +111,15 @@ export class EdificiosComponent implements OnInit {
   }
 
   onEdit() {
-    if (this.editarEdificio.valid && this.editarEdificio.touched && this.selectedEdificio && this.selectedEdificio.id) {
+    if (this.editarEdificio.valid && this.selectedEdificio && this.selectedEdificio.id) {
 
       let edificio = new Edificio(this.editarEdificio.value)
 
 
       this.edificioService.put(edificio, this.selectedEdificio?.id).subscribe(
         response => {
-          console.log("Before update: ", this.edificios)
-
           this.edificios[this.edificios.findIndex((obj => obj.id == this.selectedEdificio?.id))] = edificio;
-
-          console.log("After update: ", this.edificios)
+          this.getEdificios();
         },
         error => {
           console.error(error);
@@ -126,6 +143,20 @@ export class EdificiosComponent implements OnInit {
 
       )
     }
+  }
+
+  onChange(event:any){
+    this.lat = event.coords.lat;
+    this.lng = event.coords.lng;
+    
+    this.agregarEdificio.patchValue({latitud: this.lat, longitud: this.lng});
+  }
+
+  onChangeE(event:any){
+    this.lat = event.coords.lat;
+    this.lng = event.coords.lng;
+    
+    this.editarEdificio.patchValue({latitud: this.lat, longitud: this.lng});
   }
 
 }

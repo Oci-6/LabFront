@@ -40,7 +40,9 @@ export class AgregarNovedadComponent implements OnInit {
 
     // Route params
     const routeParams = this.route.snapshot.paramMap;
-    this.edificioId = String(routeParams.get('id'));
+    this.edificioId = String(routeParams.get('idEdificio'));
+    console.log(this.edificioId);
+    
 
   }
 

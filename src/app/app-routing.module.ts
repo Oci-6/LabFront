@@ -16,6 +16,7 @@ import { PorterosComponent } from './components/tenant/porteros/porteros.compone
 import { ModificarNovedadComponent } from './components/tenant/edificio/novedades/modificar-novedad/modificar-novedad.component';
 import { DetalleNovedadComponent } from './components/tenant/edificio/novedades/detalle-novedad/detalle-novedad.component';
 import { ProductosComponent } from './components/tenant/productos/productos.component';
+import { PreciosComponent } from './components/tenant/precios/precios.component';
 
 const routes: Routes = [
 
@@ -23,6 +24,7 @@ const routes: Routes = [
   { path: "login", component: LoginComponent },
   { path: "admins", component: AdminsComponent },
   { path: 'productos', component: ProductosComponent },
+  { path: 'productos/precios/:idProducto', component: PreciosComponent },
   {
     path: ":tenant", component: HomeTenantComponent, children: [
       {

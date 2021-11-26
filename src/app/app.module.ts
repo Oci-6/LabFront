@@ -30,6 +30,8 @@ import { ModificarNovedadComponent } from './components/tenant/edificio/novedade
 import { DetalleNovedadComponent } from './components/tenant/edificio/novedades/detalle-novedad/detalle-novedad.component';
 import { ProductosComponent } from './components/tenant/productos/productos.component';
 import { PreciosComponent } from './components/tenant/precios/precios.component';
+import { AgmCoreModule } from '@agm/core';
+
 
 @NgModule({
   declarations: [
@@ -62,7 +64,10 @@ import { PreciosComponent } from './components/tenant/precios/precios.component'
     NgbModule, 
     ReactiveFormsModule,
     HttpClientModule,
-    FontAwesomeModule
+    FontAwesomeModule,
+    AgmCoreModule.forRoot({
+      apiKey: 'AIzaSyCkA3dkLi0Nb-_Ug471FmORkKN4zNkz9Pw'
+    })
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },

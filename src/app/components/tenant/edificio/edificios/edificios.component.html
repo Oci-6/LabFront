@@ -25,6 +25,9 @@
                         <button class="btn btn-outline-warning mr-1" (click)="editarModal(editar,edificio)">
                             <fa-icon [icon]="faEdit"></fa-icon>
                         </button>
+                        <button class="btn btn-outline-success mr-1" (click)="mapModal(map,edificio)">
+                            <fa-icon [icon]="faMapMarkedAlt"></fa-icon>
+                        </button>
                         <button class="btn btn-outline-danger mr-1" (click)="borrarModal(borrar,edificio)">
                             <fa-icon [icon]="faTrash"></fa-icon>
                         </button>
@@ -56,6 +59,14 @@
         <div class="modal-body">
 
             <div class="mb-3">
+                <label for="nombre" class="form-label">Nombre</label>
+                <input type="nombre" class="form-control" formControlName="nombre" id="nombre">
+            </div>
+
+            <agm-map [latitude]="lat" [longitude]="lng" (mapClick)="onChange($event)">
+                <agm-marker [latitude]="lat" [longitude]="lng"></agm-marker>
+            </agm-map>
+            <!-- <div class="mb-3">
                 <label for="latitud" class="form-label">Latitud</label>
                 <input type="latitud" class="form-control" formControlName="latitud" id="latitud">
             </div>
@@ -63,7 +74,7 @@
             <div class="mb-3">
                 <label for="longitud" class="form-label">Longitud</label>
                 <input type="longitud" formControlName="longitud" class="form-control" id="longitud">
-            </div>
+            </div> -->
 
         </div>
         <div class="modal-footer">
@@ -84,14 +95,13 @@
         <div class="modal-body">
 
             <div class="mb-3">
-                <label for="latitud" class="form-label">Latitud</label>
-                <input type="latitud" class="form-control" formControlName="latitud" id="latitud">
+                <label for="nombre" class="form-label">Nombre</label>
+                <input type="nombre" class="form-control" formControlName="nombre" id="nombre">
             </div>
 
-            <div class="mb-3">
-                <label for="longitud" class="form-label">Longitud</label>
-                <input type="longitud" formControlName="longitud" class="form-control" id="longitud">
-            </div>
+            <agm-map [latitude]="lat" [longitude]="lng" (mapClick)="onChangeE($event)">
+                <agm-marker [latitude]="lat" [longitude]="lng"></agm-marker>
+            </agm-map>
 
         </div>
         <div class="modal-footer">
@@ -118,4 +128,20 @@
         <button type="button" class="btn btn-outline-secondary"  (click)="d()">Cancelar</button>
         <button type="button" class="btn btn-danger" (click)="onDelete(modal)">Confirmar</button>
       </div>
+</ng-template>
+
+<ng-template #map let-c="close" let-d="dismiss">
+        <div class="modal-header">
+            <h4 class="modal-title" id="modal-basic-title">Ubicación Edificio</h4>
+            <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body">
+
+            <agm-map [latitude]="lat" [longitude]="lng">
+                <agm-marker [latitude]="lat" [longitude]="lng"></agm-marker>
+            </agm-map>
+
+        </div>
 </ng-template>

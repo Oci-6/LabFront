@@ -4,8 +4,8 @@ export class Edificio {
 
     id?: string | undefined;
     nombre?: string | undefined;
-    latitud?: string | undefined;
-    longitud?: string | undefined;
+    latitud?: number | undefined;
+    longitud?: number | undefined;
 
     tenantInstitucionId?: string | undefined;
     tenantInstitucion?: Institucion | undefined;
