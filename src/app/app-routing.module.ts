@@ -17,6 +17,7 @@ import { ModificarNovedadComponent } from './components/tenant/edificio/novedade
 import { DetalleNovedadComponent } from './components/tenant/edificio/novedades/detalle-novedad/detalle-novedad.component';
 import { ProductosComponent } from './components/tenant/productos/productos.component';
 import { PreciosComponent } from './components/tenant/precios/precios.component';
+import { EventosComponent } from './components/tenant/edificio/eventos/eventos.component';
 
 const routes: Routes = [
 
@@ -44,6 +45,10 @@ const routes: Routes = [
       },
       {
         path: 'edificios/salones/:id', component: SalonesComponent
+      },
+      
+      {
+        path: 'edificios/salones/:idEdificio/:idSalon/eventos', component: EventosComponent
       },
       {
         path: 'edificios/puertas/:id', component: PuertasComponent

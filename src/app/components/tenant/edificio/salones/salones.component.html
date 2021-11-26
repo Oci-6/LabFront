@@ -21,8 +21,11 @@
                         <button class="btn btn-outline-warning mr-1" (click)="editarModal(editar,salon)">
                             <fa-icon [icon]="faEdit"></fa-icon>
                         </button>
-                        <button class="btn btn-outline-danger" (click)="borrarModal(borrar,salon)">
+                        <button class="btn btn-outline-danger mr-1" (click)="borrarModal(borrar,salon)">
                             <fa-icon [icon]="faTrash"></fa-icon>
+                        </button>
+                        <button class="btn btn-outline-info" [routerLink]="salon.id+'/eventos'">
+                            <fa-icon [icon]="faCalendarAlt"></fa-icon>
                         </button>
                     </td>
                 </tr>

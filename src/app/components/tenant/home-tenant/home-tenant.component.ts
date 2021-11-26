@@ -4,6 +4,7 @@ import { AuthService } from 'src/app/services/auth/auth.service';
 import { InstitucionesService } from 'src/app/services/instituciones/instituciones.service';
 import { TenantService } from 'src/app/services/tenant/tenant.service';
 import { ToastService } from 'src/app/services/toast/toast.service';
+import { CalendarModule } from 'angular-calendar';
 
 @Component({
   selector: 'app-home-tenant',
@@ -16,7 +17,7 @@ export class HomeTenantComponent implements OnInit , OnDestroy {
   items: {label: string, routerLink: any}[] = [
     {label: "Home", routerLink: ""},
     {label: "Novedades", routerLink: ""},
-    {label: "Edificios", routerLink: ""},
+    {label: "Edificios", routerLink: "edificios"},
     {label: "Eventos", routerLink: ""},
   ];
 

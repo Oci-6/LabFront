@@ -5,7 +5,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbDatepicker, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { LoginComponent } from './components/login/login.component';
 import { NavbarComponent } from './partials/navbar/navbar.component';
 import { InstitucionesComponent } from './components/instituciones/instituciones.component';
@@ -30,8 +30,17 @@ import { ModificarNovedadComponent } from './components/tenant/edificio/novedade
 import { DetalleNovedadComponent } from './components/tenant/edificio/novedades/detalle-novedad/detalle-novedad.component';
 import { ProductosComponent } from './components/tenant/productos/productos.component';
 import { PreciosComponent } from './components/tenant/precios/precios.component';
-import { AgmCoreModule } from '@agm/core';
+import { EventosComponent } from './components/tenant/edificio/eventos/eventos.component';
 
+import { AgmCoreModule } from '@agm/core';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { FullCalendarModule } from '@fullcalendar/angular';
+import dayGridPlugin from '@fullcalendar/daygrid'; // a plugin!
+import interaction from '@fullcalendar/interaction';
+FullCalendarModule.registerPlugins([ // register FullCalendar plugins
+  dayGridPlugin,
+  interaction
+]);
 
 @NgModule({
   declarations: [
@@ -56,10 +65,12 @@ import { AgmCoreModule } from '@agm/core';
     DetalleNovedadComponent,
     ProductosComponent,
     PreciosComponent,
+    EventosComponent,
   ],
   imports: [
     WebcamModule,
     BrowserModule,
+    BrowserAnimationsModule,
     AppRoutingModule,
     NgbModule, 
     ReactiveFormsModule,
@@ -67,11 +78,14 @@ import { AgmCoreModule } from '@agm/core';
     FontAwesomeModule,
     AgmCoreModule.forRoot({
       apiKey: 'AIzaSyCkA3dkLi0Nb-_Ug471FmORkKN4zNkz9Pw'
-    })
+    }),
+    FullCalendarModule 
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: InstitucionInterceptor, multi: true },
+    
+    
   ],
   bootstrap: [AppComponent]
 })
