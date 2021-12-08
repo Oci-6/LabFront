@@ -37,6 +37,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FullCalendarModule } from '@fullcalendar/angular';
 import dayGridPlugin from '@fullcalendar/daygrid'; // a plugin!
 import interaction from '@fullcalendar/interaction';
+import { FacturasComponent } from './components/tenant/facturas/facturas.component';
 FullCalendarModule.registerPlugins([ // register FullCalendar plugins
   dayGridPlugin,
   interaction
@@ -66,6 +67,7 @@ FullCalendarModule.registerPlugins([ // register FullCalendar plugins
     ProductosComponent,
     PreciosComponent,
     EventosComponent,
+    FacturasComponent,
   ],
   imports: [
     WebcamModule,

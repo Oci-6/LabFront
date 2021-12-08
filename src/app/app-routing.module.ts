@@ -18,6 +18,7 @@ import { DetalleNovedadComponent } from './components/tenant/edificio/novedades/
 import { ProductosComponent } from './components/tenant/productos/productos.component';
 import { PreciosComponent } from './components/tenant/precios/precios.component';
 import { EventosComponent } from './components/tenant/edificio/eventos/eventos.component';
+import { FacturasComponent } from './components/tenant/facturas/facturas.component';
 
 const routes: Routes = [
 
@@ -64,6 +65,9 @@ const routes: Routes = [
       },
       {
         path: 'edificios/detalle-novedad/:idNovedad', component: DetalleNovedadComponent
+      },
+      {
+        path: 'facturas', component: FacturasComponent
       },
       
     ]

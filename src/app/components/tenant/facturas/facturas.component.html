@@ -1,0 +1,29 @@
+<div class="card mt-2">
+    <div class="card-body">
+        <h5 class="card-title">Facturas</h5>
+        <table class="table table-striped p-col">
+            <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Descripcion</th>
+                    <th scope="col">Importe</th>
+                    <th scope="col">Fecha de Vencimiento</th>
+                    <th scope="col">Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let factura of facturas; index as i">
+                    <th scope="row">{{ i + 1 }}</th>
+                    <td>{{ factura.descripcion }}</td>
+                    <td>{{ factura.importe }}</td>
+                    <td>{{ convertirFecha(factura.fecha_Vencimiento) }}</td>
+                    <td >
+                        <button class="btn btn-outline-success mr-1" *ngIf="!factura.pago" (click)="pagar(factura)">
+                            <fa-icon [icon]="faMoneyBillWave"></fa-icon>
+                        </button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
