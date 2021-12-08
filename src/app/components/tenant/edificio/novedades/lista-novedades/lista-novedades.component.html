@@ -1,7 +1,8 @@
 <div class="card mt-2">
     <div class="card-body">
         <h5 class="card-title">Novedades del edificio "{{edificio.nombre}}"
-            <button class="btn btn-outline-primary" [routerLink]="'../../agregar-novedad/'+edificio.id">
+            <button *ngIf="miTenant&&gestor" class="btn btn-outline-primary"
+                [routerLink]="'../../agregar-novedad/'+edificio.id">
                 <fa-icon [icon]="faPlus"></fa-icon>
             </button>
         </h5>
@@ -20,10 +21,14 @@
                     <td>{{ novedad.titulo }}</td>
                     <td>{{convertirFecha(novedad.creadoEn)}}</td>
                     <td>
-                        <button class="btn btn-outline-warning mr-1" [routerLink]="'../../modificar-novedad/'+novedad.id">
+                        <button class="btn btn-outline-success mr-1" [routerLink]="'../../detalle-novedad/'+novedad.id">
+                            <fa-icon [icon]="faInfoCircle"></fa-icon>
+                        </button>
+                        <button *ngIf="miTenant&&gestor" class="btn btn-outline-warning mr-1"
+                            [routerLink]="'../../modificar-novedad/'+novedad.id">
                             <fa-icon [icon]="faEdit"></fa-icon>
                         </button>
-                        <button class="btn btn-outline-danger" (click)="borrarModal(borrar,novedad)">
+                        <button *ngIf="miTenant&&gestor" class="btn btn-outline-danger" (click)="borrarModal(borrar,novedad)">
                             <fa-icon [icon]="faTrash"></fa-icon>
                         </button>
                     </td>
@@ -38,18 +43,19 @@
     <div class="modal-header">
         <h4 class="modal-title" id="modal-title">Borrar Puerta</h4>
         <button type="button" class="close" aria-describedby="modal-title" (click)="d('Cross click')">
-          <span aria-hidden="true">&times;</span>
+            <span aria-hidden="true">&times;</span>
         </button>
-      </div>
-      <div class="modal-body">
-        <p><strong>¿Esta seguro que quiere eliminar la puerta <span class="text-primary">"{{selectedNovedad?.id}}"</span>?</strong></p>
+    </div>
+    <div class="modal-body">
+        <p><strong>¿Esta seguro que quiere eliminar la puerta <span
+                    class="text-primary">"{{selectedNovedad?.id}}"</span>?</strong></p>
         <p>Toda la información asociada se eliminara permanentemente
             <br>
-        <span class="text-danger">Esta operación no se puede deshacer.</span>
+            <span class="text-danger">Esta operación no se puede deshacer.</span>
         </p>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-outline-secondary"  (click)="d()">Cancelar</button>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-outline-secondary" (click)="d()">Cancelar</button>
         <button type="button" class="btn btn-danger" (click)="onDelete(modal)">Confirmar</button>
-      </div>
+    </div>
 </ng-template>

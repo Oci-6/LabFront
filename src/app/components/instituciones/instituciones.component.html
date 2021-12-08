@@ -55,6 +55,15 @@
                 <label for="razonSocial" class="form-label">Razon Social</label>
                 <input type="razonSocial" formControlName="razonSocial" class="form-control" id="razonSocial">
             </div>
+            <div class="mb-3">
+                <label for="producto" class="form-label">Producto</label>
+                <select formControlName="productoId" class="form-control" id="producto" >
+                    <option selected="true" disabled="true">Seleccion un producto</option>
+                    <option *ngFor="let producto of productos" [value]="producto.id">
+                        {{producto.nombre}}
+                    </option>
+                </select>
+            </div>
         </div>
         <div class="modal-footer">
             <button type="submit" class="btn btn-outline-dark" (click)="c('Save click')">Guardar</button>
@@ -80,6 +89,15 @@
             <div class="mb-3">
                 <label for="razonSocial" class="form-label">Razon Social</label>
                 <input type="razonSocial" formControlName="razonSocial" class="form-control" id="razonSocial">
+            </div>
+            <div class="mb-3">
+                <label for="producto" class="form-label">Producto</label>
+                <select formControlName="productoId" class="form-control" id="producto" >
+                    <option selected="true" disabled="true">Seleccion un producto</option>
+                    <option *ngFor="let producto of productos" [value]="producto.id">
+                        {{producto.nombre}}
+                    </option>
+                </select>
             </div>
         </div>
         <div class="modal-footer">

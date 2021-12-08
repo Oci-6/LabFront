@@ -25,6 +25,10 @@ export class NovedadService {
     return this.http.get<Novedad[]>(this.URL + `/Edificio` + `/${id}`);
   }
   
+  getUltimas(){
+    return this.http.get<Novedad[]>(this.URL + `/Ultimas`);
+  }
+
   put(data:FormData, id:string) {
     return this.http.put(this.URL + `/${id}`, data);
   }

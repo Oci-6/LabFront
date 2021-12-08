@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Acceso } from 'src/app/models/Acceso';
 import { Usuario } from 'src/app/models/Usuario';
 import { environment } from 'src/environments/environment';
 
@@ -14,11 +15,26 @@ export class AccesoService {
     private http: HttpClient
   ) {}
 
-    post(data: FormData) {
-      return this.http.post<Usuario>(this.URL + `/`, data);
+    reconocer(data: FormData) {
+      return this.http.post<Usuario>(this.URL + `/Reconocer`, data);
     }
   
     getAll(idEdificio: string) {
-      return this.http.get<Usuario[]>(this.URL + `/`+idEdificio);
+      return this.http.get<Acceso[]>(this.URL + `/Edificio/`+idEdificio);
+    }
+    
+    post(data: Acceso) {
+      return this.http.post<Acceso>(this.URL + `/`, data);
+    }
+  
+    get(id: string) {
+      return this.http.get<Acceso>(this.URL + `/${id}`);
+    }
+  
+    put(data:Acceso, id:string) {
+      return this.http.put(this.URL + `/${id}`,data);
+    }
+    delete(id:string) {
+      return this.http.delete(this.URL + `/${id}`);
     }
 }

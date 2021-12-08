@@ -1,11 +1,11 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { NgbDatepicker, NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbDateAdapter, NgbDateParserFormatter, NgbDatepicker, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { LoginComponent } from './components/login/login.component';
 import { NavbarComponent } from './partials/navbar/navbar.component';
 import { InstitucionesComponent } from './components/instituciones/instituciones.component';
@@ -37,6 +37,10 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FullCalendarModule } from '@fullcalendar/angular';
 import dayGridPlugin from '@fullcalendar/daygrid'; // a plugin!
 import interaction from '@fullcalendar/interaction';
+import { CustomAdapter, CustomDateParserFormatter } from './libs/CustomDateParserFormatter ';
+import { AccesosComponent } from './components/tenant/edificio/accesos/accesos.component';
+import { UltimasNovedadesComponent } from './components/tenant/ultimas-novedades/ultimas-novedades.component';
+import { AsignacionesComponent } from './components/tenant/edificio/asignaciones/asignaciones.component';
 FullCalendarModule.registerPlugins([ // register FullCalendar plugins
   dayGridPlugin,
   interaction
@@ -66,26 +70,33 @@ FullCalendarModule.registerPlugins([ // register FullCalendar plugins
     ProductosComponent,
     PreciosComponent,
     EventosComponent,
+    AccesosComponent,
+    UltimasNovedadesComponent,
+    AsignacionesComponent,
   ],
   imports: [
     WebcamModule,
     BrowserModule,
     BrowserAnimationsModule,
     AppRoutingModule,
-    NgbModule, 
+    NgbModule,
     ReactiveFormsModule,
     HttpClientModule,
     FontAwesomeModule,
     AgmCoreModule.forRoot({
       apiKey: 'AIzaSyCkA3dkLi0Nb-_Ug471FmORkKN4zNkz9Pw'
     }),
-    FullCalendarModule 
+    FullCalendarModule,
+    FormsModule
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: InstitucionInterceptor, multi: true },
-    
-    
+    { provide: NgbDateParserFormatter, useClass: CustomDateParserFormatter },
+    { provide: NgbDateAdapter, useClass: CustomAdapter },
+
+
+
   ],
   bootstrap: [AppComponent]
 })

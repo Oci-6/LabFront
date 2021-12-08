@@ -1,0 +1,118 @@
+<div class="card mt-2">
+    <div class="card-body">
+        <h5 class="card-title">Asignaciones de puertas del edificio "{{edificio.nombre}}"
+            <button *ngIf="miTenant&&portero" class="btn btn-outline-primary mr-1" (click)="agregarModal(agregar)">
+                <fa-icon [icon]="faPlus"></fa-icon>
+            </button>
+
+        </h5>
+        <table class="table table-striped p-col">
+            <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Portero</th>
+                    <th scope="col">Puerta</th>
+                    <th scope="col">Fecha asignación</th>
+                    <th scope="col" *ngIf="miTenant&&portero">Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let asignacion of asignaciones; index as i">
+                    <th scope="row">{{ i + 1 }}</th>
+                    <td>{{ asignacion.usuario?.nombre }} {{ asignacion.usuario?.apellido }}</td>
+                    <td>{{ asignacion.puerta?.nombre }}</td>
+                    <td>{{ asignacion.creadoEn | date}}</td>
+                    <td>
+                        <button *ngIf="miTenant&&portero&&asignacion.usuarioId == this.authService.getAuth().usuario.id" class="btn btn-outline-warning mr-1" (click)="editarModal(editar,asignacion)">
+                            <fa-icon [icon]="faEdit"></fa-icon>
+                        </button>
+                        <button *ngIf="miTenant&&portero&&asignacion.usuarioId == this.authService.getAuth().usuario.id" class="btn btn-outline-danger" (click)="borrarModal(borrar,asignacion)">
+                            <fa-icon [icon]="faTrash"></fa-icon>
+                        </button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+<ng-template #agregar let-c="close" let-d="dismiss">
+
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">Seleccionar puerta</h4>
+        <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <app-puertas [edificioId]="edificioId"></app-puertas>
+
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-outline-dark" (click)="c('Save click')">Cerrar</button>
+    </div>
+</ng-template>
+
+<ng-template #editar let-c="close" let-d="dismiss">
+    <form [formGroup]="editarAsignacion" (ngSubmit)="onEdit()">
+
+        <div class="modal-header">
+            <h4 class="modal-title" id="modal-basic-title">Editar Acceso</h4>
+            <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body">
+
+            <div class="mb-3">
+                <label for="puerta" class="form-label">Puerta</label>
+                <select formControlName="puertaId" class="form-control" id="puerta">
+                    <option selected="true" disabled="true">Seleccione una puerta</option>
+                    <option *ngFor="let puerta of puertas" [value]="puerta.id">
+                        {{puerta.nombre}}
+                    </option>
+                </select>
+            </div>
+
+        </div>
+        <div class="modal-footer">
+            <button type="submit" class="btn btn-outline-dark" (click)="c('Save click')">Guardar</button>
+        </div>
+    </form>
+</ng-template>
+
+
+<ng-template #borrar let-modal let-d="dismiss">
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-title">Borrar Acceso</h4>
+        <button type="button" class="close" aria-describedby="modal-title" (click)="d('Cross click')">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <p><strong>¿Esta seguro que quiere eliminar la asignación <span
+                    class="text-primary">"{{selectedAsignacion?.id}}"</span>?</strong></p>
+        <p>Toda la información asociada se eliminara permanentemente
+            <br>
+            <span class="text-danger">Esta operación no se puede deshacer.</span>
+        </p>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-outline-secondary" (click)="d()">Cancelar</button>
+        <button type="button" class="btn btn-danger" (click)="onDelete(modal)">Confirmar</button>
+    </div>
+</ng-template>
+
+<ng-template #cam let-modal let-d="dismiss">
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-title">Reconocimiento facial</h4>
+        <button type="button" class="close" aria-describedby="modal-title" (click)="d('Cross click')">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <app-acceso></app-acceso>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-outline-secondary" (click)="d()">Cerrar</button>
+    </div>
+</ng-template>

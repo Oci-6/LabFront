@@ -6,8 +6,6 @@ export class Evento {
     nombre?: string | undefined;
     fechaInicio?: Date | undefined;
     fechaFin?: Date | undefined;
-    horaInicio?: any | undefined;
-    horaFin?: any | undefined;
 
     semanalmente?: boolean | undefined;
     mensualmente?: boolean | undefined;

@@ -15,14 +15,13 @@ export class HomeTenantComponent implements OnInit , OnDestroy {
 
   isCollapsed: boolean = false;
   items: {label: string, routerLink: any}[] = [
-    {label: "Home", routerLink: ""},
+    
     {label: "Novedades", routerLink: ""},
     {label: "Edificios", routerLink: "edificios"},
-    {label: "Eventos", routerLink: ""},
   ];
 
   tenant: string | undefined;
-
+  razonSocial: string | undefined;
   constructor(
     private route: ActivatedRoute,
     private router: Router,
@@ -41,6 +40,8 @@ export class HomeTenantComponent implements OnInit , OnDestroy {
         (response) => { 
           this.tenantService.deleteTenant();
           this.tenantService.setTenant(tenant);
+          this.items.unshift({label: "Home", routerLink: "/"+tenant});
+          this.razonSocial = response.razonSocial;
         },
         (error) => {
           this.toastService.showError("No existe institución");

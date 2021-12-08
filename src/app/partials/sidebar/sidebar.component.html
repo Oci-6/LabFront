@@ -1,4 +1,4 @@
-<div class="d-flex flex-column flex-shrink-0 p-3 text-white bg-dark" style="width: 280px;">
+<!-- <div class="d-flex flex-column flex-shrink-0 p-3 text-white bg-dark" style="width: 280px;">
     <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none">
       <svg class="bi me-2" width="40" height="32"><use xlink:href="#bootstrap"/></svg>
       <span class="fs-4">Sidebar</span>
@@ -50,4 +50,62 @@
         <li><a class="dropdown-item" href="#">Sign out</a></li>
       </ul>
     </div>
-  </div>
+  </div> -->
+<div class="wrapper">
+  <!-- Sidebar  -->
+  <nav #sidebar id="sidebar">
+    <div id="dismiss" (click)="close()">
+      <fa-icon [icon]="faTimes"></fa-icon>
+    </div>
+    <div class="sidebar-header">
+      <h3 *ngIf="razonSocial">{{razonSocial}}</h3>
+    </div>
+    <ul class="list-unstyled components">
+      <!-- <li>
+        <a [routerLink]="'/'+this.tenantService.getTenant()" data-toggle="collapse" aria-expanded="false">Home</a>
+        <ul class="collapse list-unstyled" id="homeSubmenu">
+          <li>
+            <a href="#">Home 1</a>
+          </li>
+          <li>
+            <a href="#">Home 2</a>
+          </li>
+          <li>
+            <a href="#">Home 3</a>
+          </li>
+        </ul>
+      </li>
+      <li>
+        <a href="#">About</a>
+        <a href="#pageSubmenu" data-toggle="collapse" aria-expanded="false">Pages</a>
+        <ul class="collapse list-unstyled" id="pageSubmenu">
+          <li>
+            <a href="#">Page 1</a>
+          </li>
+          <li>
+            <a href="#">Page 2</a>
+          </li>
+          <li>
+            <a href="#">Page 3</a>
+          </li>
+        </ul>
+      </li>
+      <li>
+        <a href="#">Portfolio</a>
+      </li> -->
+      <li *ngFor="let item of items">
+        <a [routerLink]="item.routerLink">{{item.label}}</a>
+      </li>
+    </ul>
+
+  </nav>
+
+  <!-- <button type="button" id="sidebarCollapse" class="btn btn-info">
+    <i class="fas fa-align-left"></i>
+    <span>Toggle Sidebar</span>
+  </button>
+  <button class="btn btn-dark d-inline-block d-lg-none ml-auto" type="button" data-toggle="collapse"
+    data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+    aria-label="Toggle navigation">
+    <i class="fas fa-align-justify"></i>
+  </button> -->

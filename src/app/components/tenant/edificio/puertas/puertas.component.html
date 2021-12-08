@@ -1,7 +1,7 @@
 <div class="card mt-2">
     <div class="card-body">
         <h5 class="card-title">Puertas del edificio "{{edificio.nombre}}"
-            <button class="btn btn-outline-primary" (click)="agregarModal(agregar)">
+            <button *ngIf="miTenant&&(gestor||admin)" class="btn btn-outline-primary" (click)="agregarModal(agregar)">
                 <fa-icon [icon]="faPlus"></fa-icon>
             </button>
         </h5>
@@ -10,19 +10,32 @@
                 <tr>
                     <th scope="col">#</th>
                     <th scope="col">Nombre</th>
-                    <th scope="col">Acciones</th>
+                    <th scope="col" *ngIf="miTenant">Acciones</th>
                 </tr>
             </thead>
             <tbody>
                 <tr *ngFor="let puerta of puertas; index as i">
                     <th scope="row">{{ i + 1 }}</th>
                     <td>{{ puerta.nombre }}</td>
-                    <td>
+                    <td *ngIf="miTenant&&(gestor||admin)">
                         <button class="btn btn-outline-warning mr-1" (click)="editarModal(editar,puerta)">
                             <fa-icon [icon]="faEdit"></fa-icon>
                         </button>
                         <button class="btn btn-outline-danger" (click)="borrarModal(borrar,puerta)">
                             <fa-icon [icon]="faTrash"></fa-icon>
+                        </button>
+                    </td>
+                    <td *ngIf="miTenant&&portero&&actual">
+                        <button *ngIf="puerta.id&&actual&&actual.id==puerta.id" class="btn btn-outline-danger mr-1" ngbTooltip="Deseleccionar puerta" (click)="deseleccionarPuerta(puerta.id)">
+                            <fa-icon [icon]="faTimes"></fa-icon>
+                            Deseleccionar
+                        </button>
+                    </td>
+                    <td *ngIf="miTenant&&portero&&!actual">
+                        <button *ngIf="puerta.id" [disabled]="puerta.usuario" class="btn btn-outline-primary mr-1" ngbTooltip="Seleccionar puerta" (click)="seleccionarPuerta(puerta.id)">
+                            <fa-icon [icon]="faHandPointer"></fa-icon>
+                            <span *ngIf="puerta.usuario" class="badge bg-light">Asignada a {{puerta.usuario?.nombre+' '+puerta.usuario?.apellido}}</span>
+
                         </button>
                     </td>
                 </tr>

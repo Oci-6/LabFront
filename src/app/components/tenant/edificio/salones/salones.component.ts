@@ -8,6 +8,8 @@ import { ToastService } from 'src/app/services/toast/toast.service';
 import { SalonService } from 'src/app/services/SalonService/salon.service';
 import { ActivatedRoute } from '@angular/router';
 import { Salon } from 'src/app/models/Salon';
+import { AuthService } from 'src/app/services/auth/auth.service';
+import { TenantService } from 'src/app/services/tenant/tenant.service';
 
 @Component({
   selector: 'app-salones',
@@ -22,6 +24,8 @@ export class SalonesComponent implements OnInit {
     private toastService: ToastService,
     private route: ActivatedRoute,
     private edificioService: EdificioService,
+    private authService: AuthService,
+    private tenantService: TenantService
   ) 
   { 
   config.backdrop = 'static';
@@ -47,7 +51,23 @@ export class SalonesComponent implements OnInit {
     nombre: new FormControl('', Validators.required),
   });
 
+  //Control de roles
+  miTenant: boolean = false;
+  portero: boolean = false;
+  gestor: boolean = false;
+  admin: boolean = false;
+
   ngOnInit(): void {
+
+    let auth = this.authService.getAuth();
+    let tenant = this.tenantService.getTenant();
+
+    if (auth) {
+      this.miTenant = auth.usuario.tenantInstitucionId == tenant || auth.roles.find((element: string) => element == 'SuperAdmin') != undefined;
+      this.admin = auth.roles.find((element: string) => element == 'Admin' || element == 'SuperAdmin') != undefined;
+      this.gestor = auth.roles.find((element: string) => element == 'Gestor' || element == 'SuperAdmin') != undefined;
+      this.portero = auth.roles.find((element: string) => element == 'Portero' || element == 'SuperAdmin') != undefined;
+    }
 
     // Route params
     const routeParams = this.route.snapshot.paramMap;

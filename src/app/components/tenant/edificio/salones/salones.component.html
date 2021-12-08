@@ -1,7 +1,7 @@
 <div class="card mt-2">
     <div class="card-body">
         <h5 class="card-title">Salones del edificio "{{edificio.nombre}}"
-            <button class="btn btn-outline-primary" (click)="agregarModal(agregar)">
+            <button *ngIf="miTenant&&(gestor||admin)" class="btn btn-outline-primary" (click)="agregarModal(agregar)">
                 <fa-icon [icon]="faPlus"></fa-icon>
             </button>
         </h5>
@@ -18,10 +18,10 @@
                     <th scope="row">{{ i + 1 }}</th>
                     <td>{{ salon.nombre }}</td>
                     <td>
-                        <button class="btn btn-outline-warning mr-1" (click)="editarModal(editar,salon)">
+                        <button *ngIf="miTenant&&(gestor||admin)" class="btn btn-outline-warning mr-1" (click)="editarModal(editar,salon)">
                             <fa-icon [icon]="faEdit"></fa-icon>
                         </button>
-                        <button class="btn btn-outline-danger mr-1" (click)="borrarModal(borrar,salon)">
+                        <button *ngIf="miTenant&&(gestor||admin)" class="btn btn-outline-danger mr-1" (click)="borrarModal(borrar,salon)">
                             <fa-icon [icon]="faTrash"></fa-icon>
                         </button>
                         <button class="btn btn-outline-info" [routerLink]="salon.id+'/eventos'">

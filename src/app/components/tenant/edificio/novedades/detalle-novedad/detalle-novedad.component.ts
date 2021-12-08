@@ -27,7 +27,7 @@ export class DetalleNovedadComponent implements OnInit {
   ngOnInit(): void {
 
     const routeParams = this.activatedRoute.snapshot.paramMap;
-    this.novedadId = String(routeParams.get('id'));    
+    this.novedadId = String(routeParams.get('idNovedad'));    
     
     if(this.novedadId) this.getNovedad(this.novedadId);
     console.log(this.url);

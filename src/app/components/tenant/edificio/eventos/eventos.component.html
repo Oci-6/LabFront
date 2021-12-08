@@ -20,6 +20,42 @@
                 <label for="nombre" class="form-label">Nombre</label>
                 <input class="form-control" formControlName="nombre" id="nombre">
             </div>
+            <div class="mb-3">
+                <label for="fechaInicio" class="form-label">Fecha de comienzo</label>
+                <div class="input-group">
+                    <input class="form-control" placeholder="dd/mm/yyyy" name="dp" formControlName="fechaInicio"
+                        ngbDatepicker #dInicio="ngbDatepicker" (dateSelect)="onChange(agregarEvento)">
+                    <div class="input-group-append">
+                        <button class="btn btn-outline-secondary calendar" (click)="dInicio.toggle()" type="button">
+                            <fa-icon [icon]="faCalendar"></fa-icon>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="mb-3">
+                <label for="fechaFin" class="form-label">Fecha de finalizacion</label>
+                <div class="input-group">
+                    <input class="form-control" placeholder="dd/mm/yyyy" name="dp" formControlName="fechaFin"
+                        ngbDatepicker #dFin="ngbDatepicker" (dateSelect)="onChange(agregarEvento)">
+                    <div class="input-group-append">
+                        <button class="btn btn-outline-secondary calendar" (click)="dFin.toggle()" type="button">
+                            <fa-icon [icon]="faCalendar"></fa-icon>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="mb-3">
+                <div class="row">
+                    <div class="col">
+                        <label for="horaInicio" class="form-label">Comienzo del evento</label>
+                        <ngb-timepicker id="horaInicio" formControlName="horaInicio"></ngb-timepicker>
+                    </div>
+                    <div class="col">
+                        <label for="horaFin" class="form-label">Finalizacion del evento</label>
+                        <ngb-timepicker id="horaFin" formControlName="horaFin"></ngb-timepicker>
+                    </div>
+                </div>
+            </div>
             <div class="row">
                 <div class="modal-body">
                     <strong>Recurrencias: </strong><br>
@@ -39,55 +75,237 @@
             <div class="row" *ngIf="soloUnDia(agregarEvento.value)">
                 <div class="modal-body">
                     <strong>Días de la semana: </strong><br>
-                    <div class="form-check form-check-inline">
+                    <div *ngIf="lunes" class="form-check form-check-inline">
                         <input type="checkbox" class="form-check-input" formControlName="lunes" id="lunes">
                         <label for="lunes" class="form-check-label">Lunes</label>
                     </div>
-                    <div class="form-check form-check-inline">
+                    <div *ngIf="martes" class="form-check form-check-inline">
                         <input type="checkbox" class="form-check-input" formControlName="martes" id="martes">
                         <label for="martes" class="form-check-label">Martes</label>
                     </div>
-                    <div class="form-check form-check-inline">
+                    <div *ngIf="miercoles" class="form-check form-check-inline">
                         <input type="checkbox" class="form-check-input" formControlName="miercoles" id="miercoles">
                         <label for="miercoles" class="form-check-label">Miércoles</label>
                     </div>
-                    <div class="form-check form-check-inline">
+                    <div *ngIf="jueves" class="form-check form-check-inline">
                         <input type="checkbox" class="form-check-input" formControlName="jueves" id="miercoles">
                         <label for="jueves" class="form-check-label">Jueves</label>
                     </div>
-                    <div class="form-check form-check-inline">
+                    <div *ngIf="viernes" class="form-check form-check-inline">
                         <input type="checkbox" class="form-check-input" formControlName="viernes" id="miercoles">
                         <label for="viernes" class="form-check-label">Viernes</label>
                     </div>
-                    <div class="form-check form-check-inline">
+                    <div *ngIf="sabado" class="form-check form-check-inline">
                         <input type="checkbox" class="form-check-input" formControlName="sabado" id="miercoles">
                         <label for="sabado" class="form-check-label">Sábado</label>
                     </div>
-                    <div class="form-check form-check-inline">
+                    <div *ngIf="domingo" class="form-check form-check-inline">
                         <input type="checkbox" class="form-check-input" formControlName="domingo" id="miercoles">
                         <label for="domingo" class="form-check-label">Domingo</label>
                     </div>
                 </div>
-                
+
             </div>
         </div>
         <div class="modal-footer">
-            <button type="submit" [disabled]="!agregarEvento.valid" class="btn btn-outline-dark" (click)="c('Save click')">Guardar</button>
+            <button type="submit" class="btn btn-outline-dark" (click)="c('Save click')">Guardar</button>
         </div>
     </form>
 </ng-template>
 
 <ng-template #info let-c="close" let-d="dismiss">
 
+    <div *ngIf="selectedEvento" class="modal-header">
+        <h4 class="modal-title mr-1" id="modal-basic-title"><strong>Info: </strong>{{selectedEvento?.nombre}}</h4>
+        <button *ngIf="gestor&&miTenant" class="btn btn-outline-warning mr-1"
+            (click)="editarModal(editar,selectedEvento)">
+            <fa-icon [icon]="faEdit"></fa-icon>
+        </button>
+        <button *ngIf="gestor&&miTenant" class="btn btn-outline-danger mr-1" (click)="borrarModal(borrar)">
+            <fa-icon [icon]="faTrash"></fa-icon>
+        </button>
+
+        <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div *ngIf="selectedEvento" class="modal-body">
+        <div *ngIf="soloUnDia(selectedEvento); else unDia" class="row mb-3">
+            <div class="col">
+                <strong>Fecha Inicio: </strong> {{selectedEvento?.fechaInicio | date}}
+            </div>
+            <div class="col">
+                <strong>Fecha Fin: </strong> {{selectedEvento?.fechaFin | date}}
+            </div>
+        </div>
+        <ng-template #unDia>
+            <div class="row mb-3">
+                <div class="col">
+                    <strong>Fecha: </strong> {{selectedEvento?.fechaInicio | date}}
+                </div>
+            </div>
+        </ng-template>
+        <div class="row mb-3">
+            <div class="col">
+                <strong>Hora Inicio: </strong> {{localTimeString(selectedEvento?.fechaInicio)}}
+            </div>
+            <div class="col">
+                <strong>Hora Fin: </strong> {{localTimeString(selectedEvento?.fechaFin)}}
+            </div>
+        </div>
+        <div *ngIf="selectedEvento.semanalmente" class="row mb-3">
+            <div class="col">
+                <strong>Semanalmente: </strong>
+                <fa-icon [icon]="faCheckSquare"></fa-icon>
+            </div>
+        </div>
+        <div class="row mb-3">
+            <div class="col-12">
+                <strong>Días de la semana: </strong>
+            </div>
+            <div class="col">
+                <div *ngIf="selectedEvento?.domingo">Domingo <fa-icon [icon]="faCheckSquare"></fa-icon>
+                </div>
+                <div *ngIf="selectedEvento?.lunes">Lunes <fa-icon [icon]="faCheckSquare"></fa-icon>
+                </div>
+                <div *ngIf="selectedEvento?.martes">Martes <fa-icon [icon]="faCheckSquare"></fa-icon>
+                </div>
+                <div *ngIf="selectedEvento?.miercoles">Miércoles<fa-icon [icon]="faCheckSquare"></fa-icon>
+                </div>
+                <div *ngIf="selectedEvento?.jueves">Jueves <fa-icon [icon]="faCheckSquare"></fa-icon>
+                </div>
+                <div *ngIf="selectedEvento?.viernes">Viernes <fa-icon [icon]="faCheckSquare"></fa-icon>
+                </div>
+                <div *ngIf="selectedEvento?.sabado">Sábado <fa-icon [icon]="faCheckSquare"></fa-icon>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" ngbAutofocus class="btn btn-outline-dark" (click)="c('Save click')">Cerrar</button>
+    </div>
+</ng-template>
+
+<ng-template #editar let-c="close" let-d="dismiss">
+    <form [formGroup]="editarEvento" (ngSubmit)="onEdit()">
+
         <div class="modal-header">
-            <h4 class="modal-title" id="modal-basic-title">Agregar Evento</h4>
+            <h4 class="modal-title" id="modal-basic-title">Editar Evento</h4>
             <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
                 <span aria-hidden="true">&times;</span>
             </button>
         </div>
         <div class="modal-body">
+
+            <div class="mb-3">
+                <label for="nombre" class="form-label">Nombre</label>
+                <input class="form-control" formControlName="nombre" id="nombre">
+            </div>
+            <div class="mb-3">
+                <label for="fechaInicio" class="form-label">Fecha de comienzo</label>
+                <div class="input-group">
+                    <input class="form-control" placeholder="dd/mm/yyyy" name="dp" formControlName="fechaInicio"
+                        ngbDatepicker #dInicio="ngbDatepicker" (dateSelect)="onChange(editarEvento)">
+                    <div class="input-group-append">
+                        <button class="btn btn-outline-secondary calendar" (click)="dInicio.toggle()" type="button">
+                            <fa-icon [icon]="faCalendar"></fa-icon>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="mb-3">
+                <label for="fechaFin" class="form-label">Fecha de finalizacion</label>
+                <div class="input-group">
+                    <input class="form-control" placeholder="dd/mm/yyyy" name="dp" formControlName="fechaFin"
+                        ngbDatepicker #dFin="ngbDatepicker" (dateSelect)="onChange(editarEvento)">
+                    <div class="input-group-append">
+                        <button class="btn btn-outline-secondary calendar" (click)="dFin.toggle()" type="button">
+                            <fa-icon [icon]="faCalendar"></fa-icon>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="mb-3">
+                <label for="horaInicio" class="form-label">Comienzo del evento</label>
+                <ngb-timepicker id="horaInicio" formControlName="horaInicio"></ngb-timepicker>
+                <label for="horaFin" class="form-label">Finalizacion del evento</label>
+                <ngb-timepicker id="horaFin" formControlName="horaFin"></ngb-timepicker>
+            </div>
+            <div class="row">
+                <div class="modal-body">
+                    <strong>Recurrencias: </strong><br>
+                    <div class="form-check form-check-inline">
+                        <input type="checkbox" class="form-check-input" formControlName="semanalmente"
+                            id="semanalmente">
+                        <label for="semanalmente" class="form-check-label">Semanalmente</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input type="checkbox" class="form-check-input" formControlName="mensualmente"
+                            id="mensualmente">
+                        <label for="mensualmente" class="form-check-label">Mensualmente</label>
+                    </div>
+                </div>
+
+            </div>
+            <div class="row" *ngIf="soloUnDia(editarEvento.value)">
+                <div class="modal-body">
+                    <strong>Días de la semana: </strong><br>
+                    <div *ngIf="lunes" class="form-check form-check-inline">
+                        <input type="checkbox" class="form-check-input" formControlName="lunes" id="lunes">
+                        <label for="lunes" class="form-check-label">Lunes</label>
+                    </div>
+                    <div *ngIf="martes" class="form-check form-check-inline">
+                        <input type="checkbox" class="form-check-input" formControlName="martes" id="martes">
+                        <label for="martes" class="form-check-label">Martes</label>
+                    </div>
+                    <div *ngIf="miercoles" class="form-check form-check-inline">
+                        <input type="checkbox" class="form-check-input" formControlName="miercoles" id="miercoles">
+                        <label for="miercoles" class="form-check-label">Miércoles</label>
+                    </div>
+                    <div *ngIf="jueves" class="form-check form-check-inline">
+                        <input type="checkbox" class="form-check-input" formControlName="jueves" id="miercoles">
+                        <label for="jueves" class="form-check-label">Jueves</label>
+                    </div>
+                    <div *ngIf="viernes" class="form-check form-check-inline">
+                        <input type="checkbox" class="form-check-input" formControlName="viernes" id="miercoles">
+                        <label for="viernes" class="form-check-label">Viernes</label>
+                    </div>
+                    <div *ngIf="sabado" class="form-check form-check-inline">
+                        <input type="checkbox" class="form-check-input" formControlName="sabado" id="miercoles">
+                        <label for="sabado" class="form-check-label">Sábado</label>
+                    </div>
+                    <div *ngIf="domingo" class="form-check form-check-inline">
+                        <input type="checkbox" class="form-check-input" formControlName="domingo" id="miercoles">
+                        <label for="domingo" class="form-check-label">Domingo</label>
+                    </div>
+                </div>
+
+            </div>
         </div>
         <div class="modal-footer">
-            <button type="submit" [disabled]="!agregarEvento.valid" class="btn btn-outline-dark" (click)="c('Save click')">Guardar</button>
+            <button type="button" class="btn btn-outline-dark" (click)="d('Cross click')">Cancelar</button>
+            <button type="submit" class="btn btn-outline-success" (click)="c('Save click')">Guardar</button>
         </div>
+    </form>
+</ng-template>
+
+<ng-template #borrar let-modal let-d="dismiss">
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-title">Borrar Evento</h4>
+        <button type="button" class="close" aria-describedby="modal-title" (click)="d('Cross click')">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <p><strong>¿Esta seguro que quiere eliminar el evento <span
+                    class="text-primary">"{{selectedEvento?.nombre}}"</span>?</strong></p>
+        <p>Toda la información asociada se eliminara permanentemente
+            <br>
+            <span class="text-danger">Esta operación no se puede deshacer.</span>
+        </p>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-outline-secondary" (click)="d()">Cancelar</button>
+        <button type="button" class="btn btn-danger" (click)="onDelete()">Confirmar</button>
+    </div>
 </ng-template>

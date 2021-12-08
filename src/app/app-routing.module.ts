@@ -18,6 +18,9 @@ import { DetalleNovedadComponent } from './components/tenant/edificio/novedades/
 import { ProductosComponent } from './components/tenant/productos/productos.component';
 import { PreciosComponent } from './components/tenant/precios/precios.component';
 import { EventosComponent } from './components/tenant/edificio/eventos/eventos.component';
+import { AccesosComponent } from './components/tenant/edificio/accesos/accesos.component';
+import { UltimasNovedadesComponent } from './components/tenant/ultimas-novedades/ultimas-novedades.component';
+import { AsignacionesComponent } from './components/tenant/edificio/asignaciones/asignaciones.component';
 
 const routes: Routes = [
 
@@ -28,6 +31,9 @@ const routes: Routes = [
   { path: 'productos/precios/:idProducto', component: PreciosComponent },
   {
     path: ":tenant", component: HomeTenantComponent, children: [
+      {
+        path: '', component: UltimasNovedadesComponent
+      },
       {
         path: 'gestores', component: GestoresComponent
       },
@@ -41,12 +47,12 @@ const routes: Routes = [
         path: 'edificios', component: EdificiosComponent
       },
       {
-        path: 'edificios/:idEdificio/acceso', component: AccesoComponent
+        path: 'edificios/:idEdificio/accesos', component: AccesosComponent
       },
       {
         path: 'edificios/salones/:id', component: SalonesComponent
       },
-      
+
       {
         path: 'edificios/salones/:idEdificio/:idSalon/eventos', component: EventosComponent
       },
@@ -65,7 +71,9 @@ const routes: Routes = [
       {
         path: 'edificios/detalle-novedad/:idNovedad', component: DetalleNovedadComponent
       },
-      
+      {
+        path: 'edificios/:idEdificio/asignaciones', component: AsignacionesComponent
+      }
     ]
   }
 ];

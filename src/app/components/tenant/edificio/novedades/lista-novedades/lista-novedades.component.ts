@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { NgbModalConfig, NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { faPlus, faEdit, faTrash } from '@fortawesome/free-solid-svg-icons';
+import { faPlus, faEdit, faTrash, faInfoCircle } from '@fortawesome/free-solid-svg-icons';
 import { Edificio } from 'src/app/models/Edificio';
 import { EdificioService } from 'src/app/services/EdificioService/edificio.service';
 import { ToastService } from 'src/app/services/toast/toast.service';
@@ -8,6 +8,8 @@ import { ActivatedRoute } from '@angular/router';
 import { NovedadService } from 'src/app/services/NovedadService/novedad.service';
 import { Novedad } from 'src/app/models/Novedad';
 import * as moment from 'moment';
+import { AuthService } from 'src/app/services/auth/auth.service';
+import { TenantService } from 'src/app/services/tenant/tenant.service';
 
 @Component({
   selector: 'app-lista-novedades',
@@ -22,6 +24,8 @@ export class ListaNovedadesComponent implements OnInit {
     private toastService: ToastService,
     private route: ActivatedRoute,
     private edificioService: EdificioService,
+    private authService: AuthService,
+    private tenantService: TenantService
   ) 
   { 
   config.backdrop = 'static';
@@ -32,16 +36,33 @@ export class ListaNovedadesComponent implements OnInit {
   faPlus = faPlus;
   faEdit = faEdit;
   faTrash = faTrash;
+  faInfoCircle =faInfoCircle;
 
   novedades: Novedad[] = [];
   selectedNovedad: Novedad | undefined;
   edificioId: string | undefined;
   edificio: Edificio = {};
 
+  //Control de roles
+  miTenant: boolean = false;
+  portero: boolean = false;
+  gestor: boolean = false;
+  admin: boolean = false;
+
   ngOnInit(): void {
     // Route params
     const routeParams = this.route.snapshot.paramMap;
     this.edificioId = String(routeParams.get('id'));
+
+    let auth = this.authService.getAuth();
+    let tenant = this.tenantService.getTenant();
+
+    if (auth) {
+      this.miTenant = auth.usuario.tenantInstitucionId == tenant || auth.roles.find((element: string) => element == 'SuperAdmin') != undefined;
+      this.admin = auth.roles.find((element: string) => element == 'Admin' || element == 'SuperAdmin') != undefined;
+      this.gestor = auth.roles.find((element: string) => element == 'Gestor' || element == 'SuperAdmin') != undefined;
+      this.portero = auth.roles.find((element: string) => element == 'Portero' || element == 'SuperAdmin') != undefined;
+    }
 
     if(this.edificioId) this.novedadService.getNovedadesEdificio(this.edificioId).subscribe(
       response => {

@@ -1,7 +1,6 @@
-<div class="col d-flex justify-content-center mt-2">
     <div class="card">
         <div class="card-body">
-            <webcam (imageCapture)="handleImage($event)" (initError)="handleInitError($event)"
+            <webcam [width]="424" (imageCapture)="handleImage($event)" (initError)="handleInitError($event)"
                 [trigger]="triggerObservable" [allowCameraSwitch]="false"></webcam>
 
         </div>
@@ -9,16 +8,15 @@
             <button class="btn btn-primary" (click)="triggerSnapshot();">Enviar captura</button>
 
         </div>
-        <div class="card-footer">
+        <!-- <div class="card-footer">
             <button class="btn btn-primary" (click)="send();">Enviar captura</button>
 
-        </div>
+        </div> -->
     </div>
 
     <!-- <div class="snapshot" *ngIf="webcamImage">
         <img [src]="webcamImage.imageAsDataUrl" />
     </div> -->
-</div>
 
 
 <!-- 
