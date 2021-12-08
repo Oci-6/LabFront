@@ -1,0 +1,11 @@
+<ngb-carousel *ngIf="novedades">
+    <ng-template ngbSlide *ngFor="let novedad of novedades">
+      <div class="picsum-img-wrapper">
+        <img [src]="apiURL+novedad.imagen" alt="Random first slide">
+      </div>
+      <div class="carousel-caption text-dark">
+        <h3>First slide label</h3>
+        <p>Nulla vitae elit libero, a pharetra augue mollis interdum.</p>
+      </div>
+    </ng-template>
+  </ngb-carousel>

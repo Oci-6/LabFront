@@ -7,6 +7,8 @@ import { faPlus, faEdit, faTrash, faSearch } from '@fortawesome/free-solid-svg-i
 import { AuthService } from 'src/app/services/auth/auth.service';
 import { TenantService } from 'src/app/services/tenant/tenant.service';
 import { Router } from '@angular/router';
+import { Producto } from 'src/app/models/Producto';
+import { ProductoService } from 'src/app/services/ProductoService/producto.service';
 
 @Component({
   selector: 'app-instituciones',
@@ -21,6 +23,7 @@ export class InstitucionesComponent implements OnInit {
     private modalService: NgbModal,
     private tenantService: TenantService,
     private router: Router,
+    private productoService: ProductoService,
     config: NgbModalConfig, 
 
 ) {
@@ -39,15 +42,18 @@ export class InstitucionesComponent implements OnInit {
 
   instituciones: Institucion[] = [];
   selectedInstitucion: Institucion | undefined;
+  productos: Producto[] = [];
 
   agregarInstitucion: FormGroup = new FormGroup({
     rut: new FormControl('', Validators.required),
     razonSocial: new FormControl('', Validators.required),
+    productoId: new FormControl('', Validators.required),
   });
 
   editarInstitucion: FormGroup = new FormGroup({
     rut: new FormControl('', Validators.required),
     razonSocial: new FormControl('', Validators.required),
+    productoId: new FormControl('', Validators.required),
   });
 
   ngOnInit(): void {    
@@ -58,6 +64,16 @@ export class InstitucionesComponent implements OnInit {
     this.institucionService.getAll().subscribe(
       response => {
         this.instituciones = response;
+      },
+      error => {
+        console.error(error);
+      }
+
+    )
+
+    this.productoService.getProductos().subscribe(
+      response => {
+        this.productos = response;
       },
       error => {
         console.error(error);
@@ -90,6 +106,7 @@ export class InstitucionesComponent implements OnInit {
       this.institucionService.post(institucion).subscribe(
         response => {
           this.instituciones.push(response);
+          this.agregarInstitucion.reset();
         },
         error => {
           console.error(error);
@@ -107,11 +124,10 @@ export class InstitucionesComponent implements OnInit {
 
       this.institucionService.put(institucion, this.selectedInstitucion?.id).subscribe(
         response => {
-          console.log("Before update: ", this.instituciones)
 
           this.instituciones[this.instituciones.findIndex((obj => obj.id == this.selectedInstitucion?.id))] = institucion;
 
-          console.log("After update: ", this.instituciones)
+          this.agregarInstitucion.reset();
         },
         error => {
           console.error(error);

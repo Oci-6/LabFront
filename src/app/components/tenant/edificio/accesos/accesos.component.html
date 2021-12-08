@@ -1,0 +1,135 @@
+<div class="card mt-2">
+    <div class="card-body">
+        <h5 class="card-title">Accesos del edificio "{{edificio.nombre}}"
+            <button *ngIf="miTenant&&portero" class="btn btn-outline-primary mr-1" (click)="agregarModal(agregar)">
+                <fa-icon [icon]="faPlus"></fa-icon>
+            </button>
+            <button *ngIf="miTenant&&portero" class="btn btn-outline-success" (click)="camModal(cam)">
+                <fa-icon [icon]="faCamera"></fa-icon>
+            </button>
+        </h5>
+        <table class="table table-striped p-col">
+            <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Persona</th>
+                    <th scope="col">Ingreso</th>
+                    <th scope="col" *ngIf="miTenant&&portero">Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let acceso of accesos; index as i">
+                    <th scope="row">{{ i + 1 }}</th>
+                    <td>{{ acceso.persona?.nombre }} {{ acceso.persona?.apellido }}</td>
+                    <td>{{ acceso.creadoEn | date}}</td>
+                    <td *ngIf="miTenant&&portero">
+                        <button class="btn btn-outline-warning mr-1" (click)="editarModal(editar,acceso)">
+                            <fa-icon [icon]="faEdit"></fa-icon>
+                        </button>
+                        <button class="btn btn-outline-danger" (click)="borrarModal(borrar,acceso)">
+                            <fa-icon [icon]="faTrash"></fa-icon>
+                        </button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+<ng-template #agregar let-c="close" let-d="dismiss">
+    <form [formGroup]="agregarAcceso" (ngSubmit)="onSubmit()">
+
+        <div class="modal-header">
+            <h4 class="modal-title" id="modal-basic-title">Agregar Acceso</h4>
+            <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body">
+
+            <div class="mb-3">
+                <!-- <select formControlName="personaId" class="form-control" id="persona">
+                    <option selected="true" disabled="true">Seleccione una persona</option>
+                    <option *ngFor="let persona of personas" [value]="persona.id">
+                        {{persona.nombre + ' ' +persona.apellido +' ('+persona.documento+')'}}
+                    </option>
+                </select> -->
+                <label for="persona" class="form-label">Persona</label>
+                <input  #query formControlName="personaId" class="form-control" list="datalistOptions" id="persona" placeholder="Type to search..." (keyup)="buscarPersonas(query.value)">
+                <datalist id="datalistOptions">
+                    <option *ngFor="let persona of personas.items" [value]="persona.id">
+                        {{persona.nombre + ' ' +persona.apellido +' ('+persona.documento+')'}}
+                    </option>
+                </datalist>
+            </div>
+
+        </div>
+        <div class="modal-footer">
+            <button type="submit" class="btn btn-outline-dark" (click)="c('Save click')">Guardar</button>
+        </div>
+    </form>
+</ng-template>
+
+<ng-template #editar let-c="close" let-d="dismiss">
+    <form [formGroup]="editarAcceso" (ngSubmit)="onEdit()">
+
+        <div class="modal-header">
+            <h4 class="modal-title" id="modal-basic-title">Editar Acceso</h4>
+            <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body">
+
+            <div class="mb-3">
+                <label for="persona" class="form-label">Persona</label>
+                <input  #query formControlName="personaId" class="form-control" list="datalistOptions" id="persona" placeholder="Type to search..." (keyup)="buscarPersonas(query.value)">
+                <datalist id="datalistOptions">
+                    <option *ngFor="let persona of personas.items" [value]="persona.id">
+                        {{persona.nombre + ' ' +persona.apellido +' ('+persona.documento+')'}}
+                    </option>
+                </datalist>
+            </div>
+
+        </div>
+        <div class="modal-footer">
+            <button type="submit" class="btn btn-outline-dark" (click)="c('Save click')">Guardar</button>
+        </div>
+    </form>
+</ng-template>
+
+
+<ng-template #borrar let-modal let-d="dismiss">
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-title">Borrar Acceso</h4>
+        <button type="button" class="close" aria-describedby="modal-title" (click)="d('Cross click')">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <p><strong>¿Esta seguro que quiere eliminar la acceso <span
+                    class="text-primary">"{{selectedAcceso?.id}}"</span>?</strong></p>
+        <p>Toda la información asociada se eliminara permanentemente
+            <br>
+            <span class="text-danger">Esta operación no se puede deshacer.</span>
+        </p>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-outline-secondary" (click)="d()">Cancelar</button>
+        <button type="button" class="btn btn-danger" (click)="onDelete(modal)">Confirmar</button>
+    </div>
+</ng-template>
+
+<ng-template #cam let-modal let-d="dismiss">
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-title">Reconocimiento facial</h4>
+        <button type="button" class="close" aria-describedby="modal-title" (click)="d('Cross click')">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <app-acceso></app-acceso>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-outline-secondary" (click)="d()">Cerrar</button>
+    </div>
+</ng-template>

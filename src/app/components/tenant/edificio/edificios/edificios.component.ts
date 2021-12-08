@@ -1,11 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { NgbModalConfig, NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { faPlus, faEdit, faTrash, faDoorOpen, faChalkboardTeacher, faPersonBooth, faMapMarkedAlt } from '@fortawesome/free-solid-svg-icons';
+import { faPlus, faEdit, faTrash, faDoorOpen, faChalkboardTeacher, faPersonBooth, faMapMarkedAlt, faBell, faMapSigns } from '@fortawesome/free-solid-svg-icons';
 import { Edificio } from 'src/app/models/Edificio';
 import { EdificioService } from 'src/app/services/EdificioService/edificio.service';
 import { ToastService } from 'src/app/services/toast/toast.service';
 import { FaDuotoneIconComponent } from '@fortawesome/angular-fontawesome';
+import { AuthService } from 'src/app/services/auth/auth.service';
+import { TenantService } from 'src/app/services/tenant/tenant.service';
 
 @Component({
   selector: 'app-edificios',
@@ -18,24 +20,28 @@ export class EdificiosComponent implements OnInit {
     private edificioService: EdificioService,
     config: NgbModalConfig, private modalService: NgbModal,
     private toastService: ToastService,
-  ) 
-  { 
-  config.backdrop = 'static';
-  config.keyboard = false;
+    private authService: AuthService,
+    private tenantService: TenantService
+  ) {
+    config.backdrop = 'static';
+    config.keyboard = false;
   }
 
   //Iconos
   faPlus = faPlus;
   faEdit = faEdit;
   faTrash = faTrash;
-  faDoor= faDoorOpen;
-  faBoard= faChalkboardTeacher;
-  faPersonBooth= faPersonBooth;
+  faDoor = faDoorOpen;
+  faBoard = faChalkboardTeacher;
+  faPersonBooth = faPersonBooth;
   faMapMarkedAlt = faMapMarkedAlt;
+  faBell = faBell;
+  faMapSigns = faMapSigns;
 
   edificios: Edificio[] = [];
   selectedEdificio: Edificio | undefined;
 
+  //Forms
   agregarEdificio: FormGroup = new FormGroup({
     nombre: new FormControl('', Validators.required),
     latitud: new FormControl('', Validators.required),
@@ -51,11 +57,26 @@ export class EdificiosComponent implements OnInit {
   lat = 51.678418;
   lng = 7.809007;
 
+  //Control de roles
+  miTenant: boolean = false;
+  portero: boolean = false;
+  gestor: boolean = false;
+  admin: boolean = false;
+
   ngOnInit(): void {
     this.getEdificios();
+    let auth = this.authService.getAuth();
+    let tenant = this.tenantService.getTenant();
+
+    if (auth) {
+      this.miTenant = auth.usuario.tenantInstitucionId == tenant || auth.roles.find((element: string) => element == 'SuperAdmin') != undefined;
+      this.admin = auth.roles.find((element: string) => element == 'Admin' || element == 'SuperAdmin') != undefined;
+      this.gestor = auth.roles.find((element: string) => element == 'Gestor' || element == 'SuperAdmin') != undefined;
+      this.portero = auth.roles.find((element: string) => element == 'Portero' || element == 'SuperAdmin') != undefined;
+    }
   }
 
-  getEdificios(){
+  getEdificios() {
     this.edificioService.getAll().subscribe(
       response => {
         this.edificios = response;
@@ -75,9 +96,9 @@ export class EdificiosComponent implements OnInit {
     this.selectedEdificio = edificio;
     this.modalService.open(content);
     console.log(edificio.latitud, edificio.longitud);
-    
-    if(edificio.latitud) this.lat = edificio.latitud;
-    if(edificio.longitud) this.lng = edificio.longitud;
+
+    if (edificio.latitud) this.lat = edificio.latitud;
+    if (edificio.longitud) this.lng = edificio.longitud;
   }
 
   borrarModal(content: any, edificio: Edificio) {
@@ -87,8 +108,8 @@ export class EdificiosComponent implements OnInit {
 
   mapModal(content: any, edificio: Edificio) {
     this.modalService.open(content);
-    if(edificio.latitud) this.lat = edificio.latitud;
-    if(edificio.longitud) this.lng = edificio.longitud;
+    if (edificio.latitud) this.lat = edificio.latitud;
+    if (edificio.longitud) this.lng = edificio.longitud;
   }
 
 
@@ -145,18 +166,18 @@ export class EdificiosComponent implements OnInit {
     }
   }
 
-  onChange(event:any){
+  onChange(event: any) {
     this.lat = event.coords.lat;
     this.lng = event.coords.lng;
-    
-    this.agregarEdificio.patchValue({latitud: this.lat, longitud: this.lng});
+
+    this.agregarEdificio.patchValue({ latitud: this.lat, longitud: this.lng });
   }
 
-  onChangeE(event:any){
+  onChangeE(event: any) {
     this.lat = event.coords.lat;
     this.lng = event.coords.lng;
-    
-    this.editarEdificio.patchValue({latitud: this.lat, longitud: this.lng});
+
+    this.editarEdificio.patchValue({ latitud: this.lat, longitud: this.lng });
   }
 
 }

@@ -71,7 +71,7 @@ export class AccesoComponent implements OnInit {
       formData.append("Foto", blob);
       if (this.edificioId) formData.append("EdificioId", this.edificioId);
 
-      this.accesoService.post(formData).subscribe(
+      this.accesoService.reconocer(formData).subscribe(
         (response) => {
           console.log(response);
           this.toastService.showSuccess("Acceso correcto");
@@ -79,7 +79,6 @@ export class AccesoComponent implements OnInit {
         (error) => {
           if (error.status == 404) {
             this.toastService.showStandard("Usuario no encontrado");
-            this.router.navigate(['../../../personas'], { relativeTo: this.route })
           }
           else
             this.toastService.showError("Error");
@@ -118,7 +117,7 @@ export class AccesoComponent implements OnInit {
       formData.append("Foto", blob);
       if (this.edificioId) formData.append("EdificioId", this.edificioId);
 
-      this.accesoService.post(formData).subscribe(
+      this.accesoService.reconocer(formData).subscribe(
         (response) => {
           console.log(response);
           this.toastService.showSuccess("Acceso correcto");

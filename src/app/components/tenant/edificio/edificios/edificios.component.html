@@ -1,7 +1,7 @@
 <div class="card mt-2">
     <div class="card-body">
         <h5 class="card-title">Edificios
-            <button class="btn btn-outline-primary" (click)="agregarModal(agregar)">
+            <button *ngIf="miTenant&&(admin||gestor)" class="btn btn-outline-primary" (click)="agregarModal(agregar)">
                 <fa-icon [icon]="faPlus"></fa-icon>
             </button>
         </h5>
@@ -22,23 +22,37 @@
                     <td>{{ edificio.latitud }}</td>
                     <td>{{ edificio.longitud }}</td>
                     <td>
-                        <button class="btn btn-outline-warning mr-1" (click)="editarModal(editar,edificio)">
+                        <button *ngIf="miTenant&&(admin||gestor)" class="btn btn-outline-warning mr-1"
+                            (click)="editarModal(editar,edificio)">
                             <fa-icon [icon]="faEdit"></fa-icon>
+                        </button>
+                        <button *ngIf="miTenant&&(admin||gestor)" class="btn btn-outline-danger mr-1"
+                            (click)="borrarModal(borrar,edificio)">
+                            <fa-icon [icon]="faTrash"></fa-icon>
+                        </button>
+
+                        <button *ngIf="miTenant&&edificio.id" class="btn btn-outline-primary mr-1" label="Accesos"
+                            [routerLink]="edificio.id+'/accesos'">
+                            <fa-icon [icon]="faPersonBooth"></fa-icon>
                         </button>
                         <button class="btn btn-outline-success mr-1" (click)="mapModal(map,edificio)">
                             <fa-icon [icon]="faMapMarkedAlt"></fa-icon>
                         </button>
-                        <button class="btn btn-outline-danger mr-1" (click)="borrarModal(borrar,edificio)">
-                            <fa-icon [icon]="faTrash"></fa-icon>
-                        </button>
-                        <button class="btn btn-outline-info mr-1" *ngIf="edificio.id" [routerLink]="'salones/'+edificio.id" label="Salones">
+                        <button class="btn btn-outline-dark mr-1" *ngIf="edificio.id"
+                            [routerLink]="'salones/'+edificio.id" label="Salones">
                             <fa-icon [icon]="faBoard"></fa-icon>
                         </button>
-                        <button class="btn btn-outline-secondary mr-1" label="Puertas" *ngIf="edificio.id" [routerLink]="'puertas/'+edificio.id">
+                        <button class="btn btn-outline-secondary mr-1" label="Puertas" *ngIf="edificio.id"
+                            [routerLink]="'puertas/'+edificio.id">
                             <fa-icon [icon]="faDoor"></fa-icon>
                         </button>
-                        <button class="btn btn-outline-primary mr-1" label="Acceso" *ngIf="edificio.id" [routerLink]="edificio.id+'/acceso'">
-                            <fa-icon [icon]="faPersonBooth"></fa-icon>
+                        <button class="btn btn-outline-info mr-1" label="Novedades" *ngIf="edificio.id"
+                            [routerLink]="'novedades/'+edificio.id">
+                            <fa-icon [icon]="faBell"></fa-icon>
+                        </button>
+                        <button class="btn btn-outline-info mr-1" ngbTooltip="Asignaciones de puertas" *ngIf="edificio.id"
+                            [routerLink]="edificio.id+'/asignaciones'">
+                            <fa-icon [icon]="faMapSigns"></fa-icon>
                         </button>
                     </td>
                 </tr>
@@ -114,34 +128,35 @@
     <div class="modal-header">
         <h4 class="modal-title" id="modal-title">Borrar Edificio</h4>
         <button type="button" class="close" aria-describedby="modal-title" (click)="d('Cross click')">
-          <span aria-hidden="true">&times;</span>
+            <span aria-hidden="true">&times;</span>
         </button>
-      </div>
-      <div class="modal-body">
-        <p><strong>¿Esta seguro que quiere eliminar el edificio <span class="text-primary">"{{selectedEdificio?.id}}"</span>?</strong></p>
+    </div>
+    <div class="modal-body">
+        <p><strong>¿Esta seguro que quiere eliminar el edificio <span
+                    class="text-primary">"{{selectedEdificio?.id}}"</span>?</strong></p>
         <p>Toda la información asociada se eliminara permanentemente
             <br>
-        <span class="text-danger">Esta operación no se puede deshacer.</span>
+            <span class="text-danger">Esta operación no se puede deshacer.</span>
         </p>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-outline-secondary"  (click)="d()">Cancelar</button>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-outline-secondary" (click)="d()">Cancelar</button>
         <button type="button" class="btn btn-danger" (click)="onDelete(modal)">Confirmar</button>
-      </div>
+    </div>
 </ng-template>
 
 <ng-template #map let-c="close" let-d="dismiss">
-        <div class="modal-header">
-            <h4 class="modal-title" id="modal-basic-title">Ubicación Edificio</h4>
-            <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
-                <span aria-hidden="true">&times;</span>
-            </button>
-        </div>
-        <div class="modal-body">
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">Ubicación Edificio</h4>
+        <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
 
-            <agm-map [latitude]="lat" [longitude]="lng">
-                <agm-marker [latitude]="lat" [longitude]="lng"></agm-marker>
-            </agm-map>
+        <agm-map [latitude]="lat" [longitude]="lng">
+            <agm-marker [latitude]="lat" [longitude]="lng"></agm-marker>
+        </agm-map>
 
-        </div>
+    </div>
 </ng-template>

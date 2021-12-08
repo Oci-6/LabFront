@@ -35,10 +35,12 @@ export class PersonasComponent implements OnInit {
   faCheck = faCheck;
 
   //Variables
-  personas: Usuario[] = [];
+  personas: any = {};
   selectedPersona: Usuario | undefined;
   excel: File | undefined;
   foto: File | undefined;
+  page: number = 1;
+  query: string = '';
 
   //Forms
   agregarPersona: FormGroup = new FormGroup({
@@ -47,7 +49,7 @@ export class PersonasComponent implements OnInit {
     documento: new FormControl('', Validators.required),
     nombre: new FormControl('', Validators.required),
     apellido: new FormControl('', Validators.required),
-    phoneNumber: new FormControl('', Validators.pattern('[- +()0-9]+')),
+    telefono: new FormControl('', Validators.pattern('[- +()0-9]+')),
   });
 
   editarPersona: FormGroup = new FormGroup({
@@ -56,7 +58,7 @@ export class PersonasComponent implements OnInit {
     documento: new FormControl('', Validators.required),
     nombre: new FormControl('', Validators.required),
     apellido: new FormControl('', Validators.required),
-    phoneNumber: new FormControl('', Validators.pattern('[- +()0-9]+')),
+    telefono: new FormControl('', Validators.pattern('[- +()0-9]+')),
 
   });
 
@@ -66,14 +68,26 @@ export class PersonasComponent implements OnInit {
   }
 
   getPersonas() {
-    this.personaService.getAll().subscribe(
-      response => {
-        this.personas = response;
-      },
-      error => {
-        this.toastService.showError((error.message) ? error.message : 'Error del servidor');
-      }
+    // this.personaService.getAll().subscribe(
+    //   response => {
+    //     this.personas = response;
+    //   },
+    //   error => {
+    //     this.toastService.showError((error.message) ? error.message : 'Error del servidor');
+    //   }
 
+    // )
+    console.log(this.query);
+    
+    this.personaService.search(this.query,this.page.toString()).subscribe(
+      response=>{
+        this.personas = response;
+        console.log(response);
+        
+      },
+      error =>{
+        console.error(error);
+      }
     )
   }
 
@@ -136,9 +150,8 @@ export class PersonasComponent implements OnInit {
       this.personaService.put(persona, this.selectedPersona?.id).subscribe(
         response => {
 
-          this.personas[this.personas.findIndex((obj => obj.id == this.selectedPersona?.id))] = persona;
           this.toastService.showSuccess("Persona modificada")
-
+          this.getPersonas();
         },
         error => {
           this.toastService.showError((error.message) ? error.message : 'Error del servidor');
@@ -152,7 +165,7 @@ export class PersonasComponent implements OnInit {
     if (this.selectedPersona && this.selectedPersona.id) {
       this.personaService.delete(this.selectedPersona.id).subscribe(
         response => {
-          this.personas = this.personas.filter(e => e.id !== this.selectedPersona?.id);
+          this.getPersonas();
           modal.close();
           this.toastService.showSuccess("Persona borrado")
         },

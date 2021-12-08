@@ -1,13 +1,17 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { NgbModalConfig, NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { faPlus, faEdit, faTrash } from '@fortawesome/free-solid-svg-icons';
+import { faPlus, faEdit, faTrash, faHandPointer, faTimes } from '@fortawesome/free-solid-svg-icons';
 import { Edificio } from 'src/app/models/Edificio';
 import { EdificioService } from 'src/app/services/EdificioService/edificio.service';
 import { ToastService } from 'src/app/services/toast/toast.service';
 import { PuertaService } from 'src/app/services/PuertaService/puerta.service';
 import { Puerta } from 'src/app/models/Puerta';
 import { ActivatedRoute } from '@angular/router';
+import { AuthService } from 'src/app/services/auth/auth.service';
+import { TenantService } from 'src/app/services/tenant/tenant.service';
+import { Asignacion } from 'src/app/models/Asignacion';
+import { AsignacionService } from 'src/app/services/asignacion/asignacion.service';
 
 @Component({
   selector: 'app-puertas',
@@ -22,21 +26,30 @@ export class PuertasComponent implements OnInit {
     private toastService: ToastService,
     private route: ActivatedRoute,
     private edificioService: EdificioService,
-  ) 
-  { 
-  config.backdrop = 'static';
-  config.keyboard = false;
+    private authService: AuthService,
+    private tenantService: TenantService,
+    private asignacionService: AsignacionService
+  ) {
+    config.backdrop = 'static';
+    config.keyboard = false;
   }
 
   //Iconos
   faPlus = faPlus;
   faEdit = faEdit;
   faTrash = faTrash;
+  faHandPointer = faHandPointer;
+  faTimes = faTimes;
 
   puertas: Puerta[] = [];
   selectedPuerta: Puerta | undefined;
-  edificioId: string | undefined;
   edificio: Edificio = {};
+
+  @Input()
+  edificioId: string | undefined;
+
+  actual: Puerta | undefined;
+
 
   agregarPuerta: FormGroup = new FormGroup({
     nombre: new FormControl('', Validators.required),
@@ -46,30 +59,67 @@ export class PuertasComponent implements OnInit {
     nombre: new FormControl('', Validators.required),
   });
 
+  //Control de roles
+  miTenant: boolean = false;
+  portero: boolean = false;
+  gestor: boolean = false;
+  admin: boolean = false;
+
+
   ngOnInit(): void {
 
-    // Route params
-    const routeParams = this.route.snapshot.paramMap;
-    this.edificioId = String(routeParams.get('id'));
+    let auth = this.authService.getAuth();
+    let tenant = this.tenantService.getTenant();
 
-    if(this.edificioId) this.puertaService.getPuertasEdificio(this.edificioId).subscribe(
+    if (auth) {
+      this.miTenant = auth.usuario.tenantInstitucionId == tenant || auth.roles.find((element: string) => element == 'SuperAdmin') != undefined;
+      this.admin = auth.roles.find((element: string) => element == 'Admin' || element == 'SuperAdmin') != undefined;
+      this.gestor = auth.roles.find((element: string) => element == 'Gestor' || element == 'SuperAdmin') != undefined;
+      this.portero = auth.roles.find((element: string) => element == 'Portero' || element == 'SuperAdmin') != undefined;
+    }
+
+    // Route params
+    if (!this.edificioId) {
+      const routeParams = this.route.snapshot.paramMap;
+      this.edificioId = String(routeParams.get('id'));
+    }
+
+    this.getPuertas();
+
+    this.edificioService.get(this.edificioId).subscribe(
+      response => {
+        this.edificio = response;
+      },
+      error => {
+        console.error(error);
+      }
+    )
+
+    this.getActual();
+  }
+
+  getPuertas() {
+    if (this.edificioId) this.puertaService.getPuertasEdificio(this.edificioId).subscribe(
       response => {
         this.puertas = response;
+        console.log(response);
+
       },
       error => {
         console.error(error);
       }
 
     )
+  }
 
-    this.edificioService.get(this.edificioId).subscribe(
-      response=>{
-        this.edificio = response;
-      },
-      error =>{
-        console.error(error);
-      }
-    )
+  getActual() {
+    if (this.portero) {
+      this.asignacionService.getActual().subscribe(
+        response => {
+          this.actual = response;
+        }
+      )
+    }
   }
 
   agregarModal(content: any) {
@@ -113,7 +163,7 @@ export class PuertasComponent implements OnInit {
 
       this.puertaService.put(puerta, this.selectedPuerta?.id).subscribe(
         response => {
-        
+
           this.puertas[this.puertas.findIndex((obj => obj.id == this.selectedPuerta?.id))] = puerta;
 
         },
@@ -137,6 +187,39 @@ export class PuertasComponent implements OnInit {
 
         }
 
+      )
+    }
+  }
+
+  seleccionarPuerta(id: string) {
+    if (this.miTenant && this.portero && !this.actual) {
+      this.asignacionService.post({ puertaId: id }).subscribe(
+        response => {
+          this.getActual();
+          this.getPuertas();
+          this.toastService.showSuccess("Puerta seleccionada");
+        },
+        error => {
+          this.toastService.showSuccess(error.error ?? 'Algo salio mal');
+
+        }
+      )
+    }
+  }
+
+  deseleccionarPuerta(id: string) {
+
+    if (this.miTenant && this.portero && this.actual) {
+      this.asignacionService.desAsignar().subscribe(
+        response => {
+          this.actual = undefined;
+          this.getPuertas();
+          this.toastService.showSuccess("Puerta deseleccionada");
+        },
+        error => {
+          this.toastService.showError(error.error ?? 'Algo salio mal');
+
+        }
       )
     }
   }

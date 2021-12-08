@@ -1,4 +1,5 @@
 import { Edificio } from "./Edificio";
+import { Usuario } from "./Usuario";
 
 export class Puerta {
 
@@ -7,6 +8,9 @@ export class Puerta {
 
     edificioId?: string | undefined;
     edificio?: Edificio | undefined;
+
+    usuarioId?: string | undefined;
+    usuario?: Usuario | undefined;
 
     constructor(init?: Partial<Puerta>) {
         Object.assign(this, init);
