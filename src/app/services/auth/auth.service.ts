@@ -17,6 +17,10 @@ export class AuthService {
     return this.http.post<any>(this.URL + '/', data);
   }
 
+  isLogged() {
+    return this.http.get(this.URL + '/');
+  }
+  
   logOut() {
     localStorage.clear();
     this.router.navigate(['/login']);

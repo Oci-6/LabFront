@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { NgbModalConfig, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { faPlus, faEdit, faTrash, faHandPointer, faTimes } from '@fortawesome/free-solid-svg-icons';
@@ -47,6 +47,9 @@ export class PuertasComponent implements OnInit {
 
   @Input()
   edificioId: string | undefined;
+
+  @Output() 
+  newItemEvent = new EventEmitter<Asignacion>();
 
   actual: Puerta | undefined;
 
@@ -197,6 +200,8 @@ export class PuertasComponent implements OnInit {
         response => {
           this.getActual();
           this.getPuertas();
+          this.newItemEvent.emit(response);
+
           this.toastService.showSuccess("Puerta seleccionada");
         },
         error => {

@@ -214,7 +214,7 @@ export class PersonasComponent implements OnInit {
 
         },
         (error) => {
-          this.toastService.showError((error.message) ? error.message : 'Error del servidor')
+          this.toastService.showError((error.error) ? error.error : 'Error del servidor')
         }
 
       )

@@ -44,11 +44,11 @@
         </button>
     </div>
     <div class="modal-body">
-        <app-puertas [edificioId]="edificioId"></app-puertas>
+        <app-puertas [edificioId]="edificioId" (newItemEvent)="addAsignacion($event, b)"></app-puertas>
 
     </div>
     <div class="modal-footer">
-        <button class="btn btn-outline-dark" (click)="c('Save click')">Cerrar</button>
+        <button class="btn btn-outline-dark" (click)="c('Save click')" #b>Cerrar</button>
     </div>
 </ng-template>
 

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { faPlus, faEdit, faTrash, faCamera } from '@fortawesome/free-solid-svg-icons';
@@ -30,7 +30,7 @@ export class AsignacionesComponent implements OnInit {
     private edificioService: EdificioService,
     public authService: AuthService,
     private tenantService: TenantService,
-    private puertaService: PuertaService  
+    private puertaService: PuertaService
   ) {
     config.backdrop = 'static';
     config.keyboard = false;
@@ -83,8 +83,8 @@ export class AsignacionesComponent implements OnInit {
       error => {
         console.error(error);
       }
-    ) 
-    
+    )
+
     this.puertaService.getPuertasEdificio(this.edificioId).subscribe(
       response => {
         this.puertas = response;
@@ -99,11 +99,16 @@ export class AsignacionesComponent implements OnInit {
     this.modalService.open(content);
   }
 
+  addAsignacion(asignacion: Asignacion, button: HTMLButtonElement) {
+    this.getAsignacions();
+    button.click();
+  }
+
   editarModal(content: any, Asignacion: Asignacion) {
     this.editarAsignacion.patchValue(Asignacion);
     this.selectedAsignacion = Asignacion;
     console.log(this.selectedAsignacion);
-    
+
     this.modalService.open(content);
   }
 
@@ -116,7 +121,7 @@ export class AsignacionesComponent implements OnInit {
     if (this.edificioId) this.asignacionService.getAsignacionesEdificio(this.edificioId).subscribe(
       response => {
         this.asignaciones = response;
-        
+
       },
       error => {
         console.error(error);

@@ -226,7 +226,8 @@ export class EventosComponent implements OnInit {
 
       evento.fechaInicio?.setHours(this.agregarEvento.controls.horaInicio.value.hour, this.agregarEvento.controls.horaInicio.value.minute);
       evento.fechaFin?.setHours(this.agregarEvento.controls.horaFin.value.hour, this.agregarEvento.controls.horaFin.value.minute);
-
+      evento.fechaInicio = moment(evento.fechaInicio).utc().toDate();
+      evento.fechaFin = moment(evento.fechaFin).utc().toDate();
       evento.salonId = this.salonId;
       // if (this.soloUnDia(evento)) //{
       // //   if (!evento.domingo && !evento.lunes && !evento.martes && !evento.miercoles && !evento.jueves && !evento.viernes && !evento.sabado)
@@ -305,6 +306,8 @@ export class EventosComponent implements OnInit {
   convertirEventosToCalendarEvents(eventos: Evento[]): any[] {
     let res: any[] = [];
     eventos.forEach((element) => {
+      let fechaInicio = moment(element.fechaInicio);
+      let fechaFin = moment(element.fechaFin);
       if (this.soloUnDia(element)) {
         //Semanalmente
         if (element.semanalmente) {
@@ -313,10 +316,10 @@ export class EventosComponent implements OnInit {
               {
                 id: element.id,
                 title: element.nombre,
-                startRecur: moment(element.fechaInicio).format('yyyy-MM-DD'),
+                startRecur:fechaInicio.format('yyyy-MM-DD'),
                 daysOfWeek: this.convertirBooleanToArray(element),
-                startTime: this.localTimeString(element.fechaInicio),
-                endTime: this.localTimeString(element.fechaFin),
+                startTime: this.localTimeString(fechaInicio.toDate()),
+                endTime: this.localTimeString(fechaFin.toDate()),
               }
             )
         } else {
@@ -327,10 +330,10 @@ export class EventosComponent implements OnInit {
                 id: element.id,
                 title: element.nombre,
                 daysOfWeek: this.convertirBooleanToArray(element),
-                startRecur: moment(element.fechaInicio).format('yyyy-MM-DD'),
-                endRecur: moment(element.fechaFin).format('yyyy-MM-DD'),
-                startTime: this.localTimeString(element.fechaInicio),
-                endTime: this.localTimeString(element.fechaFin),
+                startRecur: fechaInicio.format('yyyy-MM-DD'),
+                endRecur: fechaFin.format('yyyy-MM-DD'),
+                startTime: this.localTimeString(fechaInicio.toDate()),
+                endTime: this.localTimeString(fechaFin.toDate()),
               }
             )
         }
@@ -342,10 +345,10 @@ export class EventosComponent implements OnInit {
               {
                 id: element.id,
                 title: element.nombre,
-                startRecur: moment(element.fechaInicio).format('yyyy-MM-DD'),
+                startRecur: fechaInicio.format('yyyy-MM-DD'),
                 daysOfWeek: this.convertirBooleanToArray(element),
-                startTime: this.localTimeString(element.fechaInicio),
-                endTime: this.localTimeString(element.fechaFin),
+                startTime: this.localTimeString(fechaInicio.toDate()),
+                endTime: this.localTimeString(fechaFin.toDate()),
               }
             )
         } else {
@@ -355,8 +358,8 @@ export class EventosComponent implements OnInit {
               {
                 id: element.id,
                 title: element.nombre,
-                start: moment(element.fechaInicio).toDate(),
-                end: moment(element.fechaFin).subtract(1, 'days').toDate(),
+                start: fechaInicio.toDate(),
+                end: fechaFin.subtract(1, 'days').toDate(),
 
               }
             )

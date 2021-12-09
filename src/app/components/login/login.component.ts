@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { Usuario } from 'src/app/models/Usuario';
 import { AuthService } from 'src/app/services/auth/auth.service';
 import { TenantService } from 'src/app/services/tenant/tenant.service';
+import { ToastService } from 'src/app/services/toast/toast.service';
 
 @Component({
   selector: 'app-login',
@@ -16,6 +17,7 @@ export class LoginComponent implements OnInit {
     private authService: AuthService,
     private router: Router,
     private tenantService: TenantService,
+    private toastService: ToastService
   ) { }
   
   iniciarSesionForm = new FormGroup({
@@ -45,7 +47,7 @@ export class LoginComponent implements OnInit {
           }
         },
         error => {
-          console.error(error);
+          this.toastService.showError(error.error?? "Algo salio mal")
         }
       )
 
