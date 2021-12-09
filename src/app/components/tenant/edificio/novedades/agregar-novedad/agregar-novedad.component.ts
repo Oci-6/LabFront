@@ -64,7 +64,9 @@ export class AgregarNovedadComponent implements OnInit {
         await this.novedadService.post(formData).toPromise();
         this.agregarNovedad.reset;
         this.toastService.showSuccess('Datos guardados correctamente');
+        this.router.navigate(['../../novedades/' + this.edificioId], {relativeTo: this.route});
         return true;
+        
 
       } catch (error) {
         this.toastService.showError('Error');

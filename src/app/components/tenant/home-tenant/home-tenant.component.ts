@@ -16,7 +16,6 @@ export class HomeTenantComponent implements OnInit , OnDestroy {
   isCollapsed: boolean = false;
   items: {label: string, routerLink: any}[] = [
     
-    {label: "Novedades", routerLink: ""},
     {label: "Edificios", routerLink: "edificios"},
   ];
 
@@ -54,6 +53,7 @@ export class HomeTenantComponent implements OnInit , OnDestroy {
         if(auth&&auth.roles.find((element: string) => element =='Admin')&&auth.usuario.tenantInstitucionId == tenant){
           this.items.push({label:"Porteros", routerLink: "porteros"});
           this.items.push({label:"Gestores", routerLink: "gestores"});
+          this.items.push({label:"Facturas", routerLink: "facturas"});
         }
         if(auth&&auth.roles.find((element: string) => element =='Portero'||element == 'Gestor')&&auth.usuario.tenantInstitucionId == tenant){
           this.items.push({label:"Personas", routerLink: "personas"});

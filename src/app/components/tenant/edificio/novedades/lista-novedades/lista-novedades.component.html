@@ -21,14 +21,14 @@
                     <td>{{ novedad.titulo }}</td>
                     <td>{{convertirFecha(novedad.creadoEn)}}</td>
                     <td>
-                        <button class="btn btn-outline-success mr-1" [routerLink]="'../../detalle-novedad/'+novedad.id">
+                        <button class="btn btn-outline-success mr-1" [routerLink]="'../../detalle-novedad/'+novedad.id" ngbTooltip="Detalle Novedad">
                             <fa-icon [icon]="faInfoCircle"></fa-icon>
                         </button>
                         <button *ngIf="miTenant&&gestor" class="btn btn-outline-warning mr-1"
-                            [routerLink]="'../../modificar-novedad/'+novedad.id">
+                            [routerLink]="'../../modificar-novedad/'+novedad.id" ngbTooltip="Modificar Novedad">
                             <fa-icon [icon]="faEdit"></fa-icon>
                         </button>
-                        <button *ngIf="miTenant&&gestor" class="btn btn-outline-danger" (click)="borrarModal(borrar,novedad)">
+                        <button *ngIf="miTenant&&gestor" class="btn btn-outline-danger" (click)="borrarModal(borrar,novedad)" ngbTooltip="Borrar Novedad">
                             <fa-icon [icon]="faTrash"></fa-icon>
                         </button>
                     </td>

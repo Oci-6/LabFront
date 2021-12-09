@@ -6,6 +6,8 @@ import { Novedad } from 'src/app/models/Novedad';
 import { NovedadService } from 'src/app/services/NovedadService/novedad.service';
 import { ToastService } from 'src/app/services/toast/toast.service';
 import { environment } from 'src/environments/environment';
+import { faClipboard } from '@fortawesome/free-solid-svg-icons';
+
 
 @Component({
   selector: 'app-modificar-novedad',
@@ -27,8 +29,8 @@ export class ModificarNovedadComponent implements OnInit {
   }
 
   editarNovedad: FormGroup = new FormGroup({
-    titulo: new FormControl('', Validators.required),
-    contenido: new FormControl('', Validators.required),
+    titulo: new FormControl(''),
+    contenido: new FormControl(''),
   });
 
   novedadId: string | undefined;
@@ -36,6 +38,9 @@ export class ModificarNovedadComponent implements OnInit {
   submitted: boolean | undefined = false;
   url: string = environment.apiURL.slice(0, environment.apiURL.length-4);
 
+  faClipboard = faClipboard;
+  file: File | undefined;
+  novedad: Novedad = {};
 
   ngOnInit(): void {
     // Route params
@@ -51,28 +56,46 @@ export class ModificarNovedadComponent implements OnInit {
         console.log(error);
       }
     )
-
-    
-
-
   }
 
-  onSubmit() {
-    // if (this.editarNovedad.valid) {
+  async onSubmit(): Promise<any>{
+    
+    if (this.editarNovedad.valid) {
 
-    //   let novedad = new Novedad(this.editarNovedad.value)
-    //   novedad.edificioId = this.selectedNovedad.edificioId;
+      const formData = new FormData();
+      formData.append("titulo", this.editarNovedad.controls.titulo.value);
+      formData.append("contenido", this.editarNovedad.controls.contenido.value);
 
-    //   this.novedadService.post(novedad).subscribe(
-    //     response => {
-    //       this.router.navigate(['/edificios/novedades/:id'])
-    //     },
-    //     error => {
-    //       console.error(error);
-    //     }
+      if (this.file) {
+        formData.append("ImagenFile", this.file);
+      }
 
-    //   )
-    // }
+      try {
+        await this.novedadService.put(formData, this.novedadId).toPromise();
+        this.editarNovedad.reset;
+        this.toastService.showSuccess('Datos guardados correctamente');
+        this.router.navigate(['../../novedades/' + this.selectedNovedad.edificioId], {relativeTo: this.route});
+        return true;
+        
+
+      } catch (error) {
+        this.toastService.showError('Error');
+        return false;
+      }
+
+    }
+  }
+
+  onFileSelected(event: any) {   
+
+    const file: File = event.target.files[0];
+
+    if (file) {
+
+      this.file = file;
+      this.novedad.imagen = URL.createObjectURL(file);
+
+    }
   }
 
   get f() { return this.editarNovedad.controls; }

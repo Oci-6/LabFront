@@ -29,7 +29,7 @@ export class NovedadService {
     return this.http.get<Novedad[]>(this.URL + `/Ultimas`);
   }
 
-  put(data:FormData, id:string) {
+  put(data:FormData, id:string | undefined) {
     return this.http.put(this.URL + `/${id}`, data);
   }
   
