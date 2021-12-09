@@ -59,6 +59,8 @@ export class FacturasComponent implements OnInit {
     this.pagoService.pagar(factura.id).subscribe(
       response => {
         console.log(response);
+        window.open(response.message, "_blanck");
+        console.log(response);
       },
       error => {
         console.log(error);

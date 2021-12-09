@@ -29,7 +29,7 @@ export class PagoService {
   }
 
   pagar(idFactura : string | undefined){
-    return this.http.get(this.URL+ `/Pagar/${idFactura}`);
+    return this.http.get<any>(this.URL+ `/Pagar/${idFactura}`);
   }
   
 }

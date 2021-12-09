@@ -23,30 +23,30 @@
                     <td>{{ edificio.longitud }}</td>
                     <td>
                         <button *ngIf="miTenant&&(admin||gestor)" class="btn btn-outline-warning mr-1"
-                            (click)="editarModal(editar,edificio)">
+                            (click)="editarModal(editar,edificio)" ngbTooltip="Editar Edificio">
                             <fa-icon [icon]="faEdit"></fa-icon>
                         </button>
                         <button *ngIf="miTenant&&(admin||gestor)" class="btn btn-outline-danger mr-1"
-                            (click)="borrarModal(borrar,edificio)">
+                            (click)="borrarModal(borrar,edificio)" ngbTooltip="Eliminar Edificio">
                             <fa-icon [icon]="faTrash"></fa-icon>
                         </button>
 
                         <button *ngIf="miTenant&&edificio.id" class="btn btn-outline-primary mr-1" label="Accesos"
-                            [routerLink]="edificio.id+'/accesos'">
+                            [routerLink]="edificio.id+'/accesos'" ngbTooltip="Accesos al Edificio">
                             <fa-icon [icon]="faPersonBooth"></fa-icon>
                         </button>
-                        <button class="btn btn-outline-success mr-1" (click)="mapModal(map,edificio)">
+                        <button class="btn btn-outline-success mr-1" (click)="mapModal(map,edificio)" ngbTooltip="Ubicación del Edificio">
                             <fa-icon [icon]="faMapMarkedAlt"></fa-icon>
                         </button>
                         <button class="btn btn-outline-dark mr-1" *ngIf="edificio.id"
-                            [routerLink]="'salones/'+edificio.id" label="Salones">
+                            [routerLink]="'salones/'+edificio.id" label="Salones" ngbTooltip="Salones del Edificio">
                             <fa-icon [icon]="faBoard"></fa-icon>
                         </button>
-                        <button class="btn btn-outline-secondary mr-1" label="Puertas" *ngIf="edificio.id"
+                        <button class="btn btn-outline-secondary mr-1" label="Puertas" ngbTooltip="Puertas del Edificio" *ngIf="edificio.id"
                             [routerLink]="'puertas/'+edificio.id">
                             <fa-icon [icon]="faDoor"></fa-icon>
                         </button>
-                        <button class="btn btn-outline-info mr-1" label="Novedades" *ngIf="edificio.id"
+                        <button class="btn btn-outline-info mr-1" label="Novedades" ngbTooltip="Novedades del Edificio" *ngIf="edificio.id"
                             [routerLink]="'novedades/'+edificio.id">
                             <fa-icon [icon]="faBell"></fa-icon>
                         </button>
