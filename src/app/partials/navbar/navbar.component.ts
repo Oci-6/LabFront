@@ -33,17 +33,18 @@ export class NavbarComponent implements OnInit {
 
           if (this.auth.roles.find((element: string) => element == 'SuperAdmin')) {
             this.items = [
-              { label: "Instituciones", routerLink: "/instituciones" },
-              { label: "Admin", routerLink: "/admins" },
+              { label: "Instituciones", routerLink: "" },
+              { label: "Admins", routerLink: "/admins" },
+              { label: "Productos", routerLink: "/productos" },
             ];
           }
-          if (this.auth.roles.find((element: string) => element == 'Admin')) {
-            this.items = [
-              // { label: "Mi institución", routerLink: "/"+this.auth.usuario.tenantInstitucionId },
-              { label: "Gestores", routerLink: "/" + this.auth.usuario.tenantInstitucionId + "/gestores" },
-              { label: "Porteros", routerLink: "/" + this.auth.usuario.tenantInstitucionId + "/porteros" },
-            ];
-          }
+          // if (this.auth.roles.find((element: string) => element == 'Admin')) {
+          //   this.items = [
+          //     // { label: "Mi institución", routerLink: "/"+this.auth.usuario.tenantInstitucionId },
+          //     { label: "Gestores", routerLink: "/" + this.auth.usuario.tenantInstitucionId + "/gestores" },
+          //     { label: "Porteros", routerLink: "/" + this.auth.usuario.tenantInstitucionId + "/porteros" },
+          //   ];
+          // }
 
         } else {
           this.items = [];

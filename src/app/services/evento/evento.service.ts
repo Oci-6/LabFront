@@ -21,8 +21,8 @@ export class EventoService {
       return this.http.get<Evento>(this.URL + `/${id}`);
     }
   
-    getAll() {
-      return this.http.get<Evento[]>(this.URL + `/`);
+    getAll(idSalon: string) {
+      return this.http.get<Evento[]>(this.URL + `/Salon/${idSalon}`);
     }
     
     put(data:Evento, id:string) {

@@ -22,6 +22,8 @@ import { FacturasComponent } from './components/tenant/facturas/facturas.compone
 import { AccesosComponent } from './components/tenant/edificio/accesos/accesos.component';
 import { UltimasNovedadesComponent } from './components/tenant/ultimas-novedades/ultimas-novedades.component';
 import { AsignacionesComponent } from './components/tenant/edificio/asignaciones/asignaciones.component';
+import { SuccessComponent } from './components/success/success.component';
+import { FailedComponent } from './components/failed/failed.component';
 
 const routes: Routes = [
 
@@ -29,6 +31,8 @@ const routes: Routes = [
   { path: "login", component: LoginComponent },
   { path: "admins", component: AdminsComponent },
   { path: 'productos', component: ProductosComponent },
+  { path: "success", component: SuccessComponent},
+  { path: "failed", component: FailedComponent},
   { path: 'productos/precios/:idProducto', component: PreciosComponent },
   {
     path: ":tenant", component: HomeTenantComponent, children: [
@@ -79,7 +83,7 @@ const routes: Routes = [
         path: 'edificios/:idEdificio/asignaciones', component: AsignacionesComponent
       }
     ]
-  }
+  },
 ];
 
 @NgModule({

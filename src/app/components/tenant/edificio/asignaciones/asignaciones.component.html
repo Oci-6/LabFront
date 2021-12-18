@@ -17,7 +17,7 @@
                 </tr>
             </thead>
             <tbody>
-                <tr *ngFor="let asignacion of asignaciones; index as i">
+                <tr *ngFor="let asignacion of asignaciones.items; index as i">
                     <th scope="row">{{ i + 1 }}</th>
                     <td>{{ asignacion.usuario?.nombre }} {{ asignacion.usuario?.apellido }}</td>
                     <td>{{ asignacion.puerta?.nombre }}</td>
@@ -33,6 +33,15 @@
                 </tr>
             </tbody>
         </table>
+        <div class="d-flex justify-content-between p-2">
+            <ngb-pagination [collectionSize]="asignaciones.total" [(page)]="page" [pageSize]="take" (pageChange)="getAsignacions()">
+            </ngb-pagination>
+            <select class="custom-select" style="width: auto" [(ngModel)]="take" (ngModelChange)="getAsignacions()">
+                <option [ngValue]="10">10 items por página</option>
+                <option [ngValue]="20">20 items por página</option>
+                <option [ngValue]="30">30 items por página</option>
+              </select>
+          </div>
     </div>
 </div>
 <ng-template #agregar let-c="close" let-d="dismiss">
@@ -99,20 +108,5 @@
     <div class="modal-footer">
         <button type="button" class="btn btn-outline-secondary" (click)="d()">Cancelar</button>
         <button type="button" class="btn btn-danger" (click)="onDelete(modal)">Confirmar</button>
-    </div>
-</ng-template>
-
-<ng-template #cam let-modal let-d="dismiss">
-    <div class="modal-header">
-        <h4 class="modal-title" id="modal-title">Reconocimiento facial</h4>
-        <button type="button" class="close" aria-describedby="modal-title" (click)="d('Cross click')">
-            <span aria-hidden="true">&times;</span>
-        </button>
-    </div>
-    <div class="modal-body">
-        <app-acceso></app-acceso>
-    </div>
-    <div class="modal-footer">
-        <button type="button" class="btn btn-outline-secondary" (click)="d()">Cerrar</button>
     </div>
 </ng-template>

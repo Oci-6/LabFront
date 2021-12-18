@@ -18,7 +18,7 @@
                 </tr>
             </thead>
             <tbody>
-                <tr *ngFor="let acceso of accesos; index as i">
+                <tr *ngFor="let acceso of accesos.items; index as i">
                     <th scope="row">{{ i + 1 }}</th>
                     <td>{{ acceso.persona?.nombre }} {{ acceso.persona?.apellido }}</td>
                     <td>{{ acceso.creadoEn | date}}</td>
@@ -33,6 +33,16 @@
                 </tr>
             </tbody>
         </table>
+        <div class="d-flex justify-content-between p-2">
+            <ngb-pagination [collectionSize]="personas.total" [(page)]="page" [pageSize]="10"
+                (pageChange)="getAccesos()">
+            </ngb-pagination>
+            <select class="custom-select" style="width: auto" [(ngModel)]="take" (ngModelChange)="getAccesos()">
+                <option [ngValue]="10">10 items por página</option>
+                <option [ngValue]="20">20 items por página</option>
+                <option [ngValue]="30">30 items por página</option>
+            </select>
+        </div>
     </div>
 </div>
 <ng-template #agregar let-c="close" let-d="dismiss">
@@ -54,7 +64,8 @@
                     </option>
                 </select> -->
                 <label for="persona" class="form-label">Persona</label>
-                <input  #query formControlName="personaId" class="form-control" list="datalistOptions" id="persona" placeholder="Type to search..." (keyup)="buscarPersonas(query.value)">
+                <input #query formControlName="personaId" class="form-control" list="datalistOptions" id="persona"
+                    placeholder="Type to search..." (keyup)="buscarPersonas(query.value)">
                 <datalist id="datalistOptions">
                     <option *ngFor="let persona of personas.items" [value]="persona.id">
                         {{persona.nombre + ' ' +persona.apellido +' ('+persona.documento+')'}}
@@ -82,7 +93,8 @@
 
             <div class="mb-3">
                 <label for="persona" class="form-label">Persona</label>
-                <input  #query formControlName="personaId" class="form-control" list="datalistOptions" id="persona" placeholder="Type to search..." (keyup)="buscarPersonas(query.value)">
+                <input #query formControlName="personaId" class="form-control" list="datalistOptions" id="persona"
+                    placeholder="Type to search..." (keyup)="buscarPersonas(query.value)">
                 <datalist id="datalistOptions">
                     <option *ngFor="let persona of personas.items" [value]="persona.id">
                         {{persona.nombre + ' ' +persona.apellido +' ('+persona.documento+')'}}
@@ -127,7 +139,7 @@
         </button>
     </div>
     <div class="modal-body">
-        <app-acceso></app-acceso>
+        <app-acceso (newItemEvent)="nuevoAcceso()"></app-acceso>
     </div>
     <div class="modal-footer">
         <button type="button" class="btn btn-outline-secondary" (click)="d()">Cerrar</button>

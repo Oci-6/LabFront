@@ -1,7 +1,8 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { WebcamImage, WebcamInitError } from 'ngx-webcam';
 import { Observable, Subject } from 'rxjs';
+import { Acceso } from 'src/app/models/Acceso';
 import { AccesoService } from 'src/app/services/acceso/acceso.service';
 import { ToastService } from 'src/app/services/toast/toast.service';
 
@@ -22,6 +23,8 @@ export class AccesoComponent implements OnInit {
   //Acceso
   edificioId: string | null = null;
 
+  @Output() 
+  newItemEvent = new EventEmitter<Acceso>();
   constructor(
     private accesoService: AccesoService,
     private route: ActivatedRoute,
@@ -73,8 +76,8 @@ export class AccesoComponent implements OnInit {
 
       this.accesoService.reconocer(formData).subscribe(
         (response) => {
-          console.log(response);
           this.toastService.showSuccess("Acceso correcto");
+          this.newItemEvent.emit(response);
         },
         (error) => {
           if (error.status == 404) {

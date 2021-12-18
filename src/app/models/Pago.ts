@@ -7,6 +7,8 @@ export class Pago {
     facturaId?: string | undefined;
     factura?: Factura | undefined;
 
+    creadoEn?: Date | undefined;
+
     constructor(init?: Partial<Pago>) {
         Object.assign(this, init);
     }

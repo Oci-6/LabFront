@@ -42,11 +42,13 @@ export class AsignacionesComponent implements OnInit {
   faTrash = faTrash;
   faCamera = faCamera;
 
-  asignaciones: Asignacion[] = [];
+  asignaciones: any = {};
   puertas: Puerta[] = [];
   selectedAsignacion: Asignacion | undefined;
   edificioId: string | undefined;
   edificio: Edificio = {};
+  page: number = 1;
+  take: number = 10;
 
   editarAsignacion: FormGroup = new FormGroup({
     puertaId: new FormControl('', Validators.required),
@@ -118,7 +120,7 @@ export class AsignacionesComponent implements OnInit {
   }
 
   getAsignacions() {
-    if (this.edificioId) this.asignacionService.getAsignacionesEdificio(this.edificioId).subscribe(
+    if (this.edificioId) this.asignacionService.getAsignacionesEdificio(this.edificioId, this.page.toString(), this.take.toString()).subscribe(
       response => {
         this.asignaciones = response;
 
@@ -139,7 +141,7 @@ export class AsignacionesComponent implements OnInit {
       this.asignacionService.put(asignacion, this.selectedAsignacion?.id).subscribe(
         response => {
 
-          this.asignaciones[this.asignaciones.findIndex((obj => obj.id == this.selectedAsignacion?.id))] = asignacion;
+          this.getAsignacions();
           this.toastService.showSuccess('Asignacion modificado');
 
         },
@@ -155,7 +157,7 @@ export class AsignacionesComponent implements OnInit {
     if (this.selectedAsignacion && this.selectedAsignacion.id) {
       this.asignacionService.delete(this.selectedAsignacion.id).subscribe(
         response => {
-          this.asignaciones = this.asignaciones.filter(e => e.id !== this.selectedAsignacion?.id);
+          this.getAsignacions();
           modal.close();
         },
         error => {

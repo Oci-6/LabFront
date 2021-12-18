@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { NgbModalConfig, NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { faPlus, faEdit, faTrash, faHistory } from '@fortawesome/free-solid-svg-icons';
+import { faPlus, faEdit, faTrash, faHistory, faCalendar } from '@fortawesome/free-solid-svg-icons';
 import { Edificio } from 'src/app/models/Edificio';
 import { ToastService } from 'src/app/services/toast/toast.service';
 import { FaDuotoneIconComponent } from '@fortawesome/angular-fontawesome';
@@ -35,11 +35,13 @@ export class PreciosComponent implements OnInit {
   faEdit = faEdit;
   faTrash = faTrash;
   faHistory = faHistory;
+  faCalendar = faCalendar;
 
 
   precios: Precio[] = [];
   selectedPrecio: Precio | undefined;
   productoId: string | undefined;
+  hoy: Date = new Date();
 
   agregarPrecio: FormGroup = new FormGroup({
     monto: new FormControl('', Validators.required),
@@ -59,7 +61,6 @@ export class PreciosComponent implements OnInit {
     this.precioService.getPreciosProducto(this.productoId).subscribe(
       response => {
         this.precios = response;
-        console.log(response);
         this.precios.sort((x, y) => {
           if (x.fecha_Validez && y.fecha_Validez) {
             if (x.fecha_Validez > y.fecha_Validez) {
@@ -105,12 +106,16 @@ export class PreciosComponent implements OnInit {
       this.precioService.post(precio).subscribe(
         response => {
           this.precios.push(response);
+          this.toastService.showSuccess("Precio agregado correctamente")
+
         },
         error => {
-          console.error(error);
+          this.toastService.showError(error.error ?? "Algo salio mal")
         }
 
       )
+    }else{
+      this.toastService.showError("Valores incorrectos")
     }
   }
 
@@ -122,17 +127,19 @@ export class PreciosComponent implements OnInit {
 
       this.precioService.put(precio, this.selectedPrecio?.id).subscribe(
         response => {
-          console.log("Before update: ", this.precios)
 
           this.precios[this.precios.findIndex((obj => obj.id == this.selectedPrecio?.id))] = precio;
 
-          console.log("After update: ", this.precios)
+          this.toastService.showSuccess("Precio modificado correctamente")
+
         },
         error => {
-          console.error(error);
+          this.toastService.showError(error.error ?? "Algo salio mal")
         }
 
       )
+    }else{
+      this.toastService.showError("Valores incorrectos")
     }
   }
 
@@ -142,13 +149,16 @@ export class PreciosComponent implements OnInit {
         response => {
           this.precios = this.precios.filter(e => e.id !== this.selectedPrecio?.id);
           modal.close();
+          this.toastService.showSuccess("Precio eliminado correctamente")
+
         },
         error => {
-          console.error(error);
-
+          this.toastService.showError(error.error ?? "Algo salio mal")
         }
 
       )
+    }else{
+      this.toastService.showError("Valores incorrectos")
     }
   }
 

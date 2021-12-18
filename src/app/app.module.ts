@@ -42,6 +42,8 @@ import { CustomAdapter, CustomDateParserFormatter } from './libs/CustomDateParse
 import { AccesosComponent } from './components/tenant/edificio/accesos/accesos.component';
 import { UltimasNovedadesComponent } from './components/tenant/ultimas-novedades/ultimas-novedades.component';
 import { AsignacionesComponent } from './components/tenant/edificio/asignaciones/asignaciones.component';
+import { SuccessComponent } from './components/success/success.component';
+import { FailedComponent } from './components/failed/failed.component';
 FullCalendarModule.registerPlugins([ // register FullCalendar plugins
   dayGridPlugin,
   interaction
@@ -75,6 +77,8 @@ FullCalendarModule.registerPlugins([ // register FullCalendar plugins
     AccesosComponent,
     UltimasNovedadesComponent,
     AsignacionesComponent,
+    SuccessComponent,
+    FailedComponent,
   ],
   imports: [
     WebcamModule,

@@ -41,22 +41,23 @@ export class PersonasComponent implements OnInit {
   foto: File | undefined;
   page: number = 1;
   query: string = '';
+  take: number = 10;
 
   //Forms
   agregarPersona: FormGroup = new FormGroup({
-    email: new FormControl('', Validators.required),
-    tipoDocumento: new FormControl('', Validators.required),
-    documento: new FormControl('', Validators.required),
-    nombre: new FormControl('', Validators.required),
+    email: new FormControl('',Validators.compose(
+      [Validators.email, Validators.required])),    tipoDocumento: new FormControl('', Validators.required),
+    documento: new FormControl('',Validators.compose(
+      [Validators.minLength(8),Validators.maxLength(12), Validators.required])),    nombre: new FormControl('', Validators.required),
     apellido: new FormControl('', Validators.required),
     telefono: new FormControl('', Validators.pattern('[- +()0-9]+')),
   });
 
   editarPersona: FormGroup = new FormGroup({
-    email: new FormControl('', Validators.required),
-    tipoDocumento: new FormControl('', Validators.required),
-    documento: new FormControl('', Validators.required),
-    nombre: new FormControl('', Validators.required),
+    email: new FormControl('',Validators.compose(
+      [Validators.email, Validators.required])),    tipoDocumento: new FormControl('', Validators.required),
+    documento: new FormControl('',Validators.compose(
+      [Validators.minLength(8),Validators.maxLength(12), Validators.required])),    nombre: new FormControl('', Validators.required),
     apellido: new FormControl('', Validators.required),
     telefono: new FormControl('', Validators.pattern('[- +()0-9]+')),
 
@@ -79,7 +80,7 @@ export class PersonasComponent implements OnInit {
     // )
     console.log(this.query);
     
-    this.personaService.search(this.query,this.page.toString()).subscribe(
+    this.personaService.search(this.query,this.page.toString(), this.take.toString()).subscribe(
       response=>{
         this.personas = response;
         console.log(response);

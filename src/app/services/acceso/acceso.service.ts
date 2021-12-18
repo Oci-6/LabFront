@@ -9,32 +9,42 @@ import { environment } from 'src/environments/environment';
 })
 export class AccesoService {
 
-  private URL = environment.apiURL+'Acceso';
+  private URL = environment.apiURL + 'Acceso';
 
   constructor(
     private http: HttpClient
-  ) {}
+  ) { }
 
-    reconocer(data: FormData) {
-      return this.http.post<Usuario>(this.URL + `/Reconocer`, data);
-    }
-  
-    getAll(idEdificio: string) {
-      return this.http.get<Acceso[]>(this.URL + `/Edificio/`+idEdificio);
-    }
-    
-    post(data: Acceso) {
-      return this.http.post<Acceso>(this.URL + `/`, data);
-    }
-  
-    get(id: string) {
-      return this.http.get<Acceso>(this.URL + `/${id}`);
-    }
-  
-    put(data:Acceso, id:string) {
-      return this.http.put(this.URL + `/${id}`,data);
-    }
-    delete(id:string) {
-      return this.http.delete(this.URL + `/${id}`);
-    }
+  reconocer(data: FormData) {
+    return this.http.post<Usuario>(this.URL + `/Reconocer`, data);
+  }
+
+  getAll(idEdificio: string, page?: string, take?: string) {
+
+    let urlSearchParams = new URLSearchParams({
+      page: page ?? '1',
+      take: take ?? '10'
+    })
+
+    return this.http.get<{
+      pageIndex: number,
+      totalPages: number,
+      items: []
+    }>(this.URL + `/Edificio/${idEdificio}?` + urlSearchParams);
+  }
+
+  post(data: Acceso) {
+    return this.http.post<Acceso>(this.URL + `/`, data);
+  }
+
+  get(id: string) {
+    return this.http.get<Acceso>(this.URL + `/${id}`);
+  }
+
+  put(data: Acceso, id: string) {
+    return this.http.put(this.URL + `/${id}`, data);
+  }
+  delete(id: string) {
+    return this.http.delete(this.URL + `/${id}`);
+  }
 }

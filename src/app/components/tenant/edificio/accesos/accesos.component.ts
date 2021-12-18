@@ -40,11 +40,13 @@ export class AccesosComponent implements OnInit {
   faTrash = faTrash;
   faCamera = faCamera;
 
-  accesos: Acceso[] = [];
+  accesos: any = {};
   personas: any = {};
   selectedAcceso: Acceso | undefined;
   edificioId: string | undefined;
   edificio: Edificio = {};
+page: number = 1;
+take: number = 10;
 
   agregarAcceso: FormGroup = new FormGroup({
     personaId: new FormControl('', Validators.required),
@@ -162,7 +164,7 @@ export class AccesosComponent implements OnInit {
       this.accesoService.put(acceso, this.selectedAcceso?.id).subscribe(
         response => {
 
-          this.accesos[this.accesos.findIndex((obj => obj.id == this.selectedAcceso?.id))] = acceso;
+          this.getAccesos();
           this.toastService.showSuccess('Acceso modificado');
 
         },
@@ -178,11 +180,11 @@ export class AccesosComponent implements OnInit {
     if (this.selectedAcceso && this.selectedAcceso.id) {
       this.accesoService.delete(this.selectedAcceso.id).subscribe(
         response => {
-          this.accesos = this.accesos.filter(e => e.id !== this.selectedAcceso?.id);
+          this.getAccesos();
           modal.close();
         },
         error => {
-          console.error(error);
+          this.toastService.showError((error.body) ? error.body : 'Error del servidor');
 
         }
 
@@ -190,5 +192,9 @@ export class AccesosComponent implements OnInit {
     }
   }
 
+  nuevoAcceso() {
+    this.getAccesos()
+    this.modalService.dismissAll();
+  }
 
 }

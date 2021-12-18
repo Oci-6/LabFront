@@ -34,7 +34,7 @@ export class PersonaService {
     return this.http.get<Persona[]>(this.URL + `/`);
   }
 
-  search(query?: string, page?: string) {
+  search(query?: string, page?: string, take?: string) {
 
     let urlSearchParams = new URLSearchParams({
       page: page ?? '1',

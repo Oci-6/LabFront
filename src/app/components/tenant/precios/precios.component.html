@@ -20,10 +20,10 @@
                     <td>{{ precio.monto }}</td>
                     <td>{{ convertirFecha(precio.fecha_Validez) }}</td>
                     <td>
-                        <button class="btn btn-outline-warning mr-1" (click)="editarModal(editar,precio)">
+                        <button class="btn btn-outline-warning mr-1" ngbTooltip="Editar Precio" (click)="editarModal(editar,precio)">
                             <fa-icon [icon]="faEdit"></fa-icon>
                         </button>
-                        <button class="btn btn-outline-danger mr-1" (click)="borrarModal(borrar,precio)">
+                        <button class="btn btn-outline-danger mr-1" ngbTooltip="Borrar Precio"(click)="borrarModal(borrar,precio)">
                             <fa-icon [icon]="faTrash"></fa-icon>
                         </button>
                     </td>
@@ -51,7 +51,16 @@
 
             <div class="mb-3">
                 <label for="fecha_Validez" class="form-label">Fecha de Validez</label>
-                <input type="fecha_Validez" formControlName="fecha_Validez" class="form-control" id="fecha_Validez">
+                <div class="input-group">
+                    <input formControlName="fecha_Validez" class="form-control" id="fecha_Validez"
+                        placeholder="dd/mm/yyyy" name="dp" ngbDatepicker #validez="ngbDatepicker" [minDate]="{year: hoy.getFullYear(), month: hoy.getMonth()+1, day: hoy.getDate()}">
+
+                    <div class="input-group-append">
+                        <button class="btn btn-outline-secondary calendar" (click)="validez.toggle()" type="button">
+                            <fa-icon [icon]="faCalendar"></fa-icon>
+                        </button>
+                    </div>
+                </div>
             </div>
 
         </div>
@@ -80,7 +89,16 @@
 
             <div class="mb-3">
                 <label for="fecha_Validez" class="form-label">Fecha de Validez</label>
-                <input type="fecha_Validez" formControlName="fecha_Validez" class="form-control" id="fecha_Validez">
+                <div class="input-group">
+                    <input formControlName="fecha_Validez" class="form-control" id="fecha_Validez"
+                        placeholder="dd/mm/yyyy" name="dp" ngbDatepicker #validez="ngbDatepicker">
+
+                    <div class="input-group-append">
+                        <button class="btn btn-outline-secondary calendar" (click)="validez.toggle()" type="button">
+                            <fa-icon [icon]="faCalendar"></fa-icon>
+                        </button>
+                    </div>
+                </div>
             </div>
 
         </div>
@@ -94,18 +112,18 @@
     <div class="modal-header">
         <h4 class="modal-title" id="modal-title">Borrar Precio</h4>
         <button type="button" class="close" aria-describedby="modal-title" (click)="d('Cross click')">
-          <span aria-hidden="true">&times;</span>
+            <span aria-hidden="true">&times;</span>
         </button>
-      </div>
-      <div class="modal-body">
+    </div>
+    <div class="modal-body">
         <p><strong>¿Esta seguro que quiere eliminar el precio?</strong></p>
         <p>Toda la información asociada se eliminara permanentemente
             <br>
-        <span class="text-danger">Esta operación no se puede deshacer.</span>
+            <span class="text-danger">Esta operación no se puede deshacer.</span>
         </p>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-outline-secondary"  (click)="d()">Cancelar</button>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-outline-secondary" (click)="d()">Cancelar</button>
         <button type="button" class="btn btn-danger" (click)="onDelete(modal)">Confirmar</button>
-      </div>
+    </div>
 </ng-template>

@@ -82,7 +82,7 @@ export class EdificiosComponent implements OnInit {
         this.edificios = response;
       },
       error => {
-        console.error(error);
+        this.toastService.showError((error.body) ? error.body : 'Error del servidor');
       }
 
     )
@@ -121,10 +121,11 @@ export class EdificiosComponent implements OnInit {
 
       this.edificioService.post(edificio).subscribe(
         response => {
-          this.edificios.push(response);
+          this.toastService.showSuccess('Edificio agregado');
+          this.getEdificios();
         },
         error => {
-          console.error(error);
+          this.toastService.showError(error.error ?? 'Error del servidor');
         }
 
       )
@@ -139,11 +140,12 @@ export class EdificiosComponent implements OnInit {
 
       this.edificioService.put(edificio, this.selectedEdificio?.id).subscribe(
         response => {
-          this.edificios[this.edificios.findIndex((obj => obj.id == this.selectedEdificio?.id))] = edificio;
           this.getEdificios();
+          this.toastService.showSuccess('Edificio agregado');
+
         },
         error => {
-          console.error(error);
+          this.toastService.showError(error.error ?? 'Error del servidor');
         }
 
       )
@@ -156,9 +158,11 @@ export class EdificiosComponent implements OnInit {
         response => {
           this.edificios = this.edificios.filter(e => e.id !== this.selectedEdificio?.id);
           modal.close();
+          this.toastService.showSuccess('Edificio agregado');
+
         },
         error => {
-          console.error(error);
+          this.toastService.showError(error.error ?? 'Error del servidor');
 
         }
 

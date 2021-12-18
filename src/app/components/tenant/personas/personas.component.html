@@ -13,9 +13,10 @@
                 <fa-icon [icon]="faCheck"></fa-icon>
             </button>
             <input style="display: none;" type="file" accept=".xlsx" #file (change)="onExcelSelected($event)">
-            
+
         </h5>
-        <input class="form-control" type="text" [(ngModel)]="query" (keyup)="getPersonas()" placeholder="Buscar personas...">
+        <input class="form-control" type="text" [(ngModel)]="query" (keyup)="getPersonas()"
+            placeholder="Buscar personas...">
 
         <table class="table table-striped p-col">
             <thead>
@@ -43,9 +44,16 @@
             </tbody>
         </table>
         <div class="d-flex justify-content-between p-2">
-            <ngb-pagination [collectionSize]="personas.total" [(page)]="page" [pageSize]="10" (pageChange)="getPersonas()">
+            <ngb-pagination [collectionSize]="personas.total" [(page)]="page" [pageSize]="10"
+                (pageChange)="getPersonas()">
             </ngb-pagination>
-          </div>
+            <select class="custom-select" style="width: auto" [(ngModel)]="take" (ngModelChange)="getPersonas()">
+                <option [ngValue]="10">10 items por página</option>
+                <option [ngValue]="20">20 items por página</option>
+                <option [ngValue]="30">30 items por página</option>
+            </select>
+        </div>
+
     </div>
 </div>
 
@@ -110,7 +118,7 @@
         </div>
         <div class="modal-body">
 
-           
+
             <div class="mb-3">
                 <label for="email" class="form-label">Correo electronico</label>
                 <input type="email" class="form-control" formControlName="email" id="email">
@@ -139,7 +147,7 @@
                 <label for="telefono" class="form-label">Teléfono</label>
                 <input class="form-control" formControlName="telefono" id="telefono">
             </div>
-            
+
         </div>
         <div class="modal-footer">
             <button type="submit" class="btn btn-outline-dark" (click)="c('Save click')">Guardar</button>
@@ -151,18 +159,19 @@
     <div class="modal-header">
         <h4 class="modal-title" id="modal-title">Borrar Persona</h4>
         <button type="button" class="close" aria-describedby="modal-title" (click)="d('Cross click')">
-          <span aria-hidden="true">&times;</span>
+            <span aria-hidden="true">&times;</span>
         </button>
-      </div>
-      <div class="modal-body">
-        <p><strong>¿Esta seguro que quiere eliminar la persona <span class="text-primary">"{{selectedPersona?.email}}"</span>?</strong></p>
+    </div>
+    <div class="modal-body">
+        <p><strong>¿Esta seguro que quiere eliminar la persona <span
+                    class="text-primary">"{{selectedPersona?.email}}"</span>?</strong></p>
         <p>Toda la información asociada se eliminara permanentemente
             <br>
-        <span class="text-danger">Esta operación no se puede deshacer.</span>
+            <span class="text-danger">Esta operación no se puede deshacer.</span>
         </p>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-outline-secondary"  (click)="d()">Cancelar</button>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-outline-secondary" (click)="d()">Cancelar</button>
         <button type="button" class="btn btn-danger" (click)="onDelete(modal)">Confirmar</button>
-      </div>
+    </div>
 </ng-template>

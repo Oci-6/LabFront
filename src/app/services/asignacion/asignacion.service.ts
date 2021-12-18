@@ -28,8 +28,17 @@ export class AsignacionService {
   desAsignar() {
     return this.http.put(this.URL, {});
   }
-  getAsignacionesEdificio(id: string) {
-    return this.http.get<Asignacion[]>(this.URL + `/Edificio` + `/${id}`);
+  getAsignacionesEdificio(id: string, page?: string, take?: string) {
+    let urlSearchParams = new URLSearchParams({
+      page: page ?? '1',
+      take: take ?? '10'
+    })
+
+    return this.http.get<{
+      pageIndex: number,
+      totalPages: number,
+      items: []
+    }>(this.URL+ `/Edificio/${id}?`+urlSearchParams);
   }
   
   put(data:Asignacion, id:string) {

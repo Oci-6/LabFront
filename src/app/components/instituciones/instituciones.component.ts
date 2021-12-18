@@ -9,6 +9,7 @@ import { TenantService } from 'src/app/services/tenant/tenant.service';
 import { Router } from '@angular/router';
 import { Producto } from 'src/app/models/Producto';
 import { ProductoService } from 'src/app/services/ProductoService/producto.service';
+import { ToastService } from 'src/app/services/toast/toast.service';
 
 @Component({
   selector: 'app-instituciones',
@@ -25,6 +26,7 @@ export class InstitucionesComponent implements OnInit {
     private router: Router,
     private productoService: ProductoService,
     config: NgbModalConfig, 
+    private toastService: ToastService
 
 ) {
     config.backdrop = 'static';
@@ -45,7 +47,8 @@ export class InstitucionesComponent implements OnInit {
   productos: Producto[] = [];
 
   agregarInstitucion: FormGroup = new FormGroup({
-    rut: new FormControl('', Validators.required),
+    rut: new FormControl('',Validators.compose(
+      [Validators.maxLength(12),Validators.maxLength(12), Validators.required])),
     razonSocial: new FormControl('', Validators.required),
     productoId: new FormControl('', Validators.required),
   });
@@ -107,12 +110,16 @@ export class InstitucionesComponent implements OnInit {
         response => {
           this.instituciones.push(response);
           this.agregarInstitucion.reset();
+          this.toastService.showSuccess("Institucion agregada");
         },
         error => {
-          console.error(error);
+            this.toastService.showError(typeof error.error == "string" ? error.error : "Algo salió mal");
         }
 
       )
+    }else{
+      this.toastService.showError("Valores inválidos");
+
     }
   }
 
@@ -128,9 +135,11 @@ export class InstitucionesComponent implements OnInit {
           this.instituciones[this.instituciones.findIndex((obj => obj.id == this.selectedInstitucion?.id))] = institucion;
 
           this.agregarInstitucion.reset();
+          this.toastService.showSuccess("Institucion modificada");
+
         },
         error => {
-          console.error(error);
+          this.toastService.showError(error.error ? typeof error.error == "string" ? error.error : error.error.errors: "Algo salio mal");
         }
 
       )
@@ -143,9 +152,11 @@ export class InstitucionesComponent implements OnInit {
         response => {
           this.instituciones = this.instituciones.filter(e => e.id !== this.selectedInstitucion?.id);
           modal.close();
+          this.toastService.showSuccess("Institucion eliminada");
+
         },
         error => {
-          console.error(error);
+          this.toastService.showError(error.error ? typeof error.error == "string" ? error.error : error.error.errors: "Algo salio mal");
 
         }
 

@@ -207,16 +207,17 @@ export class EventosComponent implements OnInit {
   }
 
   getEventos() {
-    this.eventoService.getAll().subscribe(
-      response => {
-        this.eventos = response
-        this.calendarOptions.events = this.convertirEventosToCalendarEvents(this.eventos);
-      },
-      error => {
-        this.toastService.showError((error.message) ? error.message : 'Error del servidor');
-      }
+    if (this.salonId)
+      this.eventoService.getAll(this.salonId).subscribe(
+        response => {
+          this.eventos = response
+          this.calendarOptions.events = this.convertirEventosToCalendarEvents(this.eventos);
+        },
+        error => {
+          this.toastService.showError((error.message) ? error.message : 'Error del servidor');
+        }
 
-    )
+      )
   }
 
   onSubmit() {
@@ -316,7 +317,7 @@ export class EventosComponent implements OnInit {
               {
                 id: element.id,
                 title: element.nombre,
-                startRecur:fechaInicio.format('yyyy-MM-DD'),
+                startRecur: fechaInicio.format('yyyy-MM-DD'),
                 daysOfWeek: this.convertirBooleanToArray(element),
                 startTime: this.localTimeString(fechaInicio.toDate()),
                 endTime: this.localTimeString(fechaFin.toDate()),

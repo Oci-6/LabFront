@@ -119,12 +119,17 @@ export class SalonesComponent implements OnInit {
       this.salonService.post(salon).subscribe(
         response => {
           this.salones.push(response);
+          this.toastService.showSuccess('Salon agregado');
+
         },
         error => {
-          console.error(error);
+          this.toastService.showError(error.error ?? 'Error del servidor');
         }
 
       )
+    }else{
+      this.toastService.showError('Valores incorrectos');
+
     }
   }
 
@@ -137,12 +142,17 @@ export class SalonesComponent implements OnInit {
       this.salonService.put(salon, this.selectedSalon?.id).subscribe(
         response => {
           this.salones[this.salones.findIndex((obj => obj.id == this.selectedSalon?.id))] = salon;
+          this.toastService.showSuccess('Salon modificado');
+
         },
         error => {
-          console.error(error);
+          this.toastService.showError(error.error ?? 'Error del servidor');
         }
 
       )
+    }else{
+      this.toastService.showError('Valores incorrectos');
+
     }
   }
 
@@ -152,9 +162,11 @@ export class SalonesComponent implements OnInit {
         response => {
           this.salones = this.salones.filter(e => e.id !== this.selectedSalon?.id);
           modal.close();
+          this.toastService.showSuccess('Salon borrado');
+
         },
         error => {
-          console.error(error);
+          this.toastService.showError(error.error ?? 'Error del servidor');
 
         }
 

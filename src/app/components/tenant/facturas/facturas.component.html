@@ -18,8 +18,11 @@
                     <td>{{ factura.importe }}</td>
                     <td>{{ convertirFecha(factura.fecha_Vencimiento) }}</td>
                     <td >
-                        <button class="btn btn-outline-success mr-1" *ngIf="!factura.pago" (click)="pagar(factura)">
+                        <button class="btn btn-outline-success mr-1" *ngIf="!factura.pago&&admin" (click)="pagar(factura)" ngbTooltip="Pagar factura">
                             <fa-icon [icon]="faMoneyBillWave"></fa-icon>
+                        </button>
+                        <button class="btn btn-outline-info mr-1" *ngIf="factura.pago" (click)="abrirModal(factura.pago, pago)" ngbTooltip="Ver pago">
+                            <fa-icon [icon]="faReceipt"></fa-icon>
                         </button>
                     </td>
                 </tr>
@@ -27,3 +30,27 @@
         </table>
     </div>
 </div>
+
+<ng-template #pago let-c="close" let-d="dismiss">
+
+        <div class="modal-header">
+            <h4 class="modal-title" id="modal-basic-title">Información del Pago</h4>
+            <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body">
+
+            <div class="mb-3">
+                <strong>Fecha de Pago:</strong> {{selectedPago?.creadoEn | date}}
+            </div>
+            <div class="mb-3">
+                <strong>Importe:</strong> {{selectedPago?.monto}}
+            </div>
+
+
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-outline-dark" (click)="c('Save click')">Cerrar</button>
+        </div>
+</ng-template>

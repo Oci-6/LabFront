@@ -41,6 +41,7 @@ export class HomeTenantComponent implements OnInit , OnDestroy {
           this.tenantService.setTenant(tenant);
           this.items.unshift({label: "Home", routerLink: "/"+tenant});
           this.razonSocial = response.razonSocial;
+          this.tenant = tenant;
         },
         (error) => {
           this.toastService.showError("No existe institución");

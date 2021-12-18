@@ -40,10 +40,12 @@ export class AdminsComponent implements OnInit {
 
   //Forms
   agregarAdmin: FormGroup = new FormGroup({
-    email: new FormControl('', Validators.required),
+    email: new FormControl('',Validators.compose(
+      [Validators.email, Validators.required])),
     password: new FormControl('', Validators.required),
     tipoDocumento: new FormControl('', Validators.required),
-    documento: new FormControl('', Validators.required),
+    documento: new FormControl('', Validators.compose(
+      [Validators.minLength(8),Validators.maxLength(12), Validators.required])),
     nombre: new FormControl('', Validators.required),
     apellido: new FormControl('', Validators.required),
     phoneNumber: new FormControl('', Validators.pattern('[- +()0-9]+')),
@@ -52,9 +54,12 @@ export class AdminsComponent implements OnInit {
   });
 
   editarAdmin: FormGroup = new FormGroup({
-    email: new FormControl('', Validators.required),
+    email: new FormControl('',Validators.compose(
+      [Validators.email, Validators.required])),
     tipoDocumento: new FormControl('', Validators.required),
-    documento: new FormControl('', Validators.required),
+    documento: new FormControl('',Validators.compose(
+      [Validators.minLength(8),Validators.maxLength(12), Validators.required])),
+    
     nombre: new FormControl('', Validators.required),
     apellido: new FormControl('', Validators.required),
     phoneNumber: new FormControl('', Validators.pattern('[- +()0-9]+')),
@@ -119,6 +124,10 @@ export class AdminsComponent implements OnInit {
         }
 
       )
+    }else{
+      this.toastService.showError("Valores inválidos");
+      console.log(this.agregarAdmin);
+      
     }
   }
 
@@ -140,6 +149,8 @@ export class AdminsComponent implements OnInit {
         }
 
       )
+    }else{
+      this.toastService.showError("Valores inválidos");
     }
   }
 

@@ -19,6 +19,8 @@ export class UltimasNovedadesComponent implements OnInit {
   ngOnInit(): void {
     this.novedadService.getUltimas().subscribe(
       response => {
+        console.log(response);
+        
         this.novedades = response;
 
       }
