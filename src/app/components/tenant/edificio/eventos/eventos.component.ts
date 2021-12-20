@@ -51,7 +51,6 @@ export class EventosComponent implements OnInit {
       horaInicio: new FormControl({ hour: 0, minute: 0 }, Validators.required),
       horaFin: new FormControl({ hour: 0, minute: 0 }, Validators.required),
       semanalmente: new FormControl(false),
-      mensualmente: new FormControl(false),
       lunes: new FormControl(false),
       martes: new FormControl(false),
       miercoles: new FormControl(false),
@@ -70,7 +69,6 @@ export class EventosComponent implements OnInit {
       horaInicio: new FormControl({ hour: 0, minute: 0 }, Validators.required),
       horaFin: new FormControl({ hour: 0, minute: 0 }, Validators.required),
       semanalmente: new FormControl(false),
-      mensualmente: new FormControl(false),
       lunes: new FormControl(false),
       martes: new FormControl(false),
       miercoles: new FormControl(false),
@@ -124,7 +122,6 @@ export class EventosComponent implements OnInit {
         horaInicio: new FormControl({ hour: 0, minute: 0 }, Validators.required),
         horaFin: new FormControl({ hour: 0, minute: 0 }, Validators.required),
         semanalmente: new FormControl(false),
-        mensualmente: new FormControl(false),
         lunes: new FormControl(false),
         martes: new FormControl(false),
         miercoles: new FormControl(false),
@@ -166,7 +163,6 @@ export class EventosComponent implements OnInit {
         horaInicio: new FormControl({ hour: 0, minute: 0 }, Validators.required),
         horaFin: new FormControl({ hour: 0, minute: 0 }, Validators.required),
         semanalmente: new FormControl(false),
-        mensualmente: new FormControl(false),
         lunes: new FormControl(false),
         martes: new FormControl(false),
         miercoles: new FormControl(false),
@@ -198,9 +194,9 @@ export class EventosComponent implements OnInit {
     let tenant = this.tenantService.getTenant();
 
     if (auth) {
-      this.miTenant = auth.usuario.tenantInstitucionId == tenant || auth.roles.find((element: string) => element == 'SuperAdmin') != undefined;
-      this.admin = auth.roles.find((element: string) => element == 'Admin' || element == 'SuperAdmin') != undefined;
-      this.gestor = auth.roles.find((element: string) => element == 'Gestor' || element == 'SuperAdmin') != undefined;
+      this.miTenant = auth.usuario.tenantInstitucionId == tenant;
+      this.admin = auth.roles.find((element: string) => element == 'Admin') != undefined;
+      this.gestor = auth.roles.find((element: string) => element == 'Gestor') != undefined;
       this.calendarOptions.selectable = this.miTenant && this.gestor;
     }
 

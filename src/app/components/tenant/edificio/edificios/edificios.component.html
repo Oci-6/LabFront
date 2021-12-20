@@ -50,7 +50,7 @@
                             [routerLink]="'novedades/'+edificio.id">
                             <fa-icon [icon]="faBell"></fa-icon>
                         </button>
-                        <button class="btn btn-outline-info mr-1" ngbTooltip="Asignaciones de puertas" *ngIf="edificio.id"
+                        <button class="btn btn-outline-info mr-1" ngbTooltip="Asignaciones de puertas" *ngIf="miTenant&&edificio.id"
                             [routerLink]="edificio.id+'/asignaciones'">
                             <fa-icon [icon]="faMapSigns"></fa-icon>
                         </button>
@@ -74,7 +74,7 @@
 
             <div class="mb-3">
                 <label for="nombre" class="form-label">Nombre</label>
-                <input type="nombre" class="form-control" formControlName="nombre" id="nombre">
+                <input type="text" class="form-control" formControlName="nombre" id="nombre">
             </div>
 
             <agm-map [latitude]="lat" [longitude]="lng" (mapClick)="onChange($event)">

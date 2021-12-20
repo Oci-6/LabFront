@@ -20,10 +20,12 @@
                     <td>{{ precio.monto }}</td>
                     <td>{{ convertirFecha(precio.fecha_Validez) }}</td>
                     <td>
-                        <button class="btn btn-outline-warning mr-1" ngbTooltip="Editar Precio" (click)="editarModal(editar,precio)">
+                        <button class="btn btn-outline-warning mr-1" ngbTooltip="Editar Precio"
+                            (click)="editarModal(editar,precio)">
                             <fa-icon [icon]="faEdit"></fa-icon>
                         </button>
-                        <button class="btn btn-outline-danger mr-1" ngbTooltip="Borrar Precio"(click)="borrarModal(borrar,precio)">
+                        <button class="btn btn-outline-danger mr-1" ngbTooltip="Borrar Precio"
+                            (click)="borrarModal(borrar,precio)">
                             <fa-icon [icon]="faTrash"></fa-icon>
                         </button>
                     </td>
@@ -46,14 +48,21 @@
 
             <div class="mb-3">
                 <label for="monto" class="form-label">Monto</label>
-                <input type="monto" class="form-control" formControlName="monto" id="monto">
+                <div class="input-group mb-3">
+                    <span class="input-group-text">US$</span>
+                    <input type="number" class="form-control" formControlName="monto" id="monto"
+                        placeholder="Precio en dolares"  min="1">
+                    <span class="input-group-text">.00</span>
+                </div>
             </div>
+
 
             <div class="mb-3">
                 <label for="fecha_Validez" class="form-label">Fecha de Validez</label>
                 <div class="input-group">
                     <input formControlName="fecha_Validez" class="form-control" id="fecha_Validez"
-                        placeholder="dd/mm/yyyy" name="dp" ngbDatepicker #validez="ngbDatepicker" [minDate]="{year: hoy.getFullYear(), month: hoy.getMonth()+1, day: hoy.getDate()}">
+                        placeholder="dd/mm/yyyy" name="dp" ngbDatepicker #validez="ngbDatepicker"
+                        [minDate]="{year: hoy.getFullYear(), month: hoy.getMonth()+1, day: hoy.getDate()}">
 
                     <div class="input-group-append">
                         <button class="btn btn-outline-secondary calendar" (click)="validez.toggle()" type="button">
@@ -84,7 +93,12 @@
 
             <div class="mb-3">
                 <label for="monto" class="form-label">Monto</label>
-                <input type="monto" class="form-control" formControlName="monto" id="monto">
+                <div class="input-group mb-3">
+                    <span class="input-group-text">US$</span>
+                    <input type="number" class="form-control" formControlName="monto" id="monto"
+                        placeholder="Precio en dolares" min="1">
+                    <span class="input-group-text">.00</span>
+                </div>
             </div>
 
             <div class="mb-3">

@@ -54,8 +54,8 @@ export class EdificiosComponent implements OnInit {
     longitud: new FormControl('', Validators.required),
   });
 
-  lat = 51.678418;
-  lng = 7.809007;
+  lat = -34.3397205;
+  lng = -56.71386;
 
   //Control de roles
   miTenant: boolean = false;
@@ -69,10 +69,10 @@ export class EdificiosComponent implements OnInit {
     let tenant = this.tenantService.getTenant();
 
     if (auth) {
-      this.miTenant = auth.usuario.tenantInstitucionId == tenant || auth.roles.find((element: string) => element == 'SuperAdmin') != undefined;
-      this.admin = auth.roles.find((element: string) => element == 'Admin' || element == 'SuperAdmin') != undefined;
-      this.gestor = auth.roles.find((element: string) => element == 'Gestor' || element == 'SuperAdmin') != undefined;
-      this.portero = auth.roles.find((element: string) => element == 'Portero' || element == 'SuperAdmin') != undefined;
+      this.miTenant = auth.usuario.tenantInstitucionId == tenant;
+      this.admin = auth.roles.find((element: string) => element == 'Admin') != undefined;
+      this.gestor = auth.roles.find((element: string) => element == 'Gestor') != undefined;
+      this.portero = auth.roles.find((element: string) => element == 'Portero') != undefined;
     }
   }
 
@@ -129,6 +129,8 @@ export class EdificiosComponent implements OnInit {
         }
 
       )
+    }else{
+      this.toastService.showError('Valores invalidos');
     }
   }
 
@@ -149,6 +151,8 @@ export class EdificiosComponent implements OnInit {
         }
 
       )
+    }else{
+      this.toastService.showError('Valores invalidos');
     }
   }
 
